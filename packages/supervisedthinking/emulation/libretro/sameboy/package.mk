@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="sameboy"
-PKG_VERSION="907cb965baa3ae6e60469ddfbd82798988fa2a9c"
-PKG_SHA256="bf654725b146a74565f739154ca1d6a51b7e914487c073f850caf9c35ea6323c"
+PKG_VERSION="120ada4232cdc63e03a408bfc8e83b96e2ee07d8"
+PKG_SHA256="b4dd295d32ecc04adcc202792b415c9802507fb0a9d1abe7da97c73570038764"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/SameBoy"
 PKG_URL="https://github.com/libretro/SameBoy/archive/${PKG_VERSION}.tar.gz"
