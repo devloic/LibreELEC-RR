@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="prosystem"
-PKG_VERSION="e52b5e014fd28dd56138bf74d6d45896a33249ab"
-PKG_SHA256="5e797de252d5c1be6dd9c5d9f75f8608ca5ede7176be9841eced78a1d9a3a151"
+PKG_VERSION="30bd65a64fa28623155a94cbbba2444e228157b7"
+PKG_SHA256="1fce9886f7b04d4e475c39b3b00b6cf75181ec2a3ffa4d3d8b19a06217498e18"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/prosystem-libretro"
 PKG_URL="https://github.com/libretro/prosystem-libretro/archive/${PKG_VERSION}.tar.gz"
