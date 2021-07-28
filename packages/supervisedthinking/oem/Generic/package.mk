@@ -39,7 +39,6 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   desmume \
   dolphin-libretro \
   dosbox-pure \
-  duckstation \
   ecwolf \
   fbneo \
   fceumm \
@@ -67,6 +66,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   scummvm \
   snes9x \
   stella2014 \
+  swanstation \
   tyrquake \
   uae \
   vice-libretro \
