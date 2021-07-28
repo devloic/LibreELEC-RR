@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="17519c21b4eeefbadaad3374bd98bdd43d44f1a6" #v1.7.0-dev
+PKG_VERSION="34e779a654ce1f85a46a88accbb94023aaf2d657" #v1.7.0-dev
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
@@ -37,9 +37,6 @@ pre_make_target() {
 post_makeinstall_target() {
   # create directories
   mkdir -p ${INSTALL}${INSTALL}/usr/config
-
-  # fix permissions
-  chmod +x ${INSTALL}/usr/lib/PCSX2/*
 
   # install scripts & config files
   cp -rfv ${PKG_DIR}/scripts/* ${INSTALL}/usr/bin/
