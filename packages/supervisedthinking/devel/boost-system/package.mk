@@ -2,11 +2,11 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="boost-system"
-PKG_VERSION="1_75_0"
-PKG_SHA256="953db31e016db7bb207f11432bef7df100516eeb746843fa0486a222e3fd49cb"
+PKG_VERSION="1.76.0"
+PKG_SHA256="f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
 PKG_LICENSE="BSL-1.0"
 PKG_SITE="http://www.boost.org/"
-PKG_URL="https://dl.bintray.com/boostorg/release/1.75.0/source/boost_${PKG_VERSION}.tar.bz2"
+PKG_URL="https://boostorg.jfrog.io/artifactory/main/release/${PKG_VERSION}/source/boost_${PKG_VERSION//./_}.tar.bz2"
 PKG_DEPENDS_HOST="toolchain:host"
 PKG_DEPENDS_TARGET="toolchain boost-system:host Python3 zlib bzip2"
 PKG_LONGDESC="Boost provides free peer-reviewed portable C++ source libraries."
