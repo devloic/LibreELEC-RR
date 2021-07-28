@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="samples-lr"
-PKG_VERSION="094d8d807da9dff5a0ec5ab4958cb68eb8c275ce"
-PKG_SHA256="f7811fec7555e9e3dbab544aecc7f9014e308929c4d21b11c7a220f66e6db653"
+PKG_VERSION="ecb3417f693a4712eedd122073d4281a501cb76e"
+PKG_SHA256="6078bfe63f37cf15a8604afa2b280bbbc259f29914119a2489bcfd37dad17122"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-samples"
 PKG_URL="https://github.com/libretro/libretro-samples/archive/${PKG_VERSION}.tar.gz"
