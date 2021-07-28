@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="skyscraper"
-PKG_VERSION="3.6.12"
-PKG_SHA256="fb104cc7cc8785f182d60b620210dfb121a114583ba1eb719a16f5d428511af2"
+PKG_VERSION="3.6.13"
+PKG_SHA256="1283023252e92fbc74d817ba58f16bdb04cf1b5cb13ac131c8fb3da3170620aa"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/muldjord/skyscraper"
 PKG_URL="https://github.com/muldjord/skyscraper/archive/${PKG_VERSION}.tar.gz"
