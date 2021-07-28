@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libcurl-gnutls"
-PKG_VERSION="7_77_0"
-PKG_SHA256="c83858f307634d6f5d6a3b7cbcb9716ecf3e44a45dba95b2b79f4e08bbbec533"
+PKG_VERSION="7.78.0"
+PKG_SHA256="ffa8f79f68dd77b08987ce16acd1f292875df8ab3bf7e3654f98d62b445ebd9a"
 PKG_LICENSE="MIT"
 PKG_SITE="http://curl.haxx.se"
-PKG_URL="https://github.com/curl/curl/archive/curl-${PKG_VERSION}.tar.gz"
+PKG_URL="https://github.com/curl/curl/archive/curl-${PKG_VERSION//./_}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain glibc zlib gnutls rtmpdump nettle libidn2 nghttp2"
 PKG_LONGDESC="An URL retrieval library (linked against gnutls)"
 PKG_TOOLCHAIN="autotools"
@@ -62,7 +62,6 @@ pre_configure_target() {
                              --with-ca-bundle=/run/libreelec/cacert.pem \
                              --without-ca-path \
                              --without-libpsl \
-                             --without-libmetalink \
                              --without-libssh2 \
                              --with-librtmp \
                              --with-libidn2 \
