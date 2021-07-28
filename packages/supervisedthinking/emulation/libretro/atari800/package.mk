@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="atari800"
-PKG_VERSION="86c87b543f2076e7edcff5d7f5031845ca4ffb96"
-PKG_SHA256="6a477a7eeb26bb2cdc3890d841ab5900eb1456d0e7190171237ca4ccfe526623"
+PKG_VERSION="b59fb7e92577b734cfdd7b73bfc9821bfab247c2"
+PKG_SHA256="c888e37bcdf463669babca37457419d44cfb9849a432ef6b33a925983b094883"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/libretro-atari800"
 PKG_URL="https://github.com/libretro/libretro-atari800/archive/${PKG_VERSION}.tar.gz"
