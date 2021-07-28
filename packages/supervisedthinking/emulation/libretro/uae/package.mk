@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="uae"
-PKG_VERSION="7f8f37ce0d69ed7ee1c1f2016fda72396627b41c"
-PKG_SHA256="cb5a1b72ed7c134d0204edfb0b22cebfbac0c2d9f47e01a9fbaf90d506128d47"
+PKG_VERSION="8d2b8d7ce630b78577f6bd2588b0189b76221511"
+PKG_SHA256="af27b95a505b79e1035ec119a14c0a871eb04be308ea3900b2cbf2bc1414d078"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/libretro-uae"
 PKG_URL="https://github.com/libretro/libretro-uae/archive/${PKG_VERSION}.tar.gz"
