@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="moonlight-qt"
-PKG_VERSION="caba0499d7af9a9af80ba02ee27e41a868db02b7" # v3.1.3
+PKG_VERSION="6c523570e5cfda8b309f193bb3d12682df8645df" # v3.1.4
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/moonlight-stream/moonlight-qt"
 PKG_URL="https://github.com/moonlight-stream/moonlight-qt.git"
