@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="scummvm"
-PKG_VERSION="cdbf1ce32931022cefb3e4cb2a965d70b3dc723a"
-PKG_SHA256="7d2c67f4251e844cd59944d4bf291284f90d1bc8741e12b3e11c9cede0a3a527"
+PKG_VERSION="c0d96e0922247eea692bdc0d579ecbabc2a205d9"
+PKG_SHA256="3cbef7ce1872df5f4dac50359d8d1cf8f0a84296d4545fad3697c606d3845137"
 PKG_LICENSE="GPL-3.0-or-later"
-PKG_SITE="https://github.com/libretro/scummvm"
-PKG_URL="https://github.com/libretro/scummvm/archive/${PKG_VERSION}.tar.gz"
+PKG_SITE="https://github.com/diablodiab/scummvm"
+PKG_URL="https://github.com/diablodiab/scummvm/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc"
 PKG_LONGDESC="ScummVM is an interpreter for point-and-click adventure games that can be used as a libretro core."
 PKG_TOOLCHAIN="make"
@@ -26,8 +26,15 @@ pre_configure_target() {
     fi
     PKG_MAKE_OPTS_TARGET+="-${TARGET_FLOAT}float-${TARGET_CPU}"
   fi
+}
+
+pre_make_target() {
   # Fix build path
   cd ${PKG_BUILD}
+
+  CXXFLAGS+=" -DHAVE_POSIX_MEMALIGN=1"
+  export AR+=" cru"
+  export LD="${CC}"
 }
 
 makeinstall_target() {
