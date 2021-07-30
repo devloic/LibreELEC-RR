@@ -2,13 +2,14 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="dosbox-staging"
-PKG_VERSION="dc029bafac81ef0aa86cfa2ade3c75811337a06c" #v0.77.0-dev
+PKG_VERSION="2fd4cad33f0f272a1be98422e21de1914be37ad6" #v0.77.1-dev
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://dosbox-staging.github.io/"
 PKG_URL="https://github.com/dosbox-staging/dosbox-staging.git"
 PKG_DEPENDS_TARGET="toolchain linux alsa-lib sdl2 sdl2_net opusfile libpng fluidsynth-system munt"
 PKG_LONGDESC="DOSBox Staging is an attempt to revitalize DOSBox's development process. It's not a rewrite, but a continuation and improvement on the existing DOSBox codebase while leveraging modern development tools and practices."
 GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_BRANCH="release/0.77.x"
 PKG_BUILD_FLAGS="+lto +speed"
 
 configure_package() {
