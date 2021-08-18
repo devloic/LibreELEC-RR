@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="dolphin-libretro"
-PKG_VERSION="d86c545a40a3065d2a7920f48d045b3435dd1a8d"
-PKG_SHA256="77635d2ce89f53ec5675f524f8715772b54fb86606cd2f280c3b438105215d74"
+PKG_VERSION="9ca4724956e67ba7e03e1a393cf467ce44bd0abd"
+PKG_SHA256="6a5e122777e9f58484ae1ba6aae0f7c560c86c71e9d74baa9449a0c7b3f53492"
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/dolphin"
