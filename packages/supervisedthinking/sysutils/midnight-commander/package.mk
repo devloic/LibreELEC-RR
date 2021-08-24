@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="midnight-commander"
-PKG_VERSION="4.8.25"
-PKG_SHA256="8a4aa1556a528fbe9140c47aa3d0665155187468a17c3b80a824de5fcbbebae1"
+PKG_VERSION="4.8.27"
+PKG_SHA256="3bab1460d187e1f09409be4bb8550ea7dab125fb9b50036a8dbd2b16e8b1985b"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="http://www.midnight-commander.org"
 PKG_URL="https://github.com/MidnightCommander/mc/archive/${PKG_VERSION}.tar.gz"
@@ -36,7 +36,12 @@ pre_configure_target() {
                              --without-x"
 
   LDFLAGS+=" -lcrypto -lssl"
+  CFLAGS+=' -DNCURSES_WIDECHAR=0'
+
   ${PKG_BUILD}/autogen.sh
+
+  # fix Midnight-Commander version
+  sed -e "s/MC_CURRENT_VERSION \"unknown\"/MC_CURRENT_VERSION \"${PKG_VERSION}\"/" -i ${PKG_BUILD}/mc-version.h
 }
 
 post_makeinstall_target() {
