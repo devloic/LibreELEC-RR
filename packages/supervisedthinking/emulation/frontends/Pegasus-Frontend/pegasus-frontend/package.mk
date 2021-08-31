@@ -38,7 +38,7 @@ configure_package() {
 configure_target() {
   # Create working dir
   mkdir -p ${PKG_BUILD}/.${TARGET_NAME}
-  cd .${TARGET_NAME}
+  cd ${PKG_BUILD}/.${TARGET_NAME}
 
   # Fix EGLFS
   if [ "${DISPLAYSERVER}" = "no" ]; then
