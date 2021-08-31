@@ -49,9 +49,9 @@ configure_target() {
   # Generate qmake config
   qmake ${PKG_BUILD}/pegasus.pro INSTALLDIR=${INSTALL}/usr/bin \
                                  INSTALL_BINDIR=${INSTALL}/usr/bin \
-                                 INSTALL_DATADIR=${INSTALL}/usr/bin \
-                                 INSTALL_ICONDIR=${INSTALL}/usr/share/icons/trash \
+                                 INSTALL_DOCDIR=${INSTALL}/usr/share/doc/pegasus-frontend \
                                  INSTALL_DESKTOPDIR=${INSTALL}/usr/share/applications \
+                                 INSTALL_ICONDIR=${INSTALL}/usr/share/icons/trash \
                                  ${PKG_QMAKE_EXTRA_FLAGS}
 }
 
