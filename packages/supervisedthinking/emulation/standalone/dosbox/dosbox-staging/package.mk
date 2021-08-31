@@ -9,7 +9,7 @@ PKG_URL="https://github.com/dosbox-staging/dosbox-staging.git"
 PKG_DEPENDS_TARGET="toolchain linux alsa-lib sdl2 sdl2_net opusfile libpng fluidsynth-system munt"
 PKG_LONGDESC="DOSBox Staging is an attempt to revitalize DOSBox's development process. It's not a rewrite, but a continuation and improvement on the existing DOSBox codebase while leveraging modern development tools and practices."
 GET_HANDLER_SUPPORT="git"
-PKG_GIT_CLONE_BRANCH="release/0.77.x"
+PKG_GIT_CLONE_BRANCH="kc/release-0.77.1"
 PKG_BUILD_FLAGS="+lto +speed"
 
 configure_package() {
