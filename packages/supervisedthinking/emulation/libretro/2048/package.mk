@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="2048"
-PKG_VERSION="607f1fe8f687246d1eec8982fe29513a7a4a60fc"
-PKG_SHA256="991d5f9e1c96bc5205be404e7648a2e176e68ff60eed6f656414a407ed0d2044"
+PKG_VERSION="1ff7d5c3835ad89e5ce5eaa409b91c9a17cc1aa0"
+PKG_SHA256="02cc3b93c321be06f6b695ea21380871057d5a3a45b9b4ba4ec3e292ac213de4"
 PKG_LICENSE="Unlicense"
 PKG_SITE="https://github.com/libretro/libretro-2048"
 PKG_URL="https://github.com/libretro/libretro-2048/archive/${PKG_VERSION}.tar.gz"

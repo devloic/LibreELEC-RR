@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="scummvm"
-PKG_VERSION="c0d96e0922247eea692bdc0d579ecbabc2a205d9"
-PKG_SHA256="3cbef7ce1872df5f4dac50359d8d1cf8f0a84296d4545fad3697c606d3845137"
+PKG_VERSION="22f1c6f2147f46f8be0eb4cf2f3a594b9295254b"
+PKG_SHA256="a230a60ddde96e6a2c6d07fa5a121b4f99e1f7fd8ce59e13ee5ac64d34e5f7c2"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/diablodiab/scummvm"
 PKG_URL="https://github.com/diablodiab/scummvm/archive/${PKG_VERSION}.tar.gz"

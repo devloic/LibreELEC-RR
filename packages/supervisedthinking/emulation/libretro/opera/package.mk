@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="opera"
-PKG_VERSION="71125d59b62e4f7ba7ccf6367bf217ba2f2d3871"
-PKG_SHA256="247a360c51e0b9bb0609cf5eaac740e5e98d63895a628e9f4aba1c0c0f79b601"
+PKG_VERSION="c235cd6484a1866928db13079549f954ea0b398d"
+PKG_SHA256="2c1224f03a454309367bd44d0c79225c7f5b72063ccbe1eda20edefc1eb3c4b1"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/opera-libretro"
 PKG_URL="https://github.com/libretro/opera-libretro/archive/${PKG_VERSION}.tar.gz"

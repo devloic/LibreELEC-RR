@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="9abd586c96e8a2e37e92b620c70668a57d6f89f7"
-PKG_SHA256="b94f44a6ebfc488efb03291ff12b0a8ad0d4a5f3fcb04c6572df35df310f14e9"
+PKG_VERSION="65ead111f56d95a8099b7d996bd1c623219037de"
+PKG_SHA256="6bbee35c1076b1afe585b9a1ebc7ac33e9cc353bfeb84e06aa5087cbf2786035"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/pcsx_rearmed"
 PKG_URL="https://github.com/libretro/pcsx_rearmed/archive/${PKG_VERSION}.tar.gz"
