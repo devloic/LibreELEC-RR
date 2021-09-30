@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vulkan-tools"
-PKG_VERSION="1.2.193"
-PKG_SHA256="005c936c2377716dbee05af0717902e984a86329069820555729f4f3856a1c6c"
+PKG_VERSION="1.2.194"
+PKG_SHA256="bf7eea7c4eecaa705666c926273fc43ebf2f9661e69321d0f4b02f95c1f6dd3e"
 PKG_LICENSE="Apache 2.0"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Tools"
 PKG_URL="https://github.com/KhronosGroup/Vulkan-tools/archive/v${PKG_VERSION}.tar.gz"
