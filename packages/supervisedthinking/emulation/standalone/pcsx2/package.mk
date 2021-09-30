@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="65e57a823044dbff2ad1c8983ee89882518b9775" #v1.8.0-dev
+PKG_VERSION="c3c15a95c48cb218aeeb8e6548a1d742892d9ddd" #v1.8.0-dev
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
@@ -20,8 +20,6 @@ pre_configure_target() {
                          -D ENABLE_TESTS=OFF \
                          -D SDL2_API=ON \
                          -D PACKAGE_MODE=ON \
-                         -D USE_LTO=ON \
-                         -D REBUILD_SHADER=ON \
                          -D USE_SYSTEM_YAML=ON \
                          -D USE_VTUNE=OFF \
                          -D XDG_STD=ON \
