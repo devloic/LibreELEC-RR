@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="core-info-lr"
-PKG_VERSION="1.9.9"
-PKG_SHA256="72e153eeb820dd334fa2436018ae8769e56667c2be305dc57741be471c53c704"
+PKG_VERSION="1.9.10"
+PKG_SHA256="554e729428a0d5e96165d710661b64760944ddf6348e94c6ffab3efb46a14070"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-core-info"
 PKG_URL="https://github.com/libretro/libretro-core-info/archive/refs/tags/v${PKG_VERSION}.tar.gz"
