@@ -2,14 +2,13 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="ppsspp"
-PKG_VERSION="f7ace3b8ee33e97e156f3b07f416301e885472c5" #v1.11.3
+PKG_VERSION="076ece8507152a814267ce7e77649673e540afab" #v1.12
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc sdl2 zlib ffmpeg bzip2 openssl speex"
 PKG_LONGDESC="A PSP emulator for Android, Windows, Mac, Linux and Blackberry 10, written in C++."
 GET_HANDLER_SUPPORT="git"
-PKG_GIT_CLONE_BRANCH="v1.11-hotfixes"
 
 configure_package() {
   # Displayserver Support
