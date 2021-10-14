@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="beetle-psx"
-PKG_VERSION="99338f52c2d23b86a9cb6abc9950ce938be80d43"
-PKG_SHA256="c4e357dddea249d9ab52de421bb9134f022973863290487c72f92933278ca786"
+PKG_VERSION="e8609eb9b452e82eb8a5893c73d4ce50af55720c"
+PKG_SHA256="249dd5ae26896545e356f01933c3a02e37160db2f3f7c6bbbdc5c7a2f946035b"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/beetle-psx-libretro"
 PKG_URL="https://github.com/libretro/beetle-psx-libretro/archive/${PKG_VERSION}.tar.gz"

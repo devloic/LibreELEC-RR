@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="virtualjaguar"
-PKG_VERSION="2069160f316d09a2713286bd9bf4d5c2805bd143"
-PKG_SHA256="cd34a47254b62034c7932578648deb0555e8cf156787e5bce2628abde7701901"
+PKG_VERSION="390c44ddd22657cec3757ffe260a10ad88416726"
+PKG_SHA256="60c42becc7bc7bbc61ea74e0e0c6f1ac971da21f219443f9b38a5296e4cf9e52"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/virtualjaguar-libretro"
 PKG_URL="https://github.com/libretro/virtualjaguar-libretro/archive/${PKG_VERSION}.tar.gz"
