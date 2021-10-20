@@ -222,17 +222,11 @@ makeinstall_target() {
   sed -e "s/# video_gpu_screenshot = true/video_gpu_screenshot = \"false\"/"                                      -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
 
   # Audio
+  sed -e "s/# audio_driver =/audio_driver = \"alsathread\"/"                                      -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# audio_filter_dir =/audio_filter_dir = \"\/usr\/share\/retroarch\/filters\/audio\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  
-  if [ "${DEVICE}" = "RPi4" ]; then
-    sed -e "s/# audio_driver =/audio_driver = \"alsa\"/"   -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-    sed -e "s/# audio_device =/audio_device = \"hw:0,1\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  else
-    sed -e "s/# audio_driver =/audio_driver = \"alsathread\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  fi
 
-  # Workaround for 55fps bug + fix no audio for RPi4
-  if [ "${DEVICE}" = "Exynos" ] || [ "${DEVICE}" = "RPi4" ]; then 
+  # Workaround for Odroid XU3/XU4 55fps bug
+  if [ "${DEVICE}" = "Exynos" ]; then 
     sed -e "s/# audio_out_rate = 48000/audio_out_rate = \"44100\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   fi
 
