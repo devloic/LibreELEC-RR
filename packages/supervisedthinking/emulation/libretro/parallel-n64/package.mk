@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="parallel-n64"
-PKG_VERSION="6e26fbbc5a85f9613a01c1880142add81d618e19"
-PKG_SHA256="9e88d2039bc7ccda0919f75b464c83b09f466aee4de215289c6b09e12da4756f"
+PKG_VERSION="0a67445ce63513584d92e5c57ea87efe0da9b3bd"
+PKG_SHA256="141205571de2a5c0646ee4d33d32e71d86c8f4a75e43aba73c103c62cc15affd"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/parallel-n64"
 PKG_URL="https://github.com/libretro/parallel-n64/archive/${PKG_VERSION}.tar.gz"
@@ -50,6 +50,8 @@ pre_configure_target() {
       fi
       PKG_MAKE_OPTS_TARGET+=" platform=armv"
     fi
+  elif [ "${ARCH}" = "x86_64" ]; then
+    PKG_MAKE_OPTS_TARGET+=" HAVE_PARALLEL=1 HAVE_PARALLEL_RSP=1 HAVE_THR_AL=1"
   fi
 }
 
