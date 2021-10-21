@@ -31,6 +31,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   beetle-wswan \
   bluemsx \
   bsnes \
+  bsnes-hd \
   bsnes-mercury-accuracy \
   bsnes-mercury-balanced \
   boom3 \
