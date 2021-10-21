@@ -15,12 +15,16 @@ PKG_BUILD_FLAGS="+lto -sysroot"
 PKG_LIBNAME="bsnes_libretro.so"
 PKG_LIBPATH="bsnes/out/${PKG_LIBNAME}"
 
-PKG_MAKE_OPTS_TARGET="-C bsnes \
-                      compiler=${TOOLCHAIN}/bin/${TARGET_NAME}-g++ \
-                      target=libretro \
-                      platform=linux \
-                      binary=library \
-                      openmp=false"
+configure_target(){
+  PKG_MAKE_OPTS_TARGET="-C bsnes \
+                        -f GNUmakefile \
+                        compiler=${CXX} \
+                        target=libretro \
+                        platform=linux \
+                        local=false \
+                        binary=library \
+                        openmp=false"
+}
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
