@@ -30,5 +30,9 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+
+  # copy metadata for manual content scanning
+  mkdir -p ${INSTALL}/usr/share/retroarch/database/fbneo
+    cp ${PKG_BUILD}/dats/* ${INSTALL}/usr/share/retroarch/database/fbneo
 }
