@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vulkan-headers"
-PKG_VERSION="1.2.195"
-PKG_SHA256="8d6e561871bb4dbb7f83e80eac41b3a582dbd874382990c7e4972cb0258fa529"
+PKG_VERSION="1.2.196"
+PKG_SHA256="33cb99194b5ab082beb00bda1e96311dfe2cb20b0037b6d4c8ae926a50f5a750"
 PKG_LICENSE="Apache 2.0"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Headers"
 PKG_URL="https://github.com/KhronosGroup/Vulkan-Headers/archive/v${PKG_VERSION}.tar.gz"
