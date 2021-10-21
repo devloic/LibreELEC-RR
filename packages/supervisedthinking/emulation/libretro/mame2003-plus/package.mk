@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="mame2003-plus"
-PKG_VERSION="e977a94a9a4cbd9743cc593cc72bf60b1f127523"
-PKG_SHA256="aeb0245ee86122e57300dc3702bc38bc5a90fb73d494c2e4ec6440eb2a71fb58"
+PKG_VERSION="1fd30e32ec948da4227b5eb7af327fddd6c7115b"
+PKG_SHA256="bf48f3a69679e542ab73a98d0f32641fd719badd77606cf0998d5d7a657b5d98"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/mame2003-plus-libretro"
 PKG_URL="https://github.com/libretro/mame2003-plus-libretro/archive/${PKG_VERSION}.tar.gz"
@@ -30,5 +30,9 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+
+  # copy metadata for manual content scanning
+  mkdir -p ${INSTALL}/usr/share/retroarch/database/mame2003-plus
+    cp ${PKG_BUILD}/metadata/mame2003-plus.xml ${INSTALL}/usr/share/retroarch/database/mame2003-plus
 }
