@@ -39,27 +39,17 @@ pre_configure_target() {
   case ${PROJECT} in
     Amlogic)
       PKG_MAKE_OPTS_TARGET+=" platform=${DEVICE}"
-      ;;
+    ;;
     RPi)
-      case ${DEVICE} in
-        RPi)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi"
-          ;;
-        RPi2)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi2"
-          ;;
-        RPi4)
-          PKG_MAKE_OPTS_TARGET+=" platform=rpi4"
-          ;;
-      esac
-      ;;
+      PKG_MAKE_OPTS_TARGET+=" platform=${DEVICE}"
+    ;;
     Rockchip)
       PKG_MAKE_OPTS_TARGET+=" platform=${DEVICE}"
-      ;;
+    ;;
     *)
       # Arch ARM
       if [ "${ARCH}" = "arm" ]; then
-        PKG_MAKE_OPTS_TARGET+=" WITH_DYNAREC=arm platform=armv"
+        PKG_MAKE_OPTS_TARGET+=" platform=armv"
         # NEON Support
         if target_has_feature neon; then
           PKG_MAKE_OPTS_TARGET+="-neon"
@@ -67,18 +57,14 @@ pre_configure_target() {
       fi
 
       # OpenGL ES Support
-      if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+      if [ "${ARCH}" = "x86_64" ] && [ "${OPENGLES_SUPPORT}" = "yes" ]; then
         PKG_MAKE_OPTS_TARGET+=" FORCE_GLES3=1"
-      fi
-      # Dynarec x86_64    
-      if [ "${ARCH}" = "x86_64" ]; then
-        PKG_MAKE_OPTS_TARGET+=" WITH_DYNAREC=x86_64 HAVE_PARALLEL_RDP=1 HAVE_PARALLEL_RSP=1 HAVE_THR_AL=1 LLE=1"
       fi
     ;;
   esac
   # Fix Mesa 3D based OpenGL ES builds
-  if [ "${OPENGLES}" = "mesa" ]; then
-    PKG_MAKE_OPTS_TARGET+="-mesa"
+  if [ ! "${DISPLAYSERVER}" = "x11" ] && [ "${OPENGLES}" = "mesa" ]; then
+    PKG_MAKE_OPTS_TARGET+=" EGL_NO_X11=1"
   fi
 }
 
