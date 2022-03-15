@@ -3,11 +3,11 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="xf86-video-nvidia"
-# Remember to run "python3 packages/x11/driver/xf86-video-nvidia/scripts/make_nvidia_udev.py" and commit 
+# Remember to run "python3 packages/x11/driver/xf86-video-nvidia/scripts/make_nvidia_udev.py" and commit
 # changes to "packages/x11/driver/xf86-video-nvidia/udev.d/96-nvidia.rules" whenever bumping version.
 # The build host may require installation of python3-lxml and python3-requests packages.
-PKG_VERSION="470.74"
-PKG_SHA256="b1ab5db6bffd5246fc571ef252ca4406332bd204a12e4063d3fe0939224d0b56"
+PKG_VERSION="470.103.01"
+PKG_SHA256="c2a7315f04aa44a97ef7af7c9e016ca30f7053623b2e03148a4bd2298a9114b7"
 PKG_ARCH="x86_64"
 PKG_LICENSE="nonfree"
 PKG_SITE="https://www.nvidia.com/en-us/drivers/unix/"
@@ -39,7 +39,7 @@ makeinstall_target() {
     ln -sf /var/lib/nvidia_drv.so ${INSTALL}/${XORG_PATH_MODULES}/drivers/nvidia_drv.so
 
   mkdir -p ${INSTALL}/${XORG_PATH_MODULES}/extensions
-  # rename to avoid conflicts with X.Org-Server module libglx.so 
+  # rename to avoid conflicts with X.Org-Server module libglx.so
     cp -P libglxserver_nvidia.so.${PKG_VERSION} ${INSTALL}/${XORG_PATH_MODULES}/extensions/libglx_nvidia.so
 
   mkdir -p ${INSTALL}/etc/X11
@@ -47,6 +47,7 @@ makeinstall_target() {
 
   mkdir -p ${INSTALL}/usr/lib
     cp -P libnvidia-glcore.so.${PKG_VERSION} ${INSTALL}/usr/lib
+    cp -P libnvidia-glsi.so.${PKG_VERSION} ${INSTALL}/usr/lib
     cp -P libnvidia-ml.so.${PKG_VERSION} ${INSTALL}/usr/lib
     ln -sf /var/lib/libnvidia-ml.so.1 ${INSTALL}/usr/lib/libnvidia-ml.so.1
     cp -P libnvidia-tls.so.${PKG_VERSION} ${INSTALL}/usr/lib
@@ -73,12 +74,11 @@ makeinstall_target() {
 
   # Install Vulkan ICD & SPIR-V lib
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-    cp -P libnvidia-glvkspirv.so.${PKG_VERSION} ${INSTALL}/usr/lib 
+    mkdir -p ${INSTALL}/usr/lib
+      cp -P libnvidia-glvkspirv.so.${PKG_VERSION} ${INSTALL}/usr/lib 
     mkdir -p ${INSTALL}/usr/share/vulkan/icd.d
-    if [ -f nvidia_icd.json.template ]; then
-      sed "s#__NV_VK_ICD__#/usr/lib/libGLX_nvidia.so.0#" nvidia_icd.json.template > ${INSTALL}/usr/share/vulkan/icd.d/nvidia_icd.json
-    elif [ -f nvidia_icd.json ]; then
-      cp -P nvidia_icd.json ${INSTALL}/usr/share/vulkan/icd.d/
-    fi
+      cp -P nvidia_icd.json ${INSTALL}/usr/share/vulkan/icd.d
+    mkdir -p ${INSTALL}/usr/share/vulkan/implicit_layer.d
+      cp -P nvidia_layers.json ${INSTALL}/usr/share/vulkan/icd.d
   fi
 }
