@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="retroarch-assets"
-PKG_VERSION="62b5d18b8141113c55d6db768882dc25b30ace45"
-PKG_SHA256="c86b37384767265c11e855580888c8c792b41b24136a7e8c05c0092aacec394a"
+PKG_VERSION="db5f4f4babb7f6f9c7edd27690c3ffa911cc9b24"
+PKG_SHA256="28149c35928b9411fa16a47257624997116c5c0014f1b0019c303ca81a633f27"
 PKG_LICENSE="CC-BY-4.0"
 PKG_SITE="https://github.com/libretro/retroarch-assets"
 PKG_URL="https://github.com/libretro/retroarch-assets/archive/${PKG_VERSION}.tar.gz"
