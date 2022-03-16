@@ -2,29 +2,49 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="bacb860cc11d914ddbe1f9b4e726edd492af69a1" #v1.7.2088
+PKG_VERSION="14c17916f5e4c1511f11b14e8b2ac09f7a68bcfa" #v1.7.2466
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
 PKG_URL="https://github.com/PCSX2/pcsx2.git"
-PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glew-cmake glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libX11 libxcb libxml2 mesa pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz yaml-cpp zlib unclutter-xfixes"
+PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libxml2 pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz libX11 libxcb unclutter-xfixes glew-cmake rapidyaml zlib"
 PKG_LONGDESC="PCSX2 is a free and open-source PlayStation 2 (PS2) emulator."
 GET_HANDLER_SUPPORT="git"
+PKG_GIT_CLONE_BRANCH="master"
+PKG_GIT_CLONE_SINGLE="yes"
+
+configure_package() {
+  # OpenGL support
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${OPENGL} glew-cmake"
+  fi
+
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  fi
+}
 
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-D CMAKE_INSTALL_DOCDIR=/usr/share/doc \
                          -D CMAKE_INSTALL_DATADIR=/usr/share \
                          -D CMAKE_INSTALL_LIBDIR=/usr/lib \
-                         -D DISABLE_ADVANCE_SIMD=ON \
-                         -D DISABLE_PCSX2_WRAPPER=ON \
                          -D ENABLE_TESTS=OFF \
-                         -D SDL2_API=ON \
-                         -D PACKAGE_MODE=ON \
                          -D USE_SYSTEM_YAML=ON \
                          -D LTO_PCSX2_CORE=ON \
                          -D USE_VTUNE=OFF \
+                         -D PACKAGE_MODE=ON \
+                         -D DISABLE_PCSX2_WRAPPER=ON \
                          -D XDG_STD=ON \
+                         -D DISABLE_ADVANCE_SIMD=ON \
+                         -D SDL2_API=TRUE \
                          -Wno-dev"
+
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_CMAKE_OPTS_TARGET+=" -D USE_VULKAN=ON"
+  else
+    PKG_CMAKE_OPTS_TARGET+=" -D USE_VULKAN=OFF"
+  fi
 }
 
 pre_make_target() {
