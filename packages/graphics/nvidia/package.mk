@@ -58,13 +58,15 @@ makeinstall_target() {
     cp -p 10_nvidia.json ${INSTALL}/usr/share/glvnd/egl_vendor.d
 
   # Wayland
-  mkdir -p ${INSTALL}/usr/lib
-    cp -p libnvidia-egl-wayland.so.1.1.9  ${INSTALL}/usr/lib/
-    ln -sf libnvidia-egl-wayland.so.1.1.9 ${INSTALL}/usr/lib/libnvidia-egl-wayland.so.1
-    ln -sf libnvidia-egl-wayland.so.1     ${INSTALL}/usr/lib/libnvidia-egl-wayland.so
+  if [ "${DISPLAYSERVER}" = "wl" ]; then
+    mkdir -p ${INSTALL}/usr/lib
+      cp -p libnvidia-egl-wayland.so.1.1.9  ${INSTALL}/usr/lib/
+      ln -sf libnvidia-egl-wayland.so.1.1.9 ${INSTALL}/usr/lib/libnvidia-egl-wayland.so.1
+      ln -sf libnvidia-egl-wayland.so.1     ${INSTALL}/usr/lib/libnvidia-egl-wayland.so
 
-  mkdir -p ${INSTALL}/usr/share/egl/egl_external_platform.d
-    cp -p 10_nvidia_wayland.json ${INSTALL}/usr/share/egl/egl_external_platform.d
+    mkdir -p ${INSTALL}/usr/share/egl/egl_external_platform.d
+      cp -p 10_nvidia_wayland.json ${INSTALL}/usr/share/egl/egl_external_platform.d
+  fi
 
   # OpenGL / EGL
   mkdir -p ${INSTALL}/usr/lib

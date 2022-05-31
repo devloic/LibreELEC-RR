@@ -9,7 +9,11 @@ PKG_SECTION="virtual"
 PKG_LONGDESC="Root package used to build and create complete image"
 
 # Graphic support
-[ ! "${DISPLAYSERVER}" = "no" ] && PKG_DEPENDS_TARGET+=" ${DISPLAYSERVER}"
+if [ ! "${DISPLAYSERVER}" = "no" ]; then
+  PKG_DEPENDS_TARGET+=" ${DISPLAYSERVER}"
+else
+  PKG_DEPENDS_TARGET+=" gbm"
+fi
 
 # Multimedia support
 [ ! "${MEDIACENTER}" = "no" ] && PKG_DEPENDS_TARGET+=" mediacenter"
