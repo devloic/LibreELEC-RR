@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="uae"
-PKG_VERSION="fd52745fb0955dd0a4efcceb049f5f7f44d69610"
-PKG_SHA256="af73d1ea5917e07f7950404d8f66f20ceac9390abe3d5b362d14e63025f34466"
+PKG_VERSION="5dad957bef79e53a87d69dd631265d5176e78019"
+PKG_SHA256="68763177abf1006972f801531403280623d4d6a7ae573fe2dae73864ddf328d0"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/libretro-uae"
 PKG_URL="https://github.com/libretro/libretro-uae/archive/${PKG_VERSION}.tar.gz"
@@ -18,6 +18,7 @@ PKG_LIBPATH="${PKG_LIBNAME}"
 PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7}"
 
 pre_configure_target() {
+  CFLAGS+=" -fcommon"
   if [ "${ARCH}" = "arm" ]; then
     PKG_MAKE_OPTS_TARGET+=" platform=armv"
 
