@@ -2,11 +2,11 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="wxwidgets"
-PKG_VERSION="3.1.5"
-PKG_SHA256="e8fd5f9fbff864562aa4d9c094f898c97f5e1274c90f25beb0bfd5cb61319dea"
+PKG_VERSION="3.2.0"
+PKG_SHA256="356e9b55f1ae3d58ae1fed61478e9b754d46b820913e3bfbc971c50377c1903a"
 PKG_LICENSE="wxWidgets licence"
 PKG_SITE="https://github.com/wxWidgets/wxWidgets"
-PKG_URL="https://github.com/wxWidgets/wxWidgets/archive/v${PKG_VERSION}.tar.gz"
+PKG_URL="https://github.com/wxWidgets/wxWidgets/releases/download/v${PKG_VERSION}/wxWidgets-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain libpng tiff mesa gtk3-system"
 PKG_LONGDESC="wxWidgets is a free and open source cross-platform C++ framework for writing advanced GUI applications using native controls."
 
