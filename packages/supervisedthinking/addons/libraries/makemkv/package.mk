@@ -1,15 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
+# Copyright (C) 2018-2021 Frank Hartung (supervisedthinking (@) gmail.com)
+# Copyright (C) 2022-present Gabor Dee (dee.gabor@gmail.com)
 
 PKG_NAME="makemkv"
-PKG_VERSION="1.16.3"
-PKG_SHA256="6141a8ccff41eaf9964385b172d49b7b3ceefb4c8b25734a424f53c27405f05d"
-PKG_REV="113"
-PKG_ARCH="x86_64"
+PKG_VERSION="1.17.1"
+PKG_SHA256="0d572b1b937d97275cb75d71a142b3d555428aebd53a64161a500fda7ae766fe"
+PKG_REV="116"
+PKG_ARCH="x86_64 arm aarch64"
 PKG_LICENSE="OSS"
 PKG_SITE="http://makemkv.com/"
 PKG_URL="http://www.makemkv.com/download/makemkv-oss-${PKG_VERSION}.tar.gz"
-PKG_MAINTAINER="SupervisedThinking"
+PKG_MAINTAINER="dtech(.hu)"
 PKG_DEPENDS_TARGET="toolchain makemkv-bin openssl expat ffmpeg zlib"
 PKG_SECTION="lib/multimedia"
 PKG_SHORTDESC="MakeMKV converts proprietary and usually encrypted video clips from disc into MKV files."
@@ -20,6 +21,18 @@ PKG_ADDON_NAME="MakeMKV"
 PKG_ADDON_TYPE="xbmc.python.script"
 
 PKG_CONFIGURE_OPTS_TARGET="--disable-gui"
+
+case "${TARGET_ARCH}" in
+  x86_64)
+    BIN_ARCH="amd64"
+    ;;
+  arm)
+    BIN_ARCH="armhf"
+    ;;
+  aarch64)
+    BIN_ARCH="arm64"
+    ;;
+esac
 
 pre_configure_target() {
   cd ..
@@ -33,7 +46,11 @@ makeinstall_target() {
 addon() {
   # Install makemkv binary
   mkdir -p ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
-  install -m 0755 $(get_build_dir makemkv-bin)/bin/amd64/makemkvcon ${ADDON_BUILD}/${PKG_ADDON_ID}/bin/makemkvcon.bin
+  install -m 0755 $(get_build_dir makemkv-bin)/bin/${BIN_ARCH}/makemkvcon ${ADDON_BUILD}/${PKG_ADDON_ID}/bin/makemkvcon.bin
+
+  # Copy additional binaries
+  cp ${PKG_BUILD}/out/mmccextr ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
+  cp ${PKG_BUILD}/out/mmgplsrv ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
 
   # Copy licence file
   mkdir -p ${ADDON_BUILD}/${PKG_ADDON_ID}/license

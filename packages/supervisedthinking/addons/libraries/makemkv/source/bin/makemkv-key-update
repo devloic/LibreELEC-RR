@@ -1,10 +1,11 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
+# Copyright (C) 2018-2021 Frank Hartung (supervisedthinking (@) gmail.com)
+# Copyright (C) 2022-present Gabor Dee (dee.gabor@gmail.com)
 
 . /etc/profile
 
-MAKEMKV_KEY=$(curl "https://www.makemkv.com/forum/viewtopic.php?f=5&t=1053" -s | awk 'FNR == 263 {print $13}'| cut -c 23-90)
+MAKEMKV_KEY=$(wget -qO- "https://www.makemkv.com/forum/viewtopic.php?f=5&t=1053" | awk 'FNR == 269 {print $13}'| cut -c 23-90)
 MAKEMKV_CONF_DIR=$HOME/.config/MakeMKV
 MAKEMKV_LINK_DIR=$HOME/.MakeMKV
 MAKEMKV_SETTINGS_FILE=$MAKEMKV_CONF_DIR/settings.conf
