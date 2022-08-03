@@ -129,8 +129,7 @@ OEM_TOOLS_GENERIC=" \
   sdl-jstest \
   skyscraper \
   smartmontools \
-  spectre-meltdown-checker \
-  vkmark"
+  spectre-meltdown-checker"
 
 # Tools X11
 OEM_TOOLS_GENERIC_X11=" \
