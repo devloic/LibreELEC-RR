@@ -1,56 +1,131 @@
-From 600bf54a06a0f11fdfa2e2c2607d586446363a26 Mon Sep 17 00:00:00 2001
-From: Maarten Bent <MaartenBent@users.noreply.github.com>
-Date: Tue, 19 Jul 2022 17:52:39 +0200
-Subject: [PATCH] Use DESTDIR when creating symlinks in CMake install
+From 201fcb025bfe17e77eead05149372409ca18fce5 Mon Sep 17 00:00:00 2001
+From: Antonio Rojas <arojas@archlinux.org>
+Date: Sat, 16 Jul 2022 14:33:04 +0200
+Subject: [PATCH 1/3] Fix wx-config and wxrc links when using DESTDIR with
+ CMake
 
-Prepend $ENV{DESTDIR}, sufficiently escaped to delay its expansion until
-the execution of "cmake -E create_symlink" command, to the command path
-arguments.
+Don't try installing the symlinks under the root directory when DESTDIR
+is specified.
 
-Closes #22653.
-
-See #22610.
+Closes #22610.
 ---
- build/cmake/install.cmake        | 2 +-
- build/cmake/utils/CMakeLists.txt | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ build/cmake/install.cmake        | 3 ++-
+ build/cmake/utils/CMakeLists.txt | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/build/cmake/install.cmake b/build/cmake/install.cmake
-index 020fa860a2e9..384c6837b814 100644
+index 9a2ce91d7f5e..4a09468dcb75 100644
 --- a/build/cmake/install.cmake
 +++ b/build/cmake/install.cmake
-@@ -43,7 +43,7 @@ else()
+@@ -43,9 +43,10 @@ else()
      install(CODE "execute_process( \
          COMMAND ${CMAKE_COMMAND} -E create_symlink \
-         \"${CMAKE_INSTALL_PREFIX}/lib/wx/config/${wxBUILD_FILE_ID}\" \
--        \"${CMAKE_INSTALL_PREFIX}/bin/wx-config\" \
-+        \"\$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/wx-config\" \
+         ${CMAKE_INSTALL_PREFIX}/lib/wx/config/${wxBUILD_FILE_ID} \
+-        ${CMAKE_INSTALL_PREFIX}/bin/wx-config \
++        ${CMAKE_CURRENT_BINARY_DIR}/bin/wx-config \
          )"
      )
++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/wx-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
  endif()
+ 
+ install(EXPORT wxWidgetsTargets NAMESPACE wx:: DESTINATION "lib/cmake/wxWidgets/${wxPLATFORM_LIB_DIR}")
 diff --git a/build/cmake/utils/CMakeLists.txt b/build/cmake/utils/CMakeLists.txt
-index dbfedec79f75..dbed8cc9b3bb 100644
+index 47bca6f34a91..662986b56e04 100644
 --- a/build/cmake/utils/CMakeLists.txt
 +++ b/build/cmake/utils/CMakeLists.txt
-@@ -30,17 +30,18 @@ if(wxUSE_XRC)
-         BUNDLE DESTINATION "bin"
-         )
- 
--    if(NOT WIN32_MSVC_NAMING)
-+    if(NOT WIN32_MSVC_NAMING AND wxBUILD_INSTALL)
-         if(IPHONE)
-             set(EXE_SUFFIX ".app")
-         else()
-             set(EXE_SUFFIX ${CMAKE_EXECUTABLE_SUFFIX})
-         endif()
- 
--        wx_install(CODE "execute_process( \
-+        # Don't use wx_install() here to preserve escaping.
-+        install(CODE "execute_process( \
+@@ -40,9 +40,10 @@ if(wxUSE_XRC)
+         wx_install(CODE "execute_process( \
              COMMAND ${CMAKE_COMMAND} -E create_symlink \
-             \"${CMAKE_INSTALL_PREFIX}/bin/${wxrc_output_name}${EXE_SUFFIX}\" \
--            \"${CMAKE_INSTALL_PREFIX}/bin/wxrc${EXE_SUFFIX}\" \
-+            \"\$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/wxrc${EXE_SUFFIX}\" \
+             ${CMAKE_INSTALL_PREFIX}/bin/${wxrc_output_name}${EXE_SUFFIX} \
+-            ${CMAKE_INSTALL_PREFIX}/bin/wxrc${EXE_SUFFIX} \
++            ${CMAKE_CURRENT_BINARY_DIR}/bin/wxrc${EXE_SUFFIX} \
              )"
          )
++        wx_install(FILES ${CMAKE_CURRENT_BINARY_DIR}/wxrc${EXE_SUFFIX} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
      endif()
+ endif()
+ 
+
+From b5ef11cfece976a98c1f55d4c5dfb3f5f0d8f79f Mon Sep 17 00:00:00 2001
+From: Vadim Zeitlin <vadim@wxwidgets.org>
+Date: Sat, 16 Jul 2022 15:22:57 +0200
+Subject: [PATCH 2/3] fixup! Fix wx-config and wxrc links when using DESTDIR
+ with CMake
+
+---
+ build/cmake/install.cmake        | 2 +-
+ build/cmake/utils/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/build/cmake/install.cmake b/build/cmake/install.cmake
+index 4a09468dcb75..fb33b3723acd 100644
+--- a/build/cmake/install.cmake
++++ b/build/cmake/install.cmake
+@@ -46,7 +46,7 @@ else()
+         ${CMAKE_CURRENT_BINARY_DIR}/bin/wx-config \
+         )"
+     )
+-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/wx-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/wx-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+ endif()
+ 
+ install(EXPORT wxWidgetsTargets NAMESPACE wx:: DESTINATION "lib/cmake/wxWidgets/${wxPLATFORM_LIB_DIR}")
+diff --git a/build/cmake/utils/CMakeLists.txt b/build/cmake/utils/CMakeLists.txt
+index 662986b56e04..8dd82eacf7f2 100644
+--- a/build/cmake/utils/CMakeLists.txt
++++ b/build/cmake/utils/CMakeLists.txt
+@@ -43,7 +43,7 @@ if(wxUSE_XRC)
+             ${CMAKE_CURRENT_BINARY_DIR}/bin/wxrc${EXE_SUFFIX} \
+             )"
+         )
+-        wx_install(FILES ${CMAKE_CURRENT_BINARY_DIR}/wxrc${EXE_SUFFIX} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
++        wx_install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/wxrc${EXE_SUFFIX} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+     endif()
+ endif()
+ 
+
+From 23d0c39ec87638c7378e9403e3935aa40b809665 Mon Sep 17 00:00:00 2001
+From: Vadim Zeitlin <vadim@wxwidgets.org>
+Date: Sat, 16 Jul 2022 16:56:16 +0200
+Subject: [PATCH 3/3] fixup! Fix wx-config and wxrc links when using DESTDIR
+ with CMake
+
+---
+ build/cmake/install.cmake        | 4 ++--
+ build/cmake/utils/CMakeLists.txt | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/build/cmake/install.cmake b/build/cmake/install.cmake
+index fb33b3723acd..858d6397cb68 100644
+--- a/build/cmake/install.cmake
++++ b/build/cmake/install.cmake
+@@ -43,10 +43,10 @@ else()
+     install(CODE "execute_process( \
+         COMMAND ${CMAKE_COMMAND} -E create_symlink \
+         ${CMAKE_INSTALL_PREFIX}/lib/wx/config/${wxBUILD_FILE_ID} \
+-        ${CMAKE_CURRENT_BINARY_DIR}/bin/wx-config \
++        ${CMAKE_CURRENT_BINARY_DIR}/wx-config \
+         )"
+     )
+-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/wx-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/wx-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+ endif()
+ 
+ install(EXPORT wxWidgetsTargets NAMESPACE wx:: DESTINATION "lib/cmake/wxWidgets/${wxPLATFORM_LIB_DIR}")
+diff --git a/build/cmake/utils/CMakeLists.txt b/build/cmake/utils/CMakeLists.txt
+index 8dd82eacf7f2..e3e9399bca4d 100644
+--- a/build/cmake/utils/CMakeLists.txt
++++ b/build/cmake/utils/CMakeLists.txt
+@@ -40,10 +40,10 @@ if(wxUSE_XRC)
+         wx_install(CODE "execute_process( \
+             COMMAND ${CMAKE_COMMAND} -E create_symlink \
+             ${CMAKE_INSTALL_PREFIX}/bin/${wxrc_output_name}${EXE_SUFFIX} \
+-            ${CMAKE_CURRENT_BINARY_DIR}/bin/wxrc${EXE_SUFFIX} \
++            ${CMAKE_CURRENT_BINARY_DIR}/wxrc${EXE_SUFFIX} \
+             )"
+         )
+-        wx_install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/wxrc${EXE_SUFFIX} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
++        wx_install(FILES ${CMAKE_CURRENT_BINARY_DIR}/wxrc${EXE_SUFFIX} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+     endif()
+ endif()
+ 
