@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt5"
-PKG_VERSION="1832429ff1e4e224389c7cfa592d50a2fab31e29" # 5.15.5+ (KDE Qt5PatchCollection)
+PKG_VERSION="0b4d44f2ff1103349bac22b9b207cfcc1f50a53a" # 5.15.5+ (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
-PKG_DEPENDS_TARGET="toolchain openssl libjpeg-turbo libpng pcre2-system sqlite zlib freetype sdl2 libxkbcommon gstreamer gst-plugins-base gst-plugins-good gst-libav"
+PKG_DEPENDS_TARGET="toolchain openssl libjpeg-turbo libpng pcre2 sqlite zlib freetype sdl2 libxkbcommon gstreamer gst-plugins-base gst-plugins-good gst-libav"
 PKG_LONGDESC="A cross-platform application and UI framework"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="kde/5.15"
