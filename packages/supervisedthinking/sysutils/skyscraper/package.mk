@@ -20,7 +20,6 @@ configure_target() {
   sed -e "s#resexamples.path=/usr/local/etc/skyscraper/resources#resexamples.path=${INSTALL}/usr/share/skyscraper/resources#" -i ${PKG_BUILD}/skyscraper.pro
 
   # Generate qmake config
-  safe_remove .qmake.stash
   qmake ${PKG_BUILD}/skyscraper.pro
 }
 
