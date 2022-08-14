@@ -12,7 +12,6 @@ PKG_LONGDESC="p7zip is a port of 7za.exe for POSIX systems like Unix."
 PKG_TOOLCHAIN="manual"
 
 pre_build_target() {
-  safe_remove ${PKG_BUILD}/.${TARGET_NAME}
   mkdir -p ${PKG_BUILD}/.${TARGET_NAME}
   cp -RP ${PKG_BUILD}/* ${PKG_BUILD}/.${TARGET_NAME}
 }
