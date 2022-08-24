@@ -1,0 +1,61 @@
+--- /src/scenes/cube_scene.h
++++ /src/scenes/cube_scene.h
+@@ -28,6 +28,7 @@
+ #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+ #include <glm/glm.hpp>
+ #include <vulkan/vulkan.hpp>
++#include <memory>
+ 
+ class Mesh;
+ 
+--- /src/scenes/shading_scene.h
++++ /src/scenes/shading_scene.h
+@@ -28,6 +28,7 @@
+ #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+ #include <glm/glm.hpp>
+ #include <vulkan/vulkan.hpp>
++#include <memory>
+ 
+ class Mesh;
+ 
+--- /src/scenes/texture_scene.h
++++ /src/scenes/texture_scene.h
+@@ -29,6 +29,7 @@
+ #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+ #include <glm/glm.hpp>
+ #include <vulkan/vulkan.hpp>
++#include <memory>
+ 
+ class Mesh;
+ 
+--- /src/scenes/vertex_scene.h
++++ /src/scenes/vertex_scene.h
+@@ -28,6 +28,7 @@
+ #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+ #include <glm/glm.hpp>
+ #include <vulkan/vulkan.hpp>
++#include <memory>
+ 
+ class Mesh;
+ 
+--- /src/ws/swapchain_window_system.h
++++ /src/ws/swapchain_window_system.h
+@@ -27,6 +27,7 @@
+ #include "managed_resource.h"
+ 
+ #include <vulkan/vulkan.hpp>
++#include <memory>
+ 
+ class NativeSystem;
+ 
+--- /src/ws/kms_window_system.h
++++ /src/ws/kms_window_system.h
+@@ -27,6 +27,7 @@
+ #include "managed_resource.h"
+ 
+ #include <vulkan/vulkan.hpp>
++#include <memory>
+ 
+ #include <xf86drmMode.h>
+ #include <gbm.h>
+
