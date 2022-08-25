@@ -134,7 +134,8 @@ OEM_TOOLS_GENERIC=" \
 # Tools X11
 OEM_TOOLS_GENERIC_X11=" \
   mesa-demos-system \
-  tigervnc-system"
+  tigervnc-system \
+  vkmark"
 
 ################################################################################
 # Install OEM packages to LibreELEC-RR
