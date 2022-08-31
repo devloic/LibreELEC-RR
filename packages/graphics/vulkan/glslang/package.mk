@@ -12,6 +12,7 @@ PKG_LICENSE="Apache-2.0"
 PKG_SITE="https://github.com/KhronosGroup/glslang"
 PKG_URL="https://github.com/KhronosGroup/glslang/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_HOST="toolchain:host Python3:host spirv-tools:host spirv-headers:host"
+PKG_DEPENDS_TARGET="toolchain Python3 spirv-tools spirv-headers"
 PKG_LONGDESC="Khronos-reference front end for GLSL/ESSL, partial front end for HLSL, and a SPIR-V generator."
 
 pre_configure_host() {
@@ -30,4 +31,28 @@ pre_configure_host() {
   mkdir -p ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
     cp -R $(get_build_dir spirv-tools)/* ${PKG_BUILD}/External/spirv-tools
     cp -R $(get_build_dir spirv-headers)/* ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
+}
+
+pre_configure_target() {
+  PKG_CMAKE_OPTS_TARGET="-DBUILD_SHARED_LIBS=ON \
+                         -DBUILD_EXTERNAL=ON \
+                         -DENABLE_SPVREMAPPER=OFF \
+                         -DENABLE_GLSLANG_BINARIES=OFF \
+                         -DENABLE_GLSLANG_JS=OFF \
+                         -DENABLE_RTTI=OFF \
+                         -DENABLE_EXCEPTIONS=OFF \
+                         -DENABLE_OPT=ON \
+                         -DENABLE_PCH=ON \
+                         -DENABLE_CTEST=OFF \
+                         -DENABLE_RTTI=OFF \
+                         -Wno-dev"
+
+  mkdir -p ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
+    cp -R $(get_build_dir spirv-tools)/* ${PKG_BUILD}/External/spirv-tools
+    cp -R $(get_build_dir spirv-headers)/* ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
+}
+
+post_makeinstall_target() {
+  # Fix INTERFACE_INCLUDE_DIRECTORIES of glslang::SPIRV 
+  sed -e "s#/External##g" -i ${SYSROOT_PREFIX}/usr/share/glslang/glslang-targets.cmake
 }
