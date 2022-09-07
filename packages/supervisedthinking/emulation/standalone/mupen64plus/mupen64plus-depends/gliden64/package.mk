@@ -10,7 +10,7 @@ PKG_URL="https://github.com/gonetz/GLideN64/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc freetype:host zlib bzip2 libpng"
 PKG_LONGDESC="A new generation, open-source graphics plugin for N64 emulators."
 PKG_TOOLCHAIN="cmake"
-PKG_BUILD_FLAGS="-gold"
+PKG_BUILD_FLAGS="+bfd"
 
 configure_package() {
   # Apply project specific patches
