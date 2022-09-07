@@ -10,7 +10,7 @@ PKG_URL="https://github.com/curl/curl/archive/curl-${PKG_VERSION//./_}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain glibc zlib gnutls rtmpdump nettle libidn2 nghttp2"
 PKG_LONGDESC="An URL retrieval library (linked against gnutls)"
 PKG_TOOLCHAIN="autotools"
-PKG_BUILD_FLAGS="-gold -sysroot"
+PKG_BUILD_FLAGS="+bfd -sysroot"
 
 pre_configure_target() {
   PKG_CONFIGURE_OPTS_TARGET="ac_cv_lib_rtmp_RTMP_Init=yes \
