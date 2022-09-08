@@ -12,6 +12,7 @@ PKG_LONGDESC="Dolphin is a GameCube / Wii emulator, allowing you to play games f
 PKG_GIT_CLONE_BRANCH="master"
 PKG_GIT_CLONE_SINGLE="yes"
 GET_HANDLER_SUPPORT="git"
+PKG_BUILD_FLAGS="+gold"
 
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-D DISTRIBUTOR=SupervisedThinking
