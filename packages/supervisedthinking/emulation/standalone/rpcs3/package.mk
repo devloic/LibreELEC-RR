@@ -13,6 +13,7 @@ PKG_LONGDESC="RPCS3 is an experimental open-source Sony PlayStation 3 emulator a
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
 PKG_GIT_CLONE_SINGLE="yes"
+PKG_BUILD_FLAGS="+gold"
 
 configure_package() {
   # Vulkan Support
