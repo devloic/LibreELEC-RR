@@ -2,13 +2,13 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="mupen64plus-nx"
-PKG_VERSION="9f0849454dee17e66099ef8cdf8d53a86a3ade02"
-PKG_SHA256="7fe742f5dd47bc5b0c354630b33f81981e76dc0f6d4f2a746b298fc3ac440502"
+PKG_VERSION="c10546e333d57eb2e5a6ccef1e84cb6f9274c526"
+PKG_SHA256="df117844881887a07069e54db28af34668d515fa1b707e00837455ffc2f7bd37"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/mupen64plus-libretro-nx"
 PKG_URL="https://github.com/libretro/mupen64plus-libretro-nx/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain linux glibc zlib libpng"
-PKG_LONGDESC="Mupen64Plus is mupen64plus + GLideN64 + libretro"
+PKG_LONGDESC="Mupen64Plus-Next is a N64 emulation library for the libretro API, based on Mupen64Plus."
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-sysroot"
 
@@ -31,6 +31,11 @@ configure_package() {
   # OpenGLES Support
   if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  fi
+
+  # Vulkan Support
+  if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+    PKG_DEPENDS_TARGET+=" ${VULKAN}"
   fi
 }
 
@@ -58,17 +63,21 @@ pre_configure_target() {
 
       # OpenGL ES Support
       if [ "${ARCH}" = "x86_64" ] && [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-        PKG_MAKE_OPTS_TARGET+=" FORCE_GLES3=1"
+        PKG_MAKE_OPTS_TARGET+=" HAVE_GLES3=1"
+      fi
+      # Vulkan Support for paraLLEl-RDP
+      if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+        PKG_MAKE_OPTS_TARGET+=" HAVE_VULKAN=1"
       fi
     ;;
   esac
   # Fix Mesa 3D based OpenGL ES builds
   if [ ! "${DISPLAYSERVER}" = "x11" ] && [ "${OPENGLES}" = "mesa" ]; then
-    PKG_MAKE_OPTS_TARGET+=" EGL_NO_X11=1"
+    PKG_MAKE_OPTS_TARGET+=" HAVE_EGL_NO_X11=1"
   fi
 }
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }

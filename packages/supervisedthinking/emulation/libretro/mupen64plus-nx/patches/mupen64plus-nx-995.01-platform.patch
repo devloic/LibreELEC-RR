@@ -1,25 +1,26 @@
-From 989c1055ee15b6e5ff5c90fef1bacd4d929b34bc Mon Sep 17 00:00:00 2001
+From 4266f73c779971581fa7cc249ceb0f9c86353211 Mon Sep 17 00:00:00 2001
 From: SupervisedThinking <supervisedthinking@gmail.com>
-Date: Tue, 26 Oct 2021 17:18:10 +0200
-Subject: [PATCH] Makefile: updated platforms / added EGL no X11 opts / added
- plugin opts
+Date: Wed, 14 Sep 2022 15:17:59 +0200
+Subject: [PATCH] Makefile: added / updated platform opts
 
 ---
- Makefile | 151 ++++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 98 insertions(+), 53 deletions(-)
+ Makefile | 172 +++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 105 insertions(+), 67 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 3d2b37c..7b629df 100644
+index 58648e50..c1670459 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1,14 +1,19 @@
+@@ -1,14 +1,20 @@
  DEBUG = 0
 -FORCE_GLES ?= 0
-+
-+FORCE_GLES  ?= 0
- FORCE_GLES3 ?= 0
+-FORCE_GLES3 ?= 0
 -LLE ?= 0
-+EGL_NO_X11  ?= 0
++
++FORCE_GLES      ?= 0
++HAVE_GLES3      ?= 0
++HAVE_VULKAN     ?= 0
++HAVE_EGL_NO_X11 ?= 0
 +
 +FORCE_NO_PLUGINS  ?= 0
  HAVE_PARALLEL_RSP ?= 0
@@ -37,7 +38,15 @@ index 3d2b37c..7b629df 100644
  
  HAVE_LTCG ?= 0
  DYNAFLAGS :=
-@@ -103,15 +108,10 @@ ifneq (,$(findstring unix,$(platform)))
+@@ -96,24 +102,17 @@ ifneq (,$(findstring unix,$(platform)))
+    ifeq ($(FORCE_GLES),1)
+       GLES = 1
+       GL_LIB := -lGLESv2
+-   else ifeq ($(FORCE_GLES3),1)
++   else ifeq ($(HAVE_GLES3),1)
+       GLES3 = 1
+       GL_LIB := -lGLESv2
+    else
        GL_LIB := -lGL
     endif
  
@@ -50,12 +59,14 @@ index 3d2b37c..7b629df 100644
 -
 +   # Generic ARM platforms
     ifneq (,$(findstring armv,$(platform)))
+-      ARCH = arm
+-      WITH_DYNAREC = arm
        CPUFLAGS += -DARM -marm
-+     
++      WITH_DYNAREC=arm     
        ifneq (,$(findstring cortexa8,$(platform)))
           CPUFLAGS += -mcpu=cortex-a8
        else ifneq (,$(findstring cortexa9,$(platform)))
-@@ -119,32 +119,76 @@ ifneq (,$(findstring unix,$(platform)))
+@@ -121,33 +120,79 @@ ifneq (,$(findstring unix,$(platform)))
        else
           CPUFLAGS += -mcpu=cortex-a7
        endif
@@ -84,12 +95,15 @@ index 3d2b37c..7b629df 100644
 -      GLES3 = 1
 +   COREFLAGS += -DOS_LINUX
 +   ifeq ($(ARCH), x86_64)
-+      # RDP/RSP Plugins - cxd4 / paraLLEl / angrylion
++      # RDP/RSP Plugins - cxd4 / paraLLEl RSP / Angrylion RDP Plus
 +      ifneq ($(FORCE_NO_PLUGINS),1)
 +         LLE = 1
 +         HAVE_PARALLEL_RSP = 1
-+         HAVE_PARALLEL_RDP = 1
 +         HAVE_THR_AL = 1
++         # RDP Plugin paraLLEl-RDP (Vulkan compute based)
++         ifeq ($(HAVE_VULKAN),1)
++            HAVE_PARALLEL_RDP = 1
++         endif
 +      endif
 +      ASFLAGS = -f elf64 -d ELF_TYPE
     else
@@ -107,6 +121,7 @@ index 3d2b37c..7b629df 100644
        MESA = 1
     endif
 -   ifneq (,$(findstring rpi4,$(platform)))
+-      GLES3 = 1
 -      MESA = 1
 +
 +   ifneq (,$(findstring RPi0,$(platform)))
@@ -145,7 +160,7 @@ index 3d2b37c..7b629df 100644
     ifeq ($(MESA), 1)
        GL_LIB := -lGLESv2
     else
-@@ -154,28 +198,15 @@ else ifneq (,$(findstring rpi,$(platform)))
+@@ -157,36 +202,15 @@ else ifneq (,$(findstring rpi,$(platform)))
        EGL_LIB := -lbrcmEGL
        INCFLAGS += -I/opt/vc/include -I/opt/vc/include/interface/vcos -I/opt/vc/include/interface/vcos/pthreads
     endif
@@ -154,11 +169,19 @@ index 3d2b37c..7b629df 100644
 -      CPUFLAGS += -mcpu=cortex-a7
 -      ARM_CPUFLAGS = -mfpu=neon-vfpv4
 -   else ifneq (,$(findstring rpi3,$(platform)))
--      CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a53
--      ARM_CPUFLAGS = -mfpu=neon-fp-armv8
+-      ifneq (,$(findstring rpi3_64,$(platform)))
+-         CPUFLAGS += -mcpu=cortex-a53 -mtune=cortex-a53
+-      else
+-         CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a53
+-         ARM_CPUFLAGS = -mfpu=neon-fp-armv8
+-      endif
 -   else ifneq (,$(findstring rpi4,$(platform)))
--      CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a72
--      ARM_CPUFLAGS = -mfpu=neon-fp-armv8
+-      ifneq (,$(findstring rpi4_64,$(platform)))
+-         CPUFLAGS += -mcpu=cortex-a72 -mtune=cortex-a72
+-      else
+-         CPUFLAGS += -march=armv8-a+crc -mtune=cortex-a72
+-         ARM_CPUFLAGS = -mfpu=neon-fp-armv8
+-      endif
 -   else ifneq (,$(findstring rpi,$(platform)))
 -      CPUFLAGS += -mcpu=arm1176jzf-s
 -      ARM_CPUFLAGS = -mfpu=vfp
@@ -177,7 +200,7 @@ index 3d2b37c..7b629df 100644
     COREFLAGS += -DOS_LINUX
     ASFLAGS = -f elf -d ELF_TYPE
  
-@@ -282,20 +313,25 @@ else ifneq (,$(findstring AMLG,$(platform)))
+@@ -297,20 +321,25 @@ else ifneq (,$(findstring AMLG,$(platform)))
        else
           CPUFLAGS += -mtune=cortex-a53
        endif
@@ -209,7 +232,7 @@ index 3d2b37c..7b629df 100644
     ifneq (,$(findstring mali,$(platform)))
        GL_LIB := -lGLESv3
     else
-@@ -328,18 +364,22 @@ else ifneq (,$(findstring RK,$(platform)))
+@@ -365,18 +394,22 @@ else ifneq (,$(findstring RK,$(platform)))
        CPUFLAGS += -march=armv8-a+crc -mfloat-abi=hard -mfpu=neon-fp-armv8
        ifneq (,$(findstring RK3399,$(platform)))
           CPUFLAGS += -mtune=cortex-a72.cortex-a53
@@ -238,18 +261,24 @@ index 3d2b37c..7b629df 100644
     endif
  
     GL_LIB := -lGLESv2
-@@ -521,6 +561,11 @@ ifeq ($(HAVE_NEON), 1)
+@@ -417,7 +450,7 @@ else ifneq (,$(findstring ios,$(platform)))
+ 		WITH_DYNAREC=
+ 		GLES=1
+ 		GLES3=1
+-		FORCE_GLES3=1
++		HAVE_GLES3=1
+ 		EGL := 0
+ 		PLATCFLAGS += -DHAVE_POSIX_MEMALIGN -DNO_ASM
+ 		PLATCFLAGS += -DIOS -marm -DOS_IOS -DDONT_WANT_ARM_OPTIMIZATIONS
+@@ -558,6 +591,11 @@ ifeq ($(HAVE_NEON), 1)
     COREFLAGS += -DHAVE_NEON -D__ARM_NEON__ -D__NEON_OPT -ftree-vectorize -mvectorize-with-neon-quad -ftree-vectorizer-verbose=2 -funsafe-math-optimizations -fno-finite-math-only
  endif
  
 +# Define EGL platform
-+ifeq ($(EGL_NO_X11), 1)
++ifeq ($(HAVE_EGL_NO_X11), 1)
 +  COREFLAGS += -DEGL_NO_X11
 +endif
 +
  ifeq ($(LLE), 1)
     COREFLAGS += -DHAVE_LLE
  endif
--- 
-2.25.1
-
