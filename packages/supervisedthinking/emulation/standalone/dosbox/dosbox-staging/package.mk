@@ -2,14 +2,14 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="dosbox-staging"
-PKG_VERSION="c17e3781d8eab1d600ff41e6c5fb8b84cdaa45d3" #v0.78.1
+PKG_VERSION="81514caf0ddc1d49f45bd39d6809f331f48addc4" #v0.79
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://dosbox-staging.github.io/"
 PKG_URL="https://github.com/dosbox-staging/dosbox-staging.git"
-PKG_DEPENDS_TARGET="toolchain linux alsa-lib sdl2 sdl2_net opusfile libpng fluidsynth-system munt libslirp"
+PKG_DEPENDS_TARGET="toolchain linux alsa-lib sdl2 sdl2_net opusfile libpng fluidsynth-system munt libslirp iir1 speexdsp"
 PKG_LONGDESC="DOSBox Staging is an attempt to revitalize DOSBox's development process. It's not a rewrite, but a continuation and improvement on the existing DOSBox codebase while leveraging modern development tools and practices."
 GET_HANDLER_SUPPORT="git"
-PKG_GIT_CLONE_BRANCH="release/0.78.x"
+PKG_GIT_CLONE_BRANCH="main"
 PKG_GIT_CLONE_SINGLE="yes"
 PKG_BUILD_FLAGS="+lto +speed"
 
@@ -49,9 +49,9 @@ post_makeinstall_target() {
 
   # Adjust config files for OpenGLES builds
   if [ "${OPENGL_SUPPORT}" = "no" ]; then
-    sed -e "s/output           = opengl/output           = texture/" -i ${INSTALL}/usr/config/dosbox/dosbox-staging*.conf
-    sed -e "/#           glshader:.*/,+16d"                          -i ${INSTALL}/usr/config/dosbox/dosbox-staging*.conf
-    sed -e "/glshader           = crt.*/d"                           -i ${INSTALL}/usr/config/dosbox/dosbox-staging*.conf
+    sed -e "s/output              = opengl/output              = texture/" -i ${INSTALL}/usr/config/dosbox/dosbox-staging*.conf
+    sed -e "/#           glshader:.*/,+16d"                                -i ${INSTALL}/usr/config/dosbox/dosbox-staging*.conf
+    sed -e "/glshader           = crt.*/d"                                 -i ${INSTALL}/usr/config/dosbox/dosbox-staging*.conf
   fi
 
   # Clean-up
