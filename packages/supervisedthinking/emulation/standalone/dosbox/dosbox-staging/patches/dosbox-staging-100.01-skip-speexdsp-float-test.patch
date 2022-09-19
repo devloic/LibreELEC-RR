@@ -1,0 +1,29 @@
+--- a/meson.build
++++ b/meson.build
+@@ -368,24 +368,7 @@
+ )
+ 
+ # SpeexDSP
+-# ~~~~~~~~
+-# If the user asked to use SpeexDSP from the system then
+-# we need to ensure its floating-point API is reliable
+-#
+-use_speexdsp_from_system = 'speexdsp' in system_libs_list
+-if use_speexdsp_from_system
+-    check_cpp = files('contrib/check-speexdsp/test_speexdsp_float_api.cpp')
+-    check_if_msg = 'SpeexDSP system library has reliable floating-point API'
+-    check_result = cxx.run(
+-        check_cpp,
+-        dependencies: dependency('speexdsp'),
+-        name: check_if_msg,
+-    )
+-    use_speexdsp_from_system = (
+-        check_result.compiled()
+-        and check_result.returncode() == 0
+-    )
+-endif
++use_speexdsp_from_system = true
+ if use_speexdsp_from_system
+     speexdsp_dep = dependency(
+         'speexdsp',
+
