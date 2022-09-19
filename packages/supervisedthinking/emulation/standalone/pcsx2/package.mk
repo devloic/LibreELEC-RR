@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="96b00e95f5e83958a02510328cb40c17c0289f68" #r1.7.3324
+PKG_VERSION="aa075bdf6b0e1ac9b72271b25e25aa6a4cf88bef" #r1.7.3325
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
@@ -37,7 +37,6 @@ pre_configure_target() {
                          -D CMAKE_INSTALL_DATADIR=/usr/share \
                          -D CMAKE_INSTALL_LIBDIR=/usr/lib \
                          -D ENABLE_TESTS=OFF \
-                         -D USE_SYSTEM_YAML=ON \
                          -D LTO_PCSX2_CORE=ON \
                          -D USE_VTUNE=OFF \
                          -D PACKAGE_MODE=ON \
