@@ -9,7 +9,7 @@ PKG_SITE="https://libsndfile.github.io/libsndfile/"
 PKG_URL="https://github.com/libsndfile/libsndfile/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain alsa-lib flac-system libvorbis-system opus-system"
 PKG_LONGDESC="A C library for reading and writing sound files containing sampled audio data."
-PKG_BUILD_FLAGS="+pic -sysroot"
+PKG_BUILD_FLAGS="+pic"
 
 PKG_CMAKE_OPTS_TARGET="-DBUILD_SHARED_LIBS=ON \
                        -DBUILD_PROGRAMS=OFF \
