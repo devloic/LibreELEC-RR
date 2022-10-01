@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fluidsynth-system"
-PKG_VERSION="2.2.9"
-PKG_SHA256="bc62494ec2554fdcfc01512a2580f12fc1e1b01ce37a18b370dd7902af7a8159"
+PKG_VERSION="2.3.0"
+PKG_SHA256="1df5a1afb91acf3b945b7fdb89ac0d99877622161d9b5155533da59113eaaa20"
 PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="http://fluidsynth.org/"
 PKG_URL="https://github.com/FluidSynth/fluidsynth/archive/v${PKG_VERSION}.tar.gz"
@@ -13,8 +13,7 @@ PKG_BUILD_FLAGS="+pic"
 PKG_DEPENDS_CONFIG="libsndfile-system"
 
 pre_configure_target() {
-  PKG_CMAKE_OPTS_TARGET="-D LIB_SUFFIX= \
-                         -D enable-readline=0 \
+  PKG_CMAKE_OPTS_TARGET="-D enable-readline=0 \
                          -D enable-oss=0"
 }
 
