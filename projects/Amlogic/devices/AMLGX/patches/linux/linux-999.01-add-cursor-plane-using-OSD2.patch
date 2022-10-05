@@ -1,4 +1,4 @@
-From 2f490a1ab09b512561321cf79c6eb9787fb6ed89 Mon Sep 17 00:00:00 2001
+From f6a56c9f11e3abdefcb4697797dfde873aa23d82 Mon Sep 17 00:00:00 2001
 From: Neil Armstrong <narmstrong@baylibre.com>
 Date: Fri, 24 Sep 2021 16:19:04 +0200
 Subject: [PATCH] drm/meson: add cursor plane using OSD2
@@ -13,18 +13,18 @@ Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
  drivers/gpu/drm/meson/Makefile       |   2 +-
  drivers/gpu/drm/meson/meson_crtc.c   |  89 +++++++++-
- drivers/gpu/drm/meson/meson_cursor.c | 244 +++++++++++++++++++++++++++
+ drivers/gpu/drm/meson/meson_cursor.c | 246 +++++++++++++++++++++++++++
  drivers/gpu/drm/meson/meson_cursor.h |  14 ++
  drivers/gpu/drm/meson/meson_drv.c    |   8 +
  drivers/gpu/drm/meson/meson_drv.h    |  17 ++
  drivers/gpu/drm/meson/meson_plane.c  |   1 -
  drivers/gpu/drm/meson/meson_viu.c    |  69 ++++++--
- 8 files changed, 422 insertions(+), 22 deletions(-)
+ 8 files changed, 424 insertions(+), 22 deletions(-)
  create mode 100644 drivers/gpu/drm/meson/meson_cursor.c
  create mode 100644 drivers/gpu/drm/meson/meson_cursor.h
 
 diff --git a/drivers/gpu/drm/meson/Makefile b/drivers/gpu/drm/meson/Makefile
-index 3afa31bdc9501..46da819b63fe1 100644
+index 3afa31bdc95014..46da819b63fe19 100644
 --- a/drivers/gpu/drm/meson/Makefile
 +++ b/drivers/gpu/drm/meson/Makefile
 @@ -1,5 +1,5 @@
@@ -35,7 +35,7 @@ index 3afa31bdc9501..46da819b63fe1 100644
  meson-drm-y += meson_rdma.o meson_osd_afbcd.o
  meson-drm-y += meson_encoder_hdmi.o
 diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
-index d70616da8ce2f..c1ba3b4fe7ce3 100644
+index d70616da8ce2fd..c1ba3b4fe7ce39 100644
 --- a/drivers/gpu/drm/meson/meson_crtc.c
 +++ b/drivers/gpu/drm/meson/meson_crtc.c
 @@ -36,6 +36,7 @@ struct meson_crtc {
@@ -212,10 +212,10 @@ index d70616da8ce2f..c1ba3b4fe7ce3 100644
  			meson_crtc->enable_osd1_afbc =
 diff --git a/drivers/gpu/drm/meson/meson_cursor.c b/drivers/gpu/drm/meson/meson_cursor.c
 new file mode 100644
-index 0000000000000..6ba733c511e73
+index 00000000000000..2525d467a50bc9
 --- /dev/null
 +++ b/drivers/gpu/drm/meson/meson_cursor.c
-@@ -0,0 +1,244 @@
+@@ -0,0 +1,246 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
 + * Copyright (C) 2021 BayLibre, SAS
@@ -232,6 +232,8 @@ index 0000000000000..6ba733c511e73
 +#include <drm/drm_gem_atomic_helper.h>
 +#include <drm/drm_gem_cma_helper.h>
 +#include <drm/drm_plane_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_blend.h>
 +
 +#include "meson_cursor.h"
 +#include "meson_registers.h"
@@ -462,7 +464,7 @@ index 0000000000000..6ba733c511e73
 +}
 diff --git a/drivers/gpu/drm/meson/meson_cursor.h b/drivers/gpu/drm/meson/meson_cursor.h
 new file mode 100644
-index 0000000000000..28b5de49a6461
+index 00000000000000..28b5de49a64617
 --- /dev/null
 +++ b/drivers/gpu/drm/meson/meson_cursor.h
 @@ -0,0 +1,14 @@
@@ -481,10 +483,10 @@ index 0000000000000..28b5de49a6461
 +
 +#endif /* __MESON_CURSOR_H */
 diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 80f1d439841a6..3d70534ea7306 100644
+index bd4ca11d3ff536..afc033e1c740ae 100644
 --- a/drivers/gpu/drm/meson/meson_drv.c
 +++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -29,6 +29,7 @@
+@@ -30,6 +30,7 @@
  #include "meson_drv.h"
  #include "meson_overlay.h"
  #include "meson_plane.h"
@@ -492,7 +494,7 @@ index 80f1d439841a6..3d70534ea7306 100644
  #include "meson_osd_afbcd.h"
  #include "meson_registers.h"
  #include "meson_encoder_cvbs.h"
-@@ -242,6 +243,9 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+@@ -246,6 +247,9 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
  	}
  
  	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_osd1);
@@ -502,9 +504,9 @@ index 80f1d439841a6..3d70534ea7306 100644
  	if (ret)
  		goto free_drm;
  	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_vd1_0);
-@@ -323,6 +327,10 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+@@ -327,6 +331,10 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
  	if (ret)
- 		goto free_drm;
+ 		goto exit_afbcd;
  
 +	ret = meson_cursor_create(priv);
 +	if (ret)
@@ -512,9 +514,9 @@ index 80f1d439841a6..3d70534ea7306 100644
 +
  	ret = meson_plane_create(priv);
  	if (ret)
- 		goto free_drm;
+ 		goto exit_afbcd;
 diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
-index 177dac3ca3bea..ebe8b050c7043 100644
+index 177dac3ca3bea5..ebe8b050c70432 100644
 --- a/drivers/gpu/drm/meson/meson_drv.h
 +++ b/drivers/gpu/drm/meson/meson_drv.h
 @@ -43,12 +43,14 @@ struct meson_drm {
@@ -555,10 +557,10 @@ index 177dac3ca3bea..ebe8b050c7043 100644
  
  		bool vd1_enabled;
 diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index 8640a8a8a4691..8163d6ecfda67 100644
+index 03acc68abf2c51..7248f6ae7ac294 100644
 --- a/drivers/gpu/drm/meson/meson_plane.c
 +++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -360,7 +360,6 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+@@ -362,7 +362,6 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
  		priv->viu.osd_blend_din0_scope_h = ((dest.x2 - 1) << 16) | dest.x1;
  		priv->viu.osd_blend_din0_scope_v = ((dest.y2 - 1) << 16) | dest.y1;
  		priv->viu.osb_blend0_size = dst_h << 16 | dst_w;
@@ -567,7 +569,7 @@ index 8640a8a8a4691..8163d6ecfda67 100644
  
  	/* Update Canvas with buffer address */
 diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
-index 259f3e6bec90a..51012fc1b774b 100644
+index d4b907889a21d1..7f03621179f35d 100644
 --- a/drivers/gpu/drm/meson/meson_viu.c
 +++ b/drivers/gpu/drm/meson/meson_viu.c
 @@ -78,32 +78,52 @@ static int eotf_bypass_coeff[EOTF_COEFF_SIZE] = {
@@ -604,9 +606,9 @@ index 259f3e6bec90a..51012fc1b774b 100644
  		priv->io_base + _REG(VPP_WRAP_OSD1_MATRIX_COEF20_21));
 +	writel(((m[9] & 0x1fff) << 16) | (m[10] & 0x1fff),
 +		priv->io_base + _REG(VPP_WRAP_OSD2_MATRIX_COEF20_21));
- 	writel((m[11] & 0x1fff) << 16,
+ 	writel((m[11] & 0x1fff),
  		priv->io_base +	_REG(VPP_WRAP_OSD1_MATRIX_COEF22));
-+	writel((m[11] & 0x1fff) << 16,
++	writel((m[11] & 0x1fff),
 +		priv->io_base +	_REG(VPP_WRAP_OSD2_MATRIX_COEF22));
  
  	writel(((m[18] & 0xfff) << 16) | (m[19] & 0xfff),
@@ -711,21 +713,21 @@ index 259f3e6bec90a..51012fc1b774b 100644
  			priv->io_base + _REG(VD2_IF0_LUMA_FIFO_SIZE));
  
  	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
--		writel_relaxed(VIU_OSD_BLEND_REORDER(0, 1) |
--			       VIU_OSD_BLEND_REORDER(1, 0) |
--			       VIU_OSD_BLEND_REORDER(2, 0) |
--			       VIU_OSD_BLEND_REORDER(3, 0) |
--			       VIU_OSD_BLEND_DIN_EN(1) |
--			       VIU_OSD_BLEND1_DIN3_BYPASS_TO_DOUT1 |
--			       VIU_OSD_BLEND1_DOUT_BYPASS_TO_BLEND2 |
--			       VIU_OSD_BLEND_DIN0_BYPASS_TO_DOUT0 |
+-		u32 val = (u32)VIU_OSD_BLEND_REORDER(0, 1) |
+-			  (u32)VIU_OSD_BLEND_REORDER(1, 0) |
+-			  (u32)VIU_OSD_BLEND_REORDER(2, 0) |
+-			  (u32)VIU_OSD_BLEND_REORDER(3, 0) |
+-			  (u32)VIU_OSD_BLEND_DIN_EN(1) |
+-			  (u32)VIU_OSD_BLEND1_DIN3_BYPASS_TO_DOUT1 |
+-			  (u32)VIU_OSD_BLEND1_DOUT_BYPASS_TO_BLEND2 |
+-			  (u32)VIU_OSD_BLEND_DIN0_BYPASS_TO_DOUT0 |
 +		/* setup bypass to have OSD1->DOUT0 + OSD2->DOUT1 */
-+		writel_relaxed(VIU_OSD_BLEND_REORDER(0, 1) |	/* OSD1 to DIN0 */
-+			       VIU_OSD_BLEND_REORDER(1, 4) |
-+			       VIU_OSD_BLEND_REORDER(2, 4) |
-+			       VIU_OSD_BLEND_REORDER(3, 2) |	/* OSD2 to DIN3 */
-+			       VIU_OSD_BLEND_DIN_EN(9) |	/* Enable DIN0 & DIN3 */
-+			       VIU_OSD_BLEND_DIN0_BYPASS_TO_DOUT0 |	/* DIN0 to DOUT0 */
- 			       VIU_OSD_BLEND_BLEN2_PREMULT_EN(1) |
- 			       VIU_OSD_BLEND_HOLD_LINES(4),
- 			       priv->io_base + _REG(VIU_OSD_BLEND_CTRL));
++		u32 val = (u32)VIU_OSD_BLEND_REORDER(0, 1) |	/* OSD1 to DIN0 */
++			  (u32)VIU_OSD_BLEND_REORDER(1, 4) |
++			  (u32)VIU_OSD_BLEND_REORDER(2, 4) |
++			  (u32)VIU_OSD_BLEND_REORDER(3, 2) |	/* OSD2 to DIN3 */
++			  (u32)VIU_OSD_BLEND_DIN_EN(9) |	/* Enable DIN0 & DIN3 */
++			  (u32)VIU_OSD_BLEND_DIN0_BYPASS_TO_DOUT0 |	/* DIN0 to DOUT0 */
+ 			  (u32)VIU_OSD_BLEND_BLEN2_PREMULT_EN(1) |
+ 			  (u32)VIU_OSD_BLEND_HOLD_LINES(4);
+ 		writel_relaxed(val, priv->io_base + _REG(VIU_OSD_BLEND_CTRL));
