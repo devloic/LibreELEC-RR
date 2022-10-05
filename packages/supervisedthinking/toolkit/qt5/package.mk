@@ -11,6 +11,7 @@ PKG_LONGDESC="A cross-platform application and UI framework"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="kde/5.15"
 PKG_GIT_CLONE_SINGLE="yes"
+PKG_BUILD_FLAGS="+gold"
 
 configure_package() {
   # Apply project specific patches
@@ -48,6 +49,7 @@ pre_configure_target() {
                              -nomake examples -no-compile-examples
                              -nomake tests
                              -ccache
+                             -use-gold-linker
                              -gstreamer 1.0
                              -force-pkg-config
                              -silent
@@ -114,13 +116,6 @@ pre_configure_target() {
                              -skip qtwebview
                              -skip qtwinextras
                              -skip qtx11extras"
-
-  # Gold linker support
-  if [ ! "${DEFAULT_LINKER}" = "gold" ]; then
-    PKG_CONFIGURE_OPTS_TARGET+=" -no-use-gold-linker"
-  else
-    PKG_CONFIGURE_OPTS_TARGET+=" -use-gold-linker"
-  fi
 
   # Build with OpenGL or OpenGLES support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
