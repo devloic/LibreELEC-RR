@@ -9,6 +9,7 @@ PKG_URL="https://github.com/mmatyas/pegasus-frontend.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc zlib libpng sdl2 qt5 pegasus-theme-es2-simple pegasus-theme-gameOS"
 PKG_LONGDESC="A cross platform, customizable graphical frontend for launching emulators and managing your game collection."
 GET_HANDLER_SUPPORT="git"
+PKG_NEED_UNPACK="$(get_pkg_directory qt5)"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto"
 
