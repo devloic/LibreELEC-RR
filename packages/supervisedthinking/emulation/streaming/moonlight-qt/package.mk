@@ -11,6 +11,7 @@ PKG_LONGDESC="Moonlight is an open source implementation of NVIDIA's GameStream.
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
 PKG_GIT_CLONE_SINGLE="yes"
+PKG_NEED_UNPACK="$(get_pkg_directory qt5)"
 PKG_TOOLCHAIN="make"
 
 configure_package() {
