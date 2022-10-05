@@ -9,6 +9,7 @@ PKG_SITE="https://github.com/muldjord/skyscraper"
 PKG_URL="https://github.com/muldjord/skyscraper/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain qt5"
 PKG_LONGDESC="A powerful and versatile yet easy to use game scraper written in C++ for use with multiple frontends running on a Linux system."
+PKG_NEED_UNPACK="$(get_pkg_directory qt5)"
 PKG_TOOLCHAIN="make"
 
 configure_target() {
