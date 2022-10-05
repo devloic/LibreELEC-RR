@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="sdl2"
-PKG_VERSION="2.24.0"
-PKG_SHA256="8cff760c78ca76777e9069a63690005f45ddffffb496f2d7e9a42b2d48ef7009"
+PKG_VERSION="2.24.1"
+PKG_SHA256="b59404c1a9991c9c5a8227ee6476c27c916f3c891b199a8025a761d06b48afbb"
 PKG_LICENSE="SDL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://github.com/libsdl-org/SDL/archive/refs/tags/release-${PKG_VERSION}.tar.gz"
@@ -121,12 +121,10 @@ pre_configure_target(){
                              -DSDL_X11_XCURSOR=OFF \
                              -DSDL_X11_XDBE=OFF \
                              -DSDL_X11_XFIXES=OFF \
-                             -DSDL_X11_XINERAMA=OFF \
                              -DSDL_X11_XINPUT=OFF \
                              -DSDL_X11_XRANDR=ON \
                              -DSDL_X11_XSCRNSAVER=OFF \
                              -DSDL_X11_XSHAPE=OFF \
-                             -DSDL_X11_XVM=OFF \
                              -DSDL_WAYLAND=OFF"
 
   elif [ "${DISPLAYSERVER}" = "wl" ]; then
