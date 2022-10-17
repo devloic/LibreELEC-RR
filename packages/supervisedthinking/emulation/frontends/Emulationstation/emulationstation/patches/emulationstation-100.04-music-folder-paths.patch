@@ -1,6 +1,6 @@
-From ae0f8ba5d1c620ccad8ee9fbf9713ce13ec91c66 Mon Sep 17 00:00:00 2001
+From 92f419af578bf8162022482ab40b9fca56cad8d3 Mon Sep 17 00:00:00 2001
 From: SupervisedThinking <supervisedthinking@gmail.com>
-Date: Thu, 18 Mar 2021 17:04:28 +0100
+Date: Mon, 17 Oct 2022 17:04:32 +0200
 Subject: [PATCH] Audiomanager: adjust music folder paths for LibreELEC-RR
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] Audiomanager: adjust music folder paths for LibreELEC-RR
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index dd1273456..cc2f97666 100644
+index 90b8da17ef..d3690630e4 100644
 --- a/es-core/src/AudioManager.cpp
 +++ b/es-core/src/AudioManager.cpp
 @@ -150,13 +150,13 @@ void AudioManager::playRandomMusic(bool continueIfPlaying)
@@ -23,7 +23,7 @@ index dd1273456..cc2f97666 100644
    
  	// check in system sound directory
  	if(musics.empty())
--		getMusicIn("/usr/share/RetroPie/music", musics);
+-		getMusicIn("/opt/retropie/music", musics);
 +		getMusicIn("/usr/share/emulationstation/music", musics);
    
  	// check in .emulationstation/music directory

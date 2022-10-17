@@ -1,27 +1,33 @@
-From a4d30b7fd8fc181a420296535be0f577e1d10407 Mon Sep 17 00:00:00 2001
-From: bluestang2006 <bluestang2006@gmail.com>
-Date: Mon, 7 Mar 2022 17:33:21 -0700
-Subject: [PATCH 1/4] Background Music Player
+From 7b962d2fc125db617f42a547948e3ed6c349b1be Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Mon, 17 Oct 2022 23:23:44 +0200
+Subject: [PATCH] Add a background music player using SDL2 mixer
 
-- Add a background music player using SDL2 mixer
 - Backport various fixes
+- Add music volume slider
+- Added original authors of the BGM player using SDL2-mixer (Backported by Bluestang2006)
+- Set default folders where music files can be stored
 ---
- .github/workflows/ccpp.yml          |   2 +-
- CMake/Packages/FindSDL2_mixer.cmake | 220 ++++++++++++++++++++++
- CMakeLists.txt                      |   3 +
- es-app/CMakeLists.txt               |   4 +-
- es-app/src/FileData.cpp             |   3 +
- es-app/src/VolumeControl.cpp        | 116 ++++++++----
- es-app/src/VolumeControl.h          |   6 +-
- es-app/src/guis/GuiMenu.cpp         |  15 ++
- es-app/src/main.cpp                 |   5 +
- es-core/src/AudioManager.cpp        | 279 ++++++++++++++++++++--------
- es-core/src/AudioManager.h          |  25 ++-
- es-core/src/Settings.cpp            |  53 +++++-
- es-core/src/Settings.h              |  23 ++-
- es-core/src/Sound.cpp               | 135 ++++----------
- es-core/src/Sound.h                 |  15 +-
- 15 files changed, 657 insertions(+), 247 deletions(-)
+ .github/workflows/ccpp.yml                 |   2 +-
+ CMake/Packages/FindSDL2_mixer.cmake        | 220 ++++++++++++++++
+ CMakeLists.txt                             |   3 +
+ CREDITS.md                                 |   5 +
+ es-app/CMakeLists.txt                      |   4 +-
+ es-app/src/FileData.cpp                    |   3 +
+ es-app/src/VolumeControl.cpp               |  60 ++++-
+ es-app/src/VolumeControl.h                 |   2 +
+ es-app/src/guis/GuiMenu.cpp                |  24 +-
+ es-app/src/main.cpp                        |   5 +
+ es-core/src/AudioManager.cpp               | 283 +++++++++++++++------
+ es-core/src/AudioManager.h                 |  27 +-
+ es-core/src/Settings.cpp                   |   4 +-
+ es-core/src/Settings.h                     |   2 +
+ es-core/src/Sound.cpp                      | 135 +++-------
+ es-core/src/Sound.h                        |  15 +-
+ es-core/src/Window.cpp                     |   3 +
+ es-core/src/components/SliderComponent.cpp |  10 +-
+ es-core/src/components/SliderComponent.h   |   4 +
+ 19 files changed, 603 insertions(+), 208 deletions(-)
  create mode 100644 CMake/Packages/FindSDL2_mixer.cmake
 
 diff --git a/.github/workflows/ccpp.yml b/.github/workflows/ccpp.yml
@@ -264,10 +270,10 @@ index 0000000000..a71f26a83b
 +  endif()
 +endif()
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index eb9f403ccf..2a869ac66c 100644
+index 83c3b952be..7c309e0134 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -90,6 +90,7 @@ endif()
+@@ -98,6 +98,7 @@ endif()
  find_package(Freetype REQUIRED)
  find_package(FreeImage REQUIRED)
  find_package(SDL2 REQUIRED)
@@ -275,22 +281,38 @@ index eb9f403ccf..2a869ac66c 100644
  find_package(CURL REQUIRED)
  find_package(VLC REQUIRED)
  find_package(RapidJSON REQUIRED)
-@@ -160,6 +161,7 @@ set(COMMON_INCLUDE_DIRS
+@@ -172,6 +173,7 @@ set(COMMON_INCLUDE_DIRS
      ${FREETYPE_INCLUDE_DIRS}
      ${FreeImage_INCLUDE_DIRS}
-     ${SDL2_INCLUDE_DIR}
+     ${SDL2_INCLUDE_DIRS}
 +    ${SDL2_MIXER_INCLUDE_DIR}
      ${CURL_INCLUDE_DIR}
      ${VLC_INCLUDE_DIR}
      ${RAPIDJSON_INCLUDE_DIRS}
-@@ -198,6 +200,7 @@ set(COMMON_LIBRARIES
+@@ -210,6 +212,7 @@ set(COMMON_LIBRARIES
      ${FREETYPE_LIBRARIES}
      ${FreeImage_LIBRARIES}
-     ${SDL2_LIBRARY}
+     ${SDL2_LIBRARIES}
 +    ${SDL2_MIXER_LIBRARY}
      ${CURL_LIBRARIES}
      ${VLC_LIBRARIES}
      pugixml
+diff --git a/CREDITS.md b/CREDITS.md
+index babde810f5..ba8fc97b5d 100644
+--- a/CREDITS.md
++++ b/CREDITS.md
+@@ -1,6 +1,11 @@
+ Programming
+ 	Alec "Aloshi" Lofquist - http://www.aloshi.com
+ 
++BGM Player using SDL2-mixer
++	Nicolas Adenis-Lamarre - https://batocera.org
++	Fabrice Caruso - https://batocera.org
++	Andrew Falcon - bluestang2006@gmail.com (backported code)
++
+ UI Art & Design
+ 	Nils Bonenberger
+ 
 diff --git a/es-app/CMakeLists.txt b/es-app/CMakeLists.txt
 index 4ff4fdcce9..b00dcc013f 100644
 --- a/es-app/CMakeLists.txt
@@ -307,18 +329,18 @@ index 4ff4fdcce9..b00dcc013f 100644
  SET(CPACK_PACKAGE_VENDOR "emulationstation.org")
  SET(CPACK_PACKAGE_VERSION "2.0.0~rc1")
 diff --git a/es-app/src/FileData.cpp b/es-app/src/FileData.cpp
-index 5d8d5fa0e0..f2d6b27136 100644
+index 37f63e03c9..93eb09fd4b 100644
 --- a/es-app/src/FileData.cpp
 +++ b/es-app/src/FileData.cpp
-@@ -299,6 +299,7 @@ void FileData::launchGame(Window* window)
- 
+@@ -302,6 +302,7 @@ void FileData::launchGame(Window* window)
  	window->init();
+ 	InputManager::getInstance()->init();
  	VolumeControl::getInstance()->init();
 +	AudioManager::getInstance()->init();
  	window->normalizeNextUpdate();
  
  	//update number of times the game has been launched
-@@ -313,6 +314,8 @@ void FileData::launchGame(Window* window)
+@@ -316,6 +317,8 @@ void FileData::launchGame(Window* window)
  	CollectionSystemManager::get()->refreshCollectionSystems(gameToUpdate);
  
  	gameToUpdate->mSystem->onMetaDataSavePoint();
@@ -328,58 +350,10 @@ index 5d8d5fa0e0..f2d6b27136 100644
  
  CollectionFileData::CollectionFileData(FileData* file, SystemData* system)
 diff --git a/es-app/src/VolumeControl.cpp b/es-app/src/VolumeControl.cpp
-index 80d18dfdc0..8ee6d74865 100644
+index 80d18dfdc0..edf5cba6ad 100644
 --- a/es-app/src/VolumeControl.cpp
 +++ b/es-app/src/VolumeControl.cpp
-@@ -8,12 +8,12 @@
- #endif
- 
- #if defined(__linux__)
--    #if defined(_RPI_) || defined(_VERO4K_)
--        const char * VolumeControl::mixerName = "PCM";
--    #else
--    	const char * VolumeControl::mixerName = "Master";
--    #endif
--    const char * VolumeControl::mixerCard = "default";
-+#if defined(_RPI_) || defined(_VERO4K_)
-+		std::string VolumeControl::mixerName = "PCM";
-+#else
-+		std::string VolumeControl::mixerName = "Master";
-+#endif
-+		std::string VolumeControl::mixerCard = "default";
- #endif
- 
- std::weak_ptr<VolumeControl> VolumeControl::sInstance;
-@@ -87,19 +87,24 @@ void VolumeControl::init()
- 	if (mixerHandle == nullptr)
- 	{
- 		// Allow users to override the AudioCard and MixerName in es_settings.cfg
--		mixerCard = Settings::getInstance()->getString("AudioCard").c_str();
--		mixerName = Settings::getInstance()->getString("AudioDevice").c_str();
-+		auto audioCard = Settings::getInstance()->getString("AudioCard");
-+		if (!audioCard.empty())
-+			mixerCard = audioCard;
-+
-+		auto audioDevice = Settings::getInstance()->getString("AudioDevice");
-+		if (!audioDevice.empty())
-+			mixerName = audioDevice;
- 
- 		snd_mixer_selem_id_alloca(&mixerSelemId);
- 		//sets simple-mixer index and name
- 		snd_mixer_selem_id_set_index(mixerSelemId, mixerIndex);
--		snd_mixer_selem_id_set_name(mixerSelemId, mixerName);
-+		snd_mixer_selem_id_set_name(mixerSelemId, mixerName.c_str());
- 		//open mixer
- 		if (snd_mixer_open(&mixerHandle, 0) >= 0)
- 		{
- 			LOG(LogDebug) << "VolumeControl::init() - Opened ALSA mixer";
- 			//ok. attach to defualt card
--			if (snd_mixer_attach(mixerHandle, mixerCard) >= 0)
-+			if (snd_mixer_attach(mixerHandle, mixerCard.c_str()) >= 0)
- 			{
- 				LOG(LogDebug) << "VolumeControl::init() - Attached to default card";
- 				//ok. register simple element class
-@@ -119,9 +124,39 @@ void VolumeControl::init()
+@@ -119,9 +119,39 @@ void VolumeControl::init()
  						}
  						else
  						{
@@ -400,19 +374,19 @@ index 80d18dfdc0..8ee6d74865 100644
 +
 +									LOG(LogInfo) << "mixername : " << mixerName;
 +
-+									snd_mixer_selem_id_set_name(mixerSelemId, mixerName.c_str());
++									snd_mixer_selem_id_set_name(mixerSelemId, mixerName);
 +									mixerElem = snd_mixer_find_selem(mixerHandle, mixerSelemId);
 +									if (mixerElem != nullptr)
 +									{
-+										//wohoo. good to go...
 +										LOG(LogDebug) << "VolumeControl::init() - Mixer initialized";
 +										break;
 +									}
 +									else
++									{
 +										LOG(LogDebug) << "VolumeControl::init() - Mixer not initialized";
++									}
 +								}
 +							}
-+
 +							if (mixerElem == nullptr)
 +							{
 +								LOG(LogError) << "VolumeControl::init() - Failed to find mixer elements!";
@@ -422,94 +396,40 @@ index 80d18dfdc0..8ee6d74865 100644
  						}
  					}
  					else
-@@ -232,7 +267,7 @@ void VolumeControl::deinit()
- 	#error TODO: Not implemented for MacOS yet!!!
- #elif defined(__linux__)
- 	if (mixerHandle != nullptr) {
--		snd_mixer_detach(mixerHandle, mixerCard);
-+		snd_mixer_detach(mixerHandle, mixerCard.c_str());
- 		snd_mixer_free(mixerHandle);
- 		snd_mixer_close(mixerHandle);
- 		mixerHandle = nullptr;
-@@ -260,6 +295,20 @@ int VolumeControl::getVolume() const
+@@ -260,6 +290,10 @@ int VolumeControl::getVolume() const
  #elif defined(__linux__)
  	if (mixerElem != nullptr)
  	{
 +		if (mixerHandle != nullptr)
-+			snd_mixer_handle_events(mixerHandle);
-+
-+		/* Disabled see commit 38ce42faef8aae3f9c180560bfdedd9d1b954d28
-+		 * https://github.com/batocera-linux/batocera-emulationstation/
-+		int mute_state;
-+		if (snd_mixer_selem_has_playback_switch(mixerElem)) 
 +		{
-+			snd_mixer_selem_get_playback_switch(mixerElem, SND_MIXER_SCHN_UNKNOWN, &mute_state);
-+			if (!mute_state) // system Muted
-+				return 0;
++			snd_mixer_handle_events(mixerHandle);
 +		}
-+		*/
-+
  		//get volume range
  		long minVolume;
  		long maxVolume;
-@@ -275,7 +324,6 @@ int VolumeControl::getVolume() const
- 				{
- 					volume = (rawVolume * 100.0) / (maxVolume - minVolume) + 0.5;
- 				}
--				//else volume = 0;
- 			}
- 			else
- 			{
-@@ -300,39 +348,32 @@ int VolumeControl::getVolume() const
- 		mixerControlDetails.paDetails = &value;
- 		mixerControlDetails.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
- 		if (mixerGetControlDetails((HMIXEROBJ)mixerHandle, &mixerControlDetails, MIXER_GETCONTROLDETAILSF_VALUE) == MMSYSERR_NOERROR)
--		{
- 			volume = (int)Math::round((value.dwValue * 100) / 65535.0f);
--		}
--		else
--		{
--			LOG(LogError) << "VolumeControl::getVolume() - Failed to get mixer volume!";
--		}
- 	}
- 	else if (endpointVolume != nullptr)
+@@ -312,6 +346,14 @@ int VolumeControl::getVolume() const
  	{
  		//Windows Vista or above. use EndpointVolume API
  		float floatVolume = 0.0f; //0-1
--		if (endpointVolume->GetMasterVolumeLevelScalar(&floatVolume) == S_OK)
--		{
--			volume = (int)Math::round(floatVolume * 100.0f);
--			LOG(LogInfo) << " getting volume as " << volume << " ( from float " << floatVolume << ")";
--		}
--		else
-+
 +		BOOL mute = FALSE;
 +		if (endpointVolume->GetMute(&mute) == S_OK)
- 		{
--			LOG(LogError) << "VolumeControl::getVolume() - Failed to get master volume!";
++		{
 +			if (mute)
++			{
 +				return 0;
++			}
++		}
+ 		if (endpointVolume->GetMasterVolumeLevelScalar(&floatVolume) == S_OK)
+ 		{
+ 			volume = (int)Math::round(floatVolume * 100.0f);
+@@ -321,7 +363,6 @@ int VolumeControl::getVolume() const
+ 		{
+ 			LOG(LogError) << "VolumeControl::getVolume() - Failed to get master volume!";
  		}
- 
-+		if (endpointVolume->GetMasterVolumeLevelScalar(&floatVolume) == S_OK)
-+			volume = (int)Math::round(floatVolume * 100.0f);
+-
  	}
  #endif
-+
  	//clamp to 0-100 range
- 	if (volume < 0)
--	{
- 		volume = 0;
--	}
-+
- 	if (volume > 100)
--	{
- 		volume = 100;
--	}
-+
- 	return volume;
- }
- 
 @@ -404,3 +445,14 @@ void VolumeControl::setVolume(int volume)
  	}
  #endif
@@ -526,20 +446,9 @@ index 80d18dfdc0..8ee6d74865 100644
 +#endif
 +}
 diff --git a/es-app/src/VolumeControl.h b/es-app/src/VolumeControl.h
-index a2e420e7e2..adae297de2 100644
+index a2e420e7e2..ea2ef8c913 100644
 --- a/es-app/src/VolumeControl.h
 +++ b/es-app/src/VolumeControl.h
-@@ -24,8 +24,8 @@ class VolumeControl
- #if defined (__APPLE__)
-     #error TODO: Not implemented for MacOS yet!!!
- #elif defined(__linux__)
--    static const char * mixerName;
--    static const char * mixerCard;
-+    static std::string mixerName;
-+    static std::string mixerCard;
-     int mixerIndex;
-     snd_mixer_t* mixerHandle;
-     snd_mixer_elem_t* mixerElem;
 @@ -51,6 +51,8 @@ class VolumeControl
  	void init();
  	void deinit();
@@ -550,7 +459,7 @@ index a2e420e7e2..adae297de2 100644
  	void setVolume(int volume);
  
 diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index 224e6511b5..b40a150138 100644
+index 09f377e0d9..fa8d5dbf87 100644
 --- a/es-app/src/guis/GuiMenu.cpp
 +++ b/es-app/src/guis/GuiMenu.cpp
 @@ -11,6 +11,7 @@
@@ -561,7 +470,26 @@ index 224e6511b5..b40a150138 100644
  #include "CollectionSystemManager.h"
  #include "EmulationStation.h"
  #include "Scripting.h"
-@@ -158,6 +159,20 @@ void GuiMenu::openSoundSettings()
+@@ -90,8 +91,16 @@ void GuiMenu::openSoundSettings()
+ 	// volume
+ 	auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
+ 	volume->setValue((float)VolumeControl::getInstance()->getVolume());
+-	s->addWithLabel("SYSTEM VOLUME", volume);
+-	s->addSaveFunc([volume] { VolumeControl::getInstance()->setVolume((int)Math::round(volume->getValue())); });
++	volume->setOnValueChanged([](const float &newVal) { VolumeControl::getInstance()->setVolume((int)Math::round(newVal)); });
++	s->addWithLabel("AUDIO VOLUME", volume);
++	s->addSaveFunc([this, volume] { VolumeControl::getInstance()->setVolume((int)Math::round(volume->getValue())); });
++		
++	// music volume
++	auto musicVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
++	musicVolume->setValue(Settings::getInstance()->getInt("MusicVolume"));		
++	musicVolume->setOnValueChanged([](const float &newVal) { Settings::getInstance()->setInt("MusicVolume", (int)round(newVal)); });
++	s->addWithLabel("MUSIC VOLUME", musicVolume);
++	s->addSaveFunc([this, musicVolume] { Settings::getInstance()->setInt("MusicVolume", (int)round(musicVolume->getValue())); });
+ 
+ 	if (UIModeController::getInstance()->isUIModeFull())
+ 	{
+@@ -158,6 +167,17 @@ void GuiMenu::openSoundSettings()
  			}
  			Settings::getInstance()->setBool("EnableSounds", sounds_enabled->getState());
  		});
@@ -569,21 +497,18 @@ index 224e6511b5..b40a150138 100644
 +		auto music_enabled = std::make_shared<SwitchComponent>(mWindow);
 +		music_enabled->setState(Settings::getInstance()->getBool("EnableMusic"));
 +		s->addWithLabel("BACKGROUND MUSIC", music_enabled);
-+		s->addSaveFunc([music_enabled] 
-+		{
-+			if (Settings::getInstance()->setBool("EnableMusic", music_enabled->getState()))
-+			{
-+				if (music_enabled->getState())
-+					AudioManager::getInstance()->playRandomMusic();
-+				else
-+					AudioManager::getInstance()->stopMusic();
-+			}
++		s->addSaveFunc([music_enabled] {
++			Settings::getInstance()->setBool("EnableMusic", music_enabled->getState());
++			if (music_enabled->getState())
++				AudioManager::getInstance()->playRandomMusic();
++			else
++				AudioManager::getInstance()->stopMusic();
 +		});
  
  		auto video_audio = std::make_shared<SwitchComponent>(mWindow);
  		video_audio->setState(Settings::getInstance()->getBool("VideoAudio"));
 diff --git a/es-app/src/main.cpp b/es-app/src/main.cpp
-index 956d4aed01..8d64f77cad 100644
+index dd3df6a09f..e6155b19ee 100644
 --- a/es-app/src/main.cpp
 +++ b/es-app/src/main.cpp
 @@ -6,6 +6,7 @@
@@ -594,19 +519,19 @@ index 956d4aed01..8d64f77cad 100644
  #include "CollectionSystemManager.h"
  #include "EmulationStation.h"
  #include "InputManager.h"
-@@ -394,6 +395,10 @@ int main(int argc, char* argv[])
- 	for(Uint32 ev_type: event_list) {
- 		SDL_FlushEvent(ev_type);
+@@ -406,6 +407,10 @@ int main(int argc, char* argv[])
+ 		}
  	}
-+		
+ 
 +	// RetroPie BGM
 +	AudioManager::getInstance()->init();
 +	AudioManager::getInstance()->playRandomMusic();
- 
++
  	int lastTime = SDL_GetTicks();
  	int ps_time = SDL_GetTicks();
+ 
 diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index 1d0f8ac495..f9ea469617 100644
+index 1d0f8ac495..90b8da17ef 100644
 --- a/es-core/src/AudioManager.cpp
 +++ b/es-core/src/AudioManager.cpp
 @@ -4,54 +4,14 @@
@@ -665,11 +590,11 @@ index 1d0f8ac495..f9ea469617 100644
 -}
 -
 -AudioManager::AudioManager()
-+AudioManager::AudioManager() : mInitialized(false), mCurrentMusic(nullptr)
++AudioManager::AudioManager() : mInitialized(false), mCurrentMusic(nullptr), mMusicVolume(Settings::getInstance()->getInt("MusicVolume"))
  {
  	init();
  }
-@@ -61,54 +21,71 @@ AudioManager::~AudioManager()
+@@ -61,54 +21,69 @@ AudioManager::~AudioManager()
  	deinit();
  }
  
@@ -699,8 +624,6 @@ index 1d0f8ac495..f9ea469617 100644
 -	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
 +	if(mInitialized)
 +		return;
-+
-+	mMusicVolume = 0;
 +
 +	if(SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
  	{
@@ -766,7 +689,7 @@ index 1d0f8ac495..f9ea469617 100644
  }
  
  void AudioManager::registerSound(std::shared_ptr<Sound> & sound)
-@@ -135,21 +112,169 @@ void AudioManager::unregisterSound(std::shared_ptr<Sound> & sound)
+@@ -135,21 +110,175 @@ void AudioManager::unregisterSound(std::shared_ptr<Sound> & sound)
  void AudioManager::play()
  {
  	getInstance();
@@ -798,13 +721,13 @@ index 1d0f8ac495..f9ea469617 100644
 +			if(*it == "." || *it == "..")
 +				getMusicIn(*it, all_matching_files);
 +					
- 		}
++		}
 +		else
 +		{
 +			std::string extension = Utils::String::toLower(Utils::FileSystem::getExtension(*it));
 +			if(extension == ".mp3" || extension == ".ogg")
 +				all_matching_files.push_back(*it);
-+		}
+ 		}
 +	}		
 +}
 +
@@ -821,7 +744,7 @@ index 1d0f8ac495..f9ea469617 100644
 +  
 +	// check in system sound directory
 +	if(musics.empty())
-+		getMusicIn("/usr/share/RetroPie/music", musics);
++		getMusicIn("/opt/retropie/music", musics);
 +  
 +	// check in .emulationstation/music directory
 +	if(musics.empty())
@@ -862,9 +785,7 @@ index 1d0f8ac495..f9ea469617 100644
 +	{
 +		LOG(LogError) << Mix_GetError() << " for " << path;
 +		return;
- 	}
--	//pause audio
--	SDL_PauseAudio(1);
++	}
 +
 +	if(Mix_FadeInMusic(mCurrentMusic, 1, 1000) == -1)
 +	{
@@ -917,16 +838,21 @@ index 1d0f8ac495..f9ea469617 100644
 +	if(sInstance == nullptr || !sInstance->mInitialized || !Settings::getInstance()->getBool("EnableMusic"))
 +		return;
 +
++	Mix_VolumeMusic(Settings::getInstance()->getInt("MusicVolume"));
++
++	/* TODO: This is part of unimplemented feature that would
++	 * lower the music volume if a video snap was playing
++
 +	float deltaVol = deltaTime / 8.0f;
 +
-+//	#define MINVOL 5
++	//	#define MINVOL 5
 +
 +	int maxVol = getMaxMusicVolume();
 +	int minVol = maxVol / 20;
 +	if(maxVol > 0 && minVol == 0)
 +		minVol = 1;
 +
-+	/*if (sInstance->mMusicVolume > minVol)
++	if (sInstance->mMusicVolume > minVol)
 +	{
 +		sInstance->mMusicVolume -= deltaVol;
 +		if (sInstance->mMusicVolume < minVol)
@@ -941,10 +867,13 @@ index 1d0f8ac495..f9ea469617 100644
 +			sInstance->mMusicVolume = maxVol;
 +
 +		Mix_VolumeMusic((int)sInstance->mMusicVolume);
-+	}*/
+ 	}
+-	//pause audio
+-	SDL_PauseAudio(1);
++	*/
  }
 diff --git a/es-core/src/AudioManager.h b/es-core/src/AudioManager.h
-index e27ce1dc2e..3eadb9243e 100644
+index e27ce1dc2e..797a81fcdd 100644
 --- a/es-core/src/AudioManager.h
 +++ b/es-core/src/AudioManager.h
 @@ -5,21 +5,30 @@
@@ -962,19 +891,18 @@ index e27ce1dc2e..3eadb9243e 100644
 -	static SDL_AudioSpec sAudioFormat;
 +private:
 +	AudioManager();
-+	
++
  	static std::vector<std::shared_ptr<Sound>> sSoundVector;
 -	static std::shared_ptr<AudioManager> sInstance;
--
--	static void mixAudio(void *unused, Uint8 *stream, int len);
 +	static AudioManager* sInstance;
  
--	AudioManager();
+-	static void mixAudio(void *unused, Uint8 *stream, int len);
 +	Mix_Music* mCurrentMusic;
 +	void getMusicIn(const std::string &path, std::vector<std::string>& all_matching_files);
 +	void playMusic(std::string path);
 +	static void musicEnd_callback();
-+	
+ 
+-	AudioManager();
 +	bool mInitialized;
  
  public:
@@ -984,7 +912,7 @@ index e27ce1dc2e..3eadb9243e 100644
  
  	void init();
  	void deinit();
-@@ -30,6 +39,10 @@ class AudioManager
+@@ -30,7 +39,15 @@ class AudioManager
  	void play();
  	void stop();
  
@@ -993,134 +921,48 @@ index e27ce1dc2e..3eadb9243e 100644
 +	void stopMusic(bool fadeOut = true);
 +
  	virtual ~AudioManager();
++
++	float mMusicVolume;
++	static void update(int deltaTime);
++	static int getMaxMusicVolume();
  };
  
+ #endif // ES_CORE_AUDIO_MANAGER_H
 diff --git a/es-core/src/Settings.cpp b/es-core/src/Settings.cpp
-index 2eab663bc4..ebd83f7c0e 100644
+index d38bf951f2..dfa5b341c4 100644
 --- a/es-core/src/Settings.cpp
 +++ b/es-core/src/Settings.cpp
-@@ -9,6 +9,7 @@
- #include <vector>
- 
- Settings* Settings::sInstance = NULL;
-+static std::string mEmptyString = "";
- 
- // these values are NOT saved to es_settings.xml
- // since they're set through command-line arguments, and not the in-program settings menu
-@@ -72,6 +73,7 @@ void Settings::setDefaults()
+@@ -70,6 +70,8 @@ void Settings::setDefaults()
  	mBoolMap["VSync"] = true;
  
  	mBoolMap["EnableSounds"] = true;
 +	mBoolMap["EnableMusic"] = true;
++	mIntMap["MusicVolume"] = 128;
  	mBoolMap["ShowHelpPrompts"] = true;
  	mBoolMap["DoublePressRemovesFromFavs"] = false;
  	mBoolMap["ScrapeRatings"] = true;
-@@ -276,20 +278,55 @@ void Settings::processBackwardCompatibility()
- 
- 
- //Print a warning message if the setting we're trying to get doesn't already exist in the map, then return the value in the map.
--#define SETTINGS_GETSET(type, mapName, getMethodName, setMethodName) type Settings::getMethodName(const std::string& name) \
-+#define SETTINGS_GETSET(type, mapName, getMethodName, setMethodName, defaultValue) type Settings::getMethodName(const std::string& name) \
- { \
- 	if(mapName.find(name) == mapName.cend()) \
- 	{ \
--		LOG(LogError) << "Tried to use unset setting " << name << "!"; \
-+		/* LOG(LogError) << "Tried to use unset setting " << name << "!"; */ \
-+		return defaultValue; \
- 	} \
- 	return mapName[name]; \
+@@ -284,7 +286,7 @@ void Settings::processBackwardCompatibility()
  } \
--void Settings::setMethodName(const std::string& name, type value) \
-+bool Settings::setMethodName(const std::string& name, type value) \
+ void Settings::setMethodName(const std::string& name, type value) \
  { \
 -	mapName[name] = value; \
-+	if(mapName.count(name) == 0 || mapName[name] != value) { \
 +		mapName[name] = value; \
-+\
-+		if(std::find(settings_dont_save.cbegin(), settings_dont_save.cend(), name) == settings_dont_save.cend()) \
-+			mWasChanged = true; \
-+\
-+		return true; \
-+	} \
-+	return false; \
-+}
-+
-+SETTINGS_GETSET(bool, mBoolMap, getBool, setBool, false);
-+SETTINGS_GETSET(int, mIntMap, getInt, setInt, 0);
-+SETTINGS_GETSET(float, mFloatMap, getFloat, setFloat, 0.0f);
-+
-+
-+std::string Settings::getString(const std::string& name)
-+{ 
-+	if(mStringMap.find(name) == mStringMap.cend())
-+		return mEmptyString;
-+
-+	return mStringMap[name];
  }
  
--SETTINGS_GETSET(bool, mBoolMap, getBool, setBool);
--SETTINGS_GETSET(int, mIntMap, getInt, setInt);
--SETTINGS_GETSET(float, mFloatMap, getFloat, setFloat);
--SETTINGS_GETSET(const std::string&, mStringMap, getString, setString);
-+bool Settings::setString(const std::string& name, const std::string& value)
-+{ 
-+	if(mStringMap.count(name) == 0 || mStringMap[name] != value)
-+	{
-+		if(value == "" && mStringMap.count(name) == 0)
-+			return false;
-+
-+		mStringMap[name] = value;
-+		
-+		if(std::find(settings_dont_save.cbegin(), settings_dont_save.cend(), name) == settings_dont_save.cend()) 
-+			mWasChanged = true; 
-+			
-+		return true; 
-+	} 
-+
-+	return false; 
-+}
+ SETTINGS_GETSET(bool, mBoolMap, getBool, setBool);
 diff --git a/es-core/src/Settings.h b/es-core/src/Settings.h
-index 51d19a798c..e5cbeaad5f 100644
+index 51d19a798c..ad40114e49 100644
 --- a/es-core/src/Settings.h
 +++ b/es-core/src/Settings.h
-@@ -19,12 +19,18 @@ class Settings
- 	bool getBool(const std::string& name);
- 	int getInt(const std::string& name);
- 	float getFloat(const std::string& name);
--	const std::string& getString(const std::string& name);
-+	std::string getString(const std::string& name);
+@@ -26,6 +26,8 @@ class Settings
+ 	void setFloat(const std::string& name, float value);
+ 	void setString(const std::string& name, const std::string& value);
  
--	void setBool(const std::string& name, bool value);
--	void setInt(const std::string& name, int value);
--	void setFloat(const std::string& name, float value);
--	void setString(const std::string& name, const std::string& value);
-+	bool setBool(const std::string& name, bool value);
-+	bool setInt(const std::string& name, int value);
-+	bool setFloat(const std::string& name, float value);
-+	bool setString(const std::string& name, const std::string& value);
-+
 +	std::map<std::string, std::string>& getStringMap() { return mStringMap; }
 +
-+	static bool DebugText;
-+	static bool DebugImage;
-+	static bool DebugGrid;
- 
  private:
  	static Settings* sInstance;
-@@ -40,6 +46,13 @@ class Settings
- 	std::map<std::string, int> mIntMap;
- 	std::map<std::string, float> mFloatMap;
- 	std::map<std::string, std::string> mStringMap;
-+
-+	bool mWasChanged;
-+
-+	std::map<std::string, bool> mDefaultBoolMap;
-+	std::map<std::string, int> mDefaultIntMap;
-+	std::map<std::string, float> mDefaultFloatMap;
-+	std::map<std::string, std::string> mDefaultStringMap;
- };
  
- #endif // ES_CORE_SETTINGS_H
 diff --git a/es-core/src/Sound.cpp b/es-core/src/Sound.cpp
 index e3f46e279b..72be6b29f6 100644
 --- a/es-core/src/Sound.cpp
@@ -1308,7 +1150,7 @@ index e3f46e279b..72be6b29f6 100644
 +	mPlayingChannel = -1;
  }
 diff --git a/es-core/src/Sound.h b/es-core/src/Sound.h
-index 43e68453cc..4de9961702 100644
+index 43e68453cc..58462fa8e5 100644
 --- a/es-core/src/Sound.h
 +++ b/es-core/src/Sound.h
 @@ -2,7 +2,7 @@
@@ -1329,7 +1171,7 @@ index 43e68453cc..4de9961702 100644
 -    Uint32 mSamplePos;
 -    Uint32 mSampleLength;
 -	bool playing;
-+    Mix_Chunk* mSampleData;
++	Mix_Chunk* mSampleData;
 +	int mPlayingChannel;
  
  public:
@@ -1347,126 +1189,8 @@ index 43e68453cc..4de9961702 100644
  private:
  	Sound(const std::string & path = "");
  	static std::map< std::string, std::shared_ptr<Sound> > sMap;
-
-From 7fa6d86297ede639508e1d2d8ecf84361416a511 Mon Sep 17 00:00:00 2001
-From: Bluestang <bluestang2006@gmail.com>
-Date: Sat, 6 Feb 2021 21:19:19 -0700
-Subject: [PATCH 2/4] Improved volume slider
-
-- Volume updates as slider moves
----
- es-app/src/guis/GuiMenu.cpp                | 12 ++++++++++--
- es-core/src/AudioManager.cpp               |  8 +++++---
- es-core/src/AudioManager.h                 |  8 ++++++--
- es-core/src/Settings.cpp                   |  1 +
- es-core/src/Window.cpp                     |  3 +++
- es-core/src/components/SliderComponent.cpp | 10 ++++++++--
- es-core/src/components/SliderComponent.h   |  4 ++++
- 7 files changed, 37 insertions(+), 9 deletions(-)
-
-diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index b40a150138..abedb605ee 100644
---- a/es-app/src/guis/GuiMenu.cpp
-+++ b/es-app/src/guis/GuiMenu.cpp
-@@ -91,8 +91,16 @@ void GuiMenu::openSoundSettings()
- 	// volume
- 	auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
- 	volume->setValue((float)VolumeControl::getInstance()->getVolume());
--	s->addWithLabel("SYSTEM VOLUME", volume);
--	s->addSaveFunc([volume] { VolumeControl::getInstance()->setVolume((int)Math::round(volume->getValue())); });
-+	volume->setOnValueChanged([](const float &newVal) { VolumeControl::getInstance()->setVolume((int)Math::round(newVal)); });
-+	s->addWithLabel("AUDIO VOLUME", volume);
-+	s->addSaveFunc([this, volume] { VolumeControl::getInstance()->setVolume((int)Math::round(volume->getValue())); });
-+		
-+	/*TODO: This is a separate volume slider for the Music Player
-+	auto musicVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-+	musicVolume->setValue(Settings::getInstance()->getInt("MusicVolume"));		
-+	musicVolume->setOnValueChanged([](const float &newVal) { Settings::getInstance()->setInt("MusicVolume", (int)round(newVal)); });
-+	s->addWithLabel("MUSIC VOLUME", musicVolume);
-+	*/
- 
- 	if (UIModeController::getInstance()->isUIModeFull())
- 	{
-diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index f9ea469617..e0fef1e4d1 100644
---- a/es-core/src/AudioManager.cpp
-+++ b/es-core/src/AudioManager.cpp
-@@ -11,7 +11,7 @@
- AudioManager* AudioManager::sInstance = NULL;
- std::vector<std::shared_ptr<Sound>> AudioManager::sSoundVector;
- 
--AudioManager::AudioManager() : mInitialized(false), mCurrentMusic(nullptr)
-+AudioManager::AudioManager() : mInitialized(false), mCurrentMusic(nullptr), mMusicVolume(MIX_MAX_VOLUME)
- {
- 	init();
- }
-@@ -42,7 +42,7 @@ void AudioManager::init()
- {
- 	if(mInitialized)
- 		return;
--
-+		
- 	mMusicVolume = 0;
- 
- 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
-@@ -261,7 +261,9 @@ void AudioManager::update(int deltaTime)
- 	if(maxVol > 0 && minVol == 0)
- 		minVol = 1;
- 
--	/*if (sInstance->mMusicVolume > minVol)
-+	/* TODO: This is part of unimplemented feature that would
-+	 * lower the music volume if a video snap was playing
-+	 * if (sInstance->mMusicVolume > minVol)
- 	{
- 		sInstance->mMusicVolume -= deltaVol;
- 		if (sInstance->mMusicVolume < minVol)
-diff --git a/es-core/src/AudioManager.h b/es-core/src/AudioManager.h
-index 3eadb9243e..797a81fcdd 100644
---- a/es-core/src/AudioManager.h
-+++ b/es-core/src/AudioManager.h
-@@ -15,7 +15,7 @@ class AudioManager
- {
- private:
- 	AudioManager();
--	
-+
- 	static std::vector<std::shared_ptr<Sound>> sSoundVector;
- 	static AudioManager* sInstance;
- 
-@@ -23,7 +23,7 @@ class AudioManager
- 	void getMusicIn(const std::string &path, std::vector<std::string>& all_matching_files);
- 	void playMusic(std::string path);
- 	static void musicEnd_callback();
--	
-+
- 	bool mInitialized;
- 
- public:
-@@ -44,6 +44,10 @@ class AudioManager
- 	void stopMusic(bool fadeOut = true);
- 
- 	virtual ~AudioManager();
-+
-+	float mMusicVolume;
-+	static void update(int deltaTime);
-+	static int getMaxMusicVolume();
- };
- 
- #endif // ES_CORE_AUDIO_MANAGER_H
-diff --git a/es-core/src/Settings.cpp b/es-core/src/Settings.cpp
-index ebd83f7c0e..06095ecc06 100644
---- a/es-core/src/Settings.cpp
-+++ b/es-core/src/Settings.cpp
-@@ -74,6 +74,7 @@ void Settings::setDefaults()
- 
- 	mBoolMap["EnableSounds"] = true;
- 	mBoolMap["EnableMusic"] = true;
-+	mIntMap["MusicVolume"] = 128;
- 	mBoolMap["ShowHelpPrompts"] = true;
- 	mBoolMap["DoublePressRemovesFromFavs"] = false;
- 	mBoolMap["ScrapeRatings"] = true;
 diff --git a/es-core/src/Window.cpp b/es-core/src/Window.cpp
-index 19acb32f4e..500b0cd3e0 100644
+index 989783d4ab..3b28429cf0 100644
 --- a/es-core/src/Window.cpp
 +++ b/es-core/src/Window.cpp
 @@ -4,6 +4,7 @@
@@ -1474,10 +1198,10 @@ index 19acb32f4e..500b0cd3e0 100644
  #include "resources/Font.h"
  #include "resources/TextureResource.h"
 +#include "AudioManager.h"
- #include "InputManager.h"
  #include "Log.h"
  #include "Scripting.h"
-@@ -236,6 +237,8 @@ void Window::update(int deltaTime)
+ #include <algorithm>
+@@ -232,6 +233,8 @@ void Window::update(int deltaTime)
  	// Update the screensaver
  	if (mScreenSaver)
  		mScreenSaver->update(deltaTime);
@@ -1550,125 +1274,3 @@ index f3ae181fce..cf0f108856 100644
  };
  
  #endif // ES_CORE_COMPONENTS_SLIDER_COMPONENT_H
-
-From 866d05f7792e3535aba26a70da5cab7d65c99731 Mon Sep 17 00:00:00 2001
-From: Bluestang <bluestang2006@gmail.com>
-Date: Sat, 6 Mar 2021 21:53:51 -0700
-Subject: [PATCH 3/4] Add music volume slider
-
-- Separate slider that controls the music volume
----
- es-app/src/guis/GuiMenu.cpp  |  4 ++--
- es-core/src/AudioManager.cpp | 20 +++++++++++---------
- 2 files changed, 13 insertions(+), 11 deletions(-)
-
-diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
-index abedb605ee..e06c289d6d 100644
---- a/es-app/src/guis/GuiMenu.cpp
-+++ b/es-app/src/guis/GuiMenu.cpp
-@@ -95,12 +95,12 @@ void GuiMenu::openSoundSettings()
- 	s->addWithLabel("AUDIO VOLUME", volume);
- 	s->addSaveFunc([this, volume] { VolumeControl::getInstance()->setVolume((int)Math::round(volume->getValue())); });
- 		
--	/*TODO: This is a separate volume slider for the Music Player
-+	// music volume
- 	auto musicVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
- 	musicVolume->setValue(Settings::getInstance()->getInt("MusicVolume"));		
- 	musicVolume->setOnValueChanged([](const float &newVal) { Settings::getInstance()->setInt("MusicVolume", (int)round(newVal)); });
- 	s->addWithLabel("MUSIC VOLUME", musicVolume);
--	*/
-+	s->addSaveFunc([this, musicVolume] { Settings::getInstance()->setInt("MusicVolume", (int)round(musicVolume->getValue())); });
- 
- 	if (UIModeController::getInstance()->isUIModeFull())
- 	{
-diff --git a/es-core/src/AudioManager.cpp b/es-core/src/AudioManager.cpp
-index e0fef1e4d1..dd12734569 100644
---- a/es-core/src/AudioManager.cpp
-+++ b/es-core/src/AudioManager.cpp
-@@ -11,7 +11,7 @@
- AudioManager* AudioManager::sInstance = NULL;
- std::vector<std::shared_ptr<Sound>> AudioManager::sSoundVector;
- 
--AudioManager::AudioManager() : mInitialized(false), mCurrentMusic(nullptr), mMusicVolume(MIX_MAX_VOLUME)
-+AudioManager::AudioManager() : mInitialized(false), mCurrentMusic(nullptr), mMusicVolume(Settings::getInstance()->getInt("MusicVolume"))
- {
- 	init();
- }
-@@ -42,8 +42,6 @@ void AudioManager::init()
- {
- 	if(mInitialized)
- 		return;
--		
--	mMusicVolume = 0;
- 
- 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
- 	{
-@@ -252,18 +250,21 @@ void AudioManager::update(int deltaTime)
- 	if(sInstance == nullptr || !sInstance->mInitialized || !Settings::getInstance()->getBool("EnableMusic"))
- 		return;
- 
-+	Mix_VolumeMusic(Settings::getInstance()->getInt("MusicVolume"));
-+
-+	/* TODO: This is part of unimplemented feature that would
-+	 * lower the music volume if a video snap was playing
-+
- 	float deltaVol = deltaTime / 8.0f;
- 
--//	#define MINVOL 5
-+	//	#define MINVOL 5
- 
- 	int maxVol = getMaxMusicVolume();
- 	int minVol = maxVol / 20;
- 	if(maxVol > 0 && minVol == 0)
- 		minVol = 1;
- 
--	/* TODO: This is part of unimplemented feature that would
--	 * lower the music volume if a video snap was playing
--	 * if (sInstance->mMusicVolume > minVol)
-+	if (sInstance->mMusicVolume > minVol)
- 	{
- 		sInstance->mMusicVolume -= deltaVol;
- 		if (sInstance->mMusicVolume < minVol)
-@@ -278,5 +279,6 @@ void AudioManager::update(int deltaTime)
- 			sInstance->mMusicVolume = maxVol;
- 
- 		Mix_VolumeMusic((int)sInstance->mMusicVolume);
--	}*/
--}
-+	}
-+	*/
-+}
-\ No newline at end of file
-
-From 99eb54ed93705bd679d296e6eeb9c6f4f618fe25 Mon Sep 17 00:00:00 2001
-From: Bluestang <bluestang2006@gmail.com>
-Date: Sat, 6 Feb 2021 21:24:16 -0700
-Subject: [PATCH 4/4] Credits
-
-- Added original authors of the BGM player using SDL2-mixer (Backported by Bluestang2006)
----
- CREDITS.md | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/CREDITS.md b/CREDITS.md
-index babde810f5..6a699d5f97 100644
---- a/CREDITS.md
-+++ b/CREDITS.md
-@@ -1,6 +1,10 @@
- Programming
- 	Alec "Aloshi" Lofquist - http://www.aloshi.com
- 
-+BGM Player using SDL2-mixer
-+	Nicolas Adenis-Lamarre - https://batocera.org
-+	Fabrice Caruso		   - https://batocera.org
-+
- UI Art & Design
- 	Nils Bonenberger
- 
-@@ -30,4 +34,4 @@ Resources
- =========
- 
- Open Sans font
--	http://www.google.com/fonts/specimen/Open+Sans
-\ No newline at end of file
-+	http://www.google.com/fonts/specimen/Open+Sans
