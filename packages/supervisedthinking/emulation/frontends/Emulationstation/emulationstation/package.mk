@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="3d22c283d8081eea755dd6ef6c2ed4a7db5d6c09" #v2.10.3
+PKG_VERSION="a0c0b90a72a02f6edf79ec32634ffc1e2ebfe2bc" #v2.11.0
 PKG_LICENSE="ES"
 PKG_SITE="https://github.com/RetroPie/EmulationStation"
 PKG_URL="https://github.com/RetroPie/EmulationStation.git"
@@ -12,6 +12,11 @@ GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="stable"
 PKG_GIT_CLONE_SINGLE="yes"
 PKG_BUILD_FLAGS="+lto"
+
+post_unpack() {
+  # Adjust custom emulationstation version
+  sed -e "s#buildDate)#buildDate +\" (LE-RR ${OS_VERSION})\")#" -i ${PKG_BUILD}/es-app/src/guis/GuiMenu.cpp
+}
 
 configure_package() {
   # Displayserver Support
@@ -30,7 +35,8 @@ configure_package() {
 pre_configure_target() {
   # Build with OpenGL / OpenGLES support
   if [ "${OPENGL_SUPPORT}" = "yes" ]; then
-    PKG_CMAKE_OPTS_TARGET+="-DGL=on"
+    PKG_CMAKE_OPTS_TARGET+="-DGL=on \
+                            -DUSE_GL21=ON"
   elif [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_CMAKE_OPTS_TARGET+=" -DGL=off \
                              -DGLES=on"
