@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="e24732050e902bd5402b2b7da7c391d2ca8fa799"
-PKG_SHA256="96b933eb2877ff224b3b00af0e9f4f3560d3d0b1c0bb18f67060e7e5598c1757"
+PKG_VERSION="5ced3945423cda0010597b27b7da6bce77b12baa"
+PKG_SHA256="65dea294c953a9e558955a266e206e705933f60a3a971cec96b9b77c1101a45b"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/pcsx_rearmed"
 PKG_URL="https://github.com/libretro/pcsx_rearmed/archive/${PKG_VERSION}.tar.gz"
@@ -29,7 +29,7 @@ pre_configure_target() {
   cd ${PKG_BUILD}
   
   if target_has_feature neon; then
-    PKG_MAKE_OPTS_TARGET+=" HAVE_NEON=1 BUILTIN_GPU=neon"
+    PKG_MAKE_OPTS_TARGET+=" HAVE_NEON=1 HAVE_NEON_ASM=1 BUILTIN_GPU=neon"
    else
     PKG_MAKE_OPTS_TARGET+=" HAVE_NEON=0"
   fi
