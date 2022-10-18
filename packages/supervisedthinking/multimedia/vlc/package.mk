@@ -2,14 +2,14 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vlc"
-PKG_VERSION="3.0.17.3"
-PKG_SHA256="6f7e90ef8973d31d96de64db817173e345150829717a94084b1bb8321cde2014"
+PKG_VERSION="3.0.18-rc2"
+PKG_SHA256="f1b73334a6c3e7f06235a17a978631c21090803f42fb9fc1d16bdf3fc25ee625"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://www.videolan.org"
-PKG_URL="https://get.videolan.org/vlc/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+PKG_URL="https://github.com/videolan/vlc/archive/refs/tags/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain dbus gnutls ffmpeg libmpeg2 zlib flac-system libvorbis-system"
 PKG_LONGDESC="VideoLAN multimedia player and streamer"
-PKG_TOOLCHAIN="autotools"
+PKG_TOOLCHAIN="configure"
 
 configure_package() {
   # MMAL (Multimedia Abstraction Layer) support patches
@@ -35,6 +35,10 @@ configure_package() {
 }
 
 pre_configure_target() {
+  # bootstrap VLC
+  # otherwhise build fails with [Makefile:28070: codec/webvtt/CSSGrammar.c] Error 1
+  ${PKG_BUILD}/bootstrap
+
   PKG_CONFIGURE_OPTS_TARGET="--enable-silent-rules \
                              --disable-dependency-tracking \
                              --disable-nls \
@@ -111,7 +115,6 @@ pre_configure_target() {
                              --disable-kai \
                              --disable-qt \
                              --disable-macosx \
-                             --disable-macosx-qtkit \
                              --disable-ncurses \
                              --disable-goom \
                              --disable-projectm \
@@ -143,8 +146,8 @@ pre_configure_target() {
     PKG_CONFIGURE_OPTS_TARGET+=" --enable-mmal"
   fi
 
-  # GLES2 Support for RPi4
-  if [ "${DEVICE}" = "RPi4" ]; then
+  # OpenGL ES2 Support
+  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
     PKG_CONFIGURE_OPTS_TARGET+=" --enable-gles2"
   fi
 
@@ -155,7 +158,7 @@ pre_configure_target() {
 
   # libdav1d & libvpx Support
   if target_has_feature "(neon|sse)"; then
-    PKG_CONFIGURE_OPTS_TARGET+=" --disable-dav1d \
+    PKG_CONFIGURE_OPTS_TARGET+=" --enable-dav1d \
                                  --enable-vpx"
   else
     PKG_CONFIGURE_OPTS_TARGET+=" --disable-dav1d \
@@ -167,9 +170,9 @@ pre_configure_target() {
 
 post_configure_target() {
   # Fix linking to ffmpeg 4.4.y
-  sed -i -e '/^archive_cmds=/s/ -shared / -Wl,-O1,--as-needed\0/'        libtool
-  sed -i -e '/^archive_expsym_cmds=/s/ -shared / -Wl,-O1,--as-needed\0/' libtool
-  sed -i -e 's/CC -shared /CC -Wl,-O1,--as-needed -shared /'             libtool
+  sed -i -e '/^archive_cmds=/s/ -shared / -Wl,-O1,--as-needed\0/'        ${PKG_BUILD}/libtool
+  sed -i -e '/^archive_expsym_cmds=/s/ -shared / -Wl,-O1,--as-needed\0/' ${PKG_BUILD}/libtool
+  sed -i -e 's/CC -shared /CC -Wl,-O1,--as-needed -shared /'             ${PKG_BUILD}/libtool
 }
 
 post_makeinstall_target() {

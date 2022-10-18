@@ -1,8 +1,6 @@
-diff --git a/configure.ac b/configure.ac
-index 4aef56f06e..c0f77e15b2 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3179,28 +3179,6 @@ PKG_CHECK_MODULES([EGL], [egl], [
+@@ -3049,28 +3049,6 @@ PKG_CHECK_MODULES([EGL], [egl], [
  AM_CONDITIONAL([HAVE_EGL], [test "${have_egl}" = "yes"])
  
  have_gl="no"
