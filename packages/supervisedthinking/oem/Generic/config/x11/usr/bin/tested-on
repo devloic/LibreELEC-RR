@@ -4,7 +4,7 @@ echo "=== tested on ==="
 cat /etc/release
 uname -a
 head /storage/.kodi/temp/kodi.log | grep -v special:// | \
-  sed 's/.*INFO <general>: //'  | \
+  sed 's/.*info <general>: //'  | \
   grep -v -- "--------------------------------------------------------------"
 dmesg | grep " DMI:"
 lscpu | grep "Model Name"
