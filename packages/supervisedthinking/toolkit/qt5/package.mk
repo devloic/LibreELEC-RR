@@ -13,6 +13,18 @@ PKG_GIT_CLONE_BRANCH="kde/5.15"
 PKG_GIT_CLONE_SINGLE="yes"
 PKG_BUILD_FLAGS="+gold"
 
+post_unpack() {
+  # Clean up superflous Qt5 submodules
+  for PKG_QT5_SUBMODULES in \
+    qt3d qtactiveqt qtandroidextras qtcanvas3d qtcharts qtconnectivity qtdatavis3d qtdoc qtdocgallery \
+    qtfeedback qtlocation qtlottie qtmacextras qtnetworkauth qtpurchasing qtqa qtquickcontrols qtquicktimeline \
+    qtpim qtremoteobjects qtrepotools qtscript qtscxml qtsensors qtserialport qtserialbus qtspeech qtsystems \
+    qttranslations qtvirtualkeyboard qtwebchannel qtwebengine qtwebglplugin qtwebview qtwinextras qtx11extras
+  do
+    rm -rf ${PKG_BUILD}/${PKG_QT5_SUBMODULES}
+  done
+}
+
 configure_package() {
   # Apply project specific patches
   PKG_PATCH_DIRS="${PROJECT}"
