@@ -2,12 +2,12 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx2"
-PKG_VERSION="7c3aa65166150222e67c753e2aafd168f0cd91d9" #r1.7.3368
+PKG_VERSION="e5964ae35b2144f0ee924065f6185dff8c5f659a" #r1.7.3487
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/PCSX2/pcsx2"
 PKG_URL="https://github.com/PCSX2/pcsx2.git"
-PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libxml2 pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz rapidyaml zlib"
+PKG_DEPENDS_TARGET="toolchain alsa-lib adwaita-icon-theme freetype gdk-pixbuf glib gtk3-system hicolor-icon-theme libaio libfmt libpcap libpng libxml2 pngpp pulseaudio sdl2 soundtouch systemd wxwidgets xz rapidyaml zlib libzip-system"
 PKG_LONGDESC="PCSX2 is a free and open-source PlayStation 2 (PS2) emulator."
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
@@ -36,14 +36,19 @@ pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-D CMAKE_INSTALL_DOCDIR=/usr/share/doc \
                          -D CMAKE_INSTALL_DATADIR=/usr/share \
                          -D CMAKE_INSTALL_LIBDIR=/usr/lib \
+                         -D CMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                         -D DISABLE_BUILD_DATE=ON \
                          -D ENABLE_TESTS=OFF \
+                         -D USE_SYSTEM_LIBS=AUTO \
                          -D LTO_PCSX2_CORE=ON \
                          -D USE_VTUNE=OFF \
+                         -D USE_ACHIEVEMENTS=OFF \
+                         -D USE_DISCORD_PRESENCE=OFF \
                          -D PACKAGE_MODE=ON \
                          -D DISABLE_PCSX2_WRAPPER=ON \
+                         -D DISABLE_SETCAP=ON \
                          -D XDG_STD=ON \
                          -D DISABLE_ADVANCE_SIMD=ON \
-                         -D SDL2_API=TRUE \
                          -Wno-dev"
 
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
