@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vitaquake2"
-PKG_VERSION="659c64cd56f5380e709d72802ee93a55dfb497d2"
-PKG_SHA256="49e4db3b952dae0adb59505dca5ea2a5ff064f6dac9f8789136e4a03244b7d7a"
+PKG_VERSION="59053244a03ed0f0976956365e60ca584fa6f162"
+PKG_SHA256="eb6303a048cc82e79ed446800df17984ed7c872e6add8eca23f74b645be1e35c"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/vitaquake2"
 PKG_URL="https://github.com/libretro/vitaquake2/archive/${PKG_VERSION}.tar.gz"
