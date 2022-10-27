@@ -2,16 +2,16 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="dolphin"
-PKG_VERSION="060d928d49c3ac5646485dcbffa67affe833076b" #r5.0-17730
+PKG_VERSION="59c8358e40901aaee7e7f57d95f98f2d1adad304" #r5.0-17736
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/dolphin-emu/dolphin"
 PKG_URL="https://github.com/dolphin-emu/dolphin.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc systemd openal-soft-system libevdev curl ffmpeg libpng zlib bzip2 zstd bluez pulseaudio alsa-lib libogg-system libvorbis-system libSM enet-system qt5 unclutter-xfixes"
 PKG_LONGDESC="Dolphin is a GameCube / Wii emulator, allowing you to play games for these two platforms on PC with improvements."
+GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
 PKG_GIT_CLONE_SINGLE="yes"
-GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="+gold"
 
 pre_configure_target() {
