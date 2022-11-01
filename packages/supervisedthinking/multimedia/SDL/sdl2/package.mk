@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="sdl2"
-PKG_VERSION="2.24.1"
-PKG_SHA256="b59404c1a9991c9c5a8227ee6476c27c916f3c891b199a8025a761d06b48afbb"
+PKG_VERSION="2.24.2"
+PKG_SHA256="be08ca66d11b1743996cb69a9b6c44771e16084a2dbcb4b61e52d9ac4983f4fc"
 PKG_LICENSE="SDL"
 PKG_SITE="https://www.libsdl.org/"
 PKG_URL="https://github.com/libsdl-org/SDL/archive/refs/tags/release-${PKG_VERSION}.tar.gz"
