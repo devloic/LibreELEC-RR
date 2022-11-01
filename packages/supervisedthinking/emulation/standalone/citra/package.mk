@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="citra"
-PKG_VERSION="4d684174e04119c57c77bd27aec9d9080cae5c2b"
+PKG_VERSION="a93d7a8d3ab02e3ba72013cbf92d5cae84d555d3"
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/citra-emu/citra"
@@ -22,11 +22,17 @@ configure_package() {
 }
 
 pre_configure_target() {
-  PKG_CMAKE_OPTS_TARGET="-D ENABLE_SDL2=ON \
+  PKG_CMAKE_OPTS_TARGET="-D ENABLE_LTO=ON \
+                         -D ENABLE_SDL2=ON \
+                         -D USE_SYSTEM_SDL2=ON \
                          -D ENABLE_QT=ON \
                          -D ENABLE_WEB_SERVICE=OFF \
                          -D ENABLE_CUBEB=ON \
-                         -D ENABLE_FFMPEG_VIDEO_DUMPER=ON"
+                         -D ENABLE_FFMPEG_AUDIO_DECODER=ON \
+                         -D ENABLE_FFMPEG_VIDEO_DUMPER=ON \
+                         -D USE_DISCORD_PRESENCE=OFF \
+                         -D USE_SYSTEM_BOOST=ON \
+                         -Wno-dev"
 
   # Conditionally enable HLE AAC decoding support
   if [ "${NON_FREE_PKG_SUPPORT}" = "yes" ]; then
