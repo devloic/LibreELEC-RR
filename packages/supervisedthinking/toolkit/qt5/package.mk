@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking @ gmail.com)
 
 PKG_NAME="qt5"
-PKG_VERSION="17246d90b97ef6ecc05cb225bc576b4fb30ca77a" # 5.15.7+r167 (KDE Qt5PatchCollection)
+PKG_VERSION="2efcdb78afe892a582c4b267ebbc707c921026da" # 5.15.7+r170 (KDE Qt5PatchCollection)
 PKG_LICENSE="GPL"
 PKG_SITE="http://qt-project.org"
 PKG_URL="https://invent.kde.org/qt/qt/qt5.git"
