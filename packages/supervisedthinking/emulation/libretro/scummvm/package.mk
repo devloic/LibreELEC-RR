@@ -31,6 +31,13 @@ pre_configure_target() {
 }
 
 pre_make_target() {
+  # Rebuild ScummVM auxiliary data
+  if [ -f ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip ]; then
+    echo -e "\n### Rebuild ScummVM auxiliary data ####\n"
+    cd ${PKG_BUILD}/backends/platform/libretro/aux-data
+    ./bundle_aux_data.bash
+  fi
+
   # Fix build path
   cd ${PKG_BUILD}
 
@@ -42,14 +49,6 @@ pre_make_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
     cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
-}
-
-post_makeinstall_target() {
-  if [ -f ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip ]; then
-    echo -e "\n### Rebuild ScummVM auxiliary data ####\n"
-    cd ${PKG_BUILD}/backends/platform/libretro/aux-data
-    ./bundle_aux_data.bash
-    mkdir -p ${INSTALL}/usr/share/retroarch/system
-      cp -v ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip ${INSTALL}/usr/share/retroarch/system/
-  fi
+  mkdir -p ${INSTALL}/usr/share/retroarch/system
+    cp -v ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip ${INSTALL}/usr/share/retroarch/system/
 }
