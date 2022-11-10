@@ -83,3 +83,8 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
   cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
+
+post_makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/share/retroarch/bios/PPSSPP
+    cp -rv assets/* ${INSTALL}/usr/share/retroarch/bios/PPSSPP/
+}
