@@ -30,9 +30,10 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  mkdir -p ${INSTALL}/usr/share/prboom
-
-  cp ${PKG_BUILD}/prboom.wad ${INSTALL}/usr/share/prboom
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
 
+post_makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/share/retroarch/bios/
+    cp -v ${PKG_BUILD}/prboom.wad ${INSTALL}/usr/share/retroarch/bios/
+}
