@@ -48,11 +48,11 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/amiberry/whdboot/save-data/
 
   # Copy ressources
-  cp -a ${PKG_DIR}/config/*           ${INSTALL}/usr/config/amiberry/
-  cp -a data                          ${INSTALL}/usr/config/amiberry/
-  cp -a savestates                    ${INSTALL}/usr/config/amiberry/
-  cp -a screenshots                   ${INSTALL}/usr/config/amiberry/
-  ln -s /storage/roms/bios/Kickstarts ${INSTALL}/usr/config/amiberry/kickstarts
+  cp -a ${PKG_DIR}/config/*            ${INSTALL}/usr/config/amiberry/
+  cp -a data                           ${INSTALL}/usr/config/amiberry/
+  cp -a savestates                     ${INSTALL}/usr/config/amiberry/
+  cp -a screenshots                    ${INSTALL}/usr/config/amiberry/
+  ln -s /tmp/emulation/bios/Kickstarts ${INSTALL}/usr/config/amiberry/kickstarts
 
   # WHDLoad
   cp -a whdboot/save-data             ${INSTALL}/usr/config/amiberry/whdboot/
