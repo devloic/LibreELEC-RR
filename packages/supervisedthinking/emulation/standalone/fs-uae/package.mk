@@ -42,7 +42,7 @@ post_makeinstall_target() {
   # Set up default config directory
   mkdir -p ${INSTALL}/usr/config
   cp -rfv ${PKG_DIR}/config ${INSTALL}/usr/config/fs-uae
-  ln -sf /storage/roms/bios/Kickstarts ${INSTALL}/usr/config/fs-uae/Kickstarts
+  ln -sf /tmp/emulation/bios/Kickstarts ${INSTALL}/usr/config/fs-uae/Kickstarts
 
   # Create symlink to capsimg for IPF support
   mkdir -p ${INSTALL}/usr/config/fs-uae/Plugins
