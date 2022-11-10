@@ -143,16 +143,16 @@ pre_configure_target() {
 
 make_target() {
   # Build Retroarch & exit if build fails
-  echo -e "\n# Build Retroarch binary #\n"
+  echo -e "\n### Build Retroarch binary ###\n"
   make GIT_VERSION=${PKG_VERSION:0:7}
   if [ ! -f ${PKG_BUILD}/retroarch ]; then
     exit 0
   fi
 
   # Build Video & DSP filter
-  echo -e "\n# Build Video filter #\n"
+  echo -e "\n### Build Video filter ###\n"
   make -C gfx/video_filters compiler=${CC} extra_flags="${CFLAGS}"
-  echo -e "\n# Build DSP filter #\n"
+  echo -e "\n### Build DSP filter ###\n"
   make -C libretro-common/audio/dsp_filters compiler=${CC} extra_flags="${CFLAGS}"
 }
 
@@ -188,23 +188,27 @@ makeinstall_target() {
       sed -e "/# Change refresh.*/,+2d"          -i ${INSTALL}/usr/bin/*.start
   fi
   
+  # Basic Input Output System directory overlay
+  mkdir -p ${INSTALL}/usr/share/retroarch/bios
+    touch ${INSTALL}/usr/share/retroarch/bios/.placeholder
+
   # General path configuration
   sed -e "s/# savefile_directory =/savefile_directory = \"\/storage\/.config\/retroarch\/saves\"/"                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# screenshot_directory =/screenshot_directory = \"\/storage\/screenshots\"/"                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# recording_output_directory =/recording_output_directory = \"\/storage\/recordings\/retroarch\"/"              -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# recording_config_directory =/recording_config_directory = \"\/storage\/.config\/retroarch\/records_config\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# libretro_directory =/libretro_directory = \"\/tmp\/cores\"/"                                                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# libretro_info_path =/libretro_info_path = \"\/tmp\/coreinfo\"/"                                               -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# video_shader_dir =/video_shader_dir = \"\/tmp\/shaders\"/"                                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# content_database_path =/content_database_path = \"\/tmp\/database\/rdb\"/"                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# cheat_database_path =/cheat_database_path = \"\/tmp\/database\/cht\"/"                                        -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# cursor_directory =/cursor_directory = \"\/tmp\/database\/cursors\"/"                                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# assets_directory =/assets_directory = \"\/tmp\/assets\"/"                                                     -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# overlay_directory =/overlay_directory = \"\/tmp\/overlay\"/"                                                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# libretro_directory =/libretro_directory = \"\/tmp\/emulation\/retroarch\/cores\"/"                                                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# libretro_info_path =/libretro_info_path = \"\/tmp\/emulation\/retroarch\/coreinfo\"/"                                               -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# video_shader_dir =/video_shader_dir = \"\/tmp\/emulation\/retroarch\/shaders\"/"                                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# content_database_path =/content_database_path = \"\/tmp\/emulation\/retroarch\/database\/rdb\"/"                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# cheat_database_path =/cheat_database_path = \"\/tmp\/emulation\/retroarch\/database\/cht\"/"                                        -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# cursor_directory =/cursor_directory = \"\/tmp\/emulation\/retroarch\/database\/cursors\"/"                                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# assets_directory =/assets_directory = \"\/tmp\/emulation\/retroarch\/assets\"/"                                                     -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# overlay_directory =/overlay_directory = \"\/tmp\/emulation\/retroarch\/overlay\"/"                                                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
 
   # General menu configuration
   sed -e "s/# rgui_browser_directory =/rgui_browser_directory = \"\/storage\/roms\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# system_directory =/system_directory = \"\/storage\/roms\/bios\"/"       -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# system_directory =/system_directory = \"\/tmp\/emulation\/bios\"/"       -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# rgui_show_start_screen = true/rgui_show_start_screen = \"false\"/"      -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# menu_driver = \"rgui\"/menu_driver = \"xmb\"/"                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# video_shared_context = false/video_shared_context = \"true\"/"          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
@@ -234,7 +238,7 @@ makeinstall_target() {
   sed -e "s/# input_driver = sdl/input_driver = \"udev\"/"                                                            -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# input_max_users = 16/input_max_users = \"6\"/"                                                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# input_autodetect_enable = true/input_autodetect_enable = \"true\"/"                                     -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = \"\/tmp\/autoconfig\"/"                                 -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# joypad_autoconfig_dir =/joypad_autoconfig_dir = \"\/tmp\/emulation\/retroarch\/autoconfig\"/"                                 -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# input_remapping_directory =/input_remapping_directory = \"\/storage\/.config\/retroarch\/remappings\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# input_menu_toggle_gamepad_combo = 0/input_menu_toggle_gamepad_combo = \"1\"/"                           -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# all_users_control_menu = false/all_users_control_menu = \"true\"/"                                      -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
@@ -268,12 +272,13 @@ makeinstall_target() {
 }
 
 post_install() {  
-  # Enable tmp asset directories
-  enable_service tmp-assets.mount
-  enable_service tmp-autoconfig.mount
-  enable_service tmp-coreinfo.mount
-  enable_service tmp-cores.mount
-  enable_service tmp-database.mount
-  enable_service tmp-overlay.mount
-  enable_service tmp-shaders.mount
+  # Enable tmp directories
+  enable_service tmp-emulation-bios.mount
+  enable_service tmp-emulation-retroarch-assets.mount
+  enable_service tmp-emulation-retroarch-autoconfig.mount
+  enable_service tmp-emulation-retroarch-coreinfo.mount
+  enable_service tmp-emulation-retroarch-cores.mount
+  enable_service tmp-emulation-retroarch-database.mount
+  enable_service tmp-emulation-retroarch-overlay.mount
+  enable_service tmp-emulation-retroarch-shaders.mount
 }
