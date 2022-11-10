@@ -34,3 +34,9 @@ makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
   cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
+
+post_makeinstall_target() {
+  # Copy metadata for manual content scanning
+  mkdir -p ${INSTALL}/usr/share/retroarch/database/mame2003-plus
+    cp -v ${PKG_BUILD}/metadata/mame2010.xml ${INSTALL}/usr/share/retroarch/database/mame2010
+}
