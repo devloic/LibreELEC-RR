@@ -6,7 +6,7 @@ PKG_VERSION="e86cd4c4bed96a160e1a6416d387a9aae0b38402"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/ecwolf"
 PKG_URL="https://github.com/libretro/ecwolf.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain linux glibc p7zip:host"
 PKG_LONGDESC="Libretro port of ECWolf"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
@@ -26,4 +26,10 @@ pre_make_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
   cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+}
+
+post_makeinstall_target() {
+  echo -e "\n### Packaging ecwolf.pk3 data ####\n"
+  mkdir -p ${INSTALL}/usr/share/retroarch/bios
+    ${TOOLCHAIN}/bin/7za a -mx9 -tzip ${INSTALL}/usr/share/retroarch/bios/ecwolf.pk3 "${PKG_BUILD}/wadsrc/static/"* >/dev/null
 }
