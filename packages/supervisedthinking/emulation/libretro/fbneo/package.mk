@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fbneo"
-PKG_VERSION="758f24740d81ff833c1868befd98ccd11909255f"
-PKG_SHA256="2bec891450a9640473eacba260585956a34889f81fcd594f74acd14c7486a3ac"
+PKG_VERSION="a4c77a17825fa39ba12163936f6a55c43cd8e3b1"
+PKG_SHA256="5918758b038a335664e8c25e6275f6edad25e5a3a95262eb46f987c676c7812a"
 PKG_LICENSE="OSS"
 PKG_SITE="https://github.com/libretro/FBNeo"
 PKG_URL="https://github.com/libretro/FBNeo/archive/${PKG_VERSION}.tar.gz"
@@ -39,8 +39,13 @@ pre_configure_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
     cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+}
 
-  # copy metadata for manual content scanning
+post_makeinstall_target() {
+  # Copy metadata for manual content scanning
   mkdir -p ${INSTALL}/usr/share/retroarch/database/fbneo
     cp ${PKG_BUILD}/dats/*.dat ${INSTALL}/usr/share/retroarch/database/fbneo
+
+  mkdir -p ${INSTALL}/usr/share/retroarch/bios/fbneo
+    cp ${PKG_BUILD}/metadata/hiscore.dat ${INSTALL}/usr/share/retroarch/bios/fbneo
 }
