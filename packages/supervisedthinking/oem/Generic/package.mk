@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Generic"
-PKG_VERSION="1.0.5"
+PKG_VERSION="1.0.6"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -31,8 +31,8 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   beetle-saturn \
   beetle-wswan \
   bluemsx \
-  bsnes \
   bsnes-hd \
+  bsnes-libretro \
   bsnes-mercury-accuracy \
   bsnes-mercury-balanced \
   chailove \
@@ -40,7 +40,6 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   dosbox-pure \
   ecwolf \
   fbneo \
-  fceumm \
   flycast \
   fuse-libretro \
   gambatte \
@@ -49,18 +48,19 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   kronos \
   mame2003-plus \
   mame2016 \
-  mesen \
+  mesen-s \
+  mesen-x \
   mgba \
   mrboom \
   mupen64plus-nx \
   nestopia \
-  nside \
   opera \
   parallel-n64 \
   pcsx_rearmed \
   ppsspp-libretro \
   prboom \
   prosystem \
+  puae \
   sameboy \
   scummvm \
   snes9x \
@@ -68,7 +68,6 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   superbroswar \
   swanstation \
   tyrquake \
-  uae \
   vice-libretro \
   virtualjaguar \
   yabasanshiro"
