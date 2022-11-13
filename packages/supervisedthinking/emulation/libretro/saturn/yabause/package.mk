@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="yabause"
-PKG_VERSION="3c4a3e04f5b5d50f28aa51dffbcb1555fd7a66e7"
-PKG_SHA256="1516a1f5bc14beda87def59056625057ca45d7cee9a8b422f534dc82497e1f18"
+PKG_VERSION="c7e02721eddb3de0ec7ae0d61e9e3afa5f586a62"
+PKG_SHA256="bcca900ed7c5721d56b09d4c8efb97d1fbae29ace0b40a2c0fbe232ba1c79b47"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/yabause"
 PKG_URL="https://github.com/libretro/yabause/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Yabause is a Sega Saturn emulator."
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto -sysroot"
@@ -34,5 +34,5 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
