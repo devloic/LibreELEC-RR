@@ -1,0 +1,21 @@
+From 9267c1069cc6df2c28b24be8d072ff680aacd3c6 Mon Sep 17 00:00:00 2001
+From: SupervisedThinking <supervisedthinking@gmail.com>
+Date: Sun, 13 Nov 2022 12:36:00 +0100
+Subject: [PATCH] Makefile: fix linking for armv
+
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index a2a8f0a8..3ba758c5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -256,6 +256,7 @@ else ifeq ($(platform), tvos-arm64)
+ else ifneq (,$(findstring armv,$(platform)))
+    TARGET := $(TARGET_NAME)_libretro.so
+    SHARED := -shared -Wl,--version-script=$(CORE_DIR)/libretro/link.T -Wl,--no-undefined
++   LDFLAGS += -lm -lpthread -ldl
+    fpic := -fPIC
+    ifneq (,$(findstring cortexa8,$(platform)))
+       CFLAGS += -marm -mcpu=cortex-a8
