@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="kronos"
-PKG_VERSION="f2359c25f3fc7180be1ad890ba477ad415957ef6"
-PKG_SHA256="300074fab0f1549fe28851ba34f5cdc6078fcc2abce0d04e94d056634b17bd88"
+PKG_VERSION="869c46c1d3684d820f5a368bcae1cc95fe5a9888"
+PKG_SHA256="cbf9ff0ed4f1357d6ad6c68bc92b05496ae194a81a06a52c3485e8d1dc9c01dc"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/yabause"
 PKG_URL="https://github.com/libretro/yabause/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Kronos is a Sega Saturn emulator forked from uoYabause. "
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+gold +lto -sysroot"
@@ -67,5 +67,5 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
