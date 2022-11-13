@@ -9,11 +9,9 @@ Subject: [PATCH] libretro fixes
  Libretro/Makefile.common |  3 +++
  3 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/Core/EPSMAudio.h b/Core/EPSMAudio.h
-index 8ee7e6b0..3ce0a6c8 100644
 --- a/Core/EPSMAudio.h
 +++ b/Core/EPSMAudio.h
-@@ -42,10 +42,10 @@ class EPSMAudio : public EPSMSSGAudio
+@@ -42,10 +42,10 @@ private:
  
  	struct InputEntry
  	{
@@ -28,7 +26,7 @@ index 8ee7e6b0..3ce0a6c8 100644
  	};
  
  	static constexpr uint8_t INPUT_BUFFER_SIZE = cycleCount;
-@@ -156,7 +156,7 @@ class EPSMAudio : public EPSMSSGAudio
+@@ -156,7 +156,7 @@ private:
  		}
  	}
  
@@ -37,11 +35,9 @@ index 8ee7e6b0..3ce0a6c8 100644
  	{
  		return _console->GetSettings()->GetEPSMClockFrequency() / 6;
  	}
-diff --git a/Libretro/Makefile b/Libretro/Makefile
-index 4d6aa14b..e224e18e 100644
 --- a/Libretro/Makefile
 +++ b/Libretro/Makefile
-@@ -325,7 +325,7 @@ ifeq (,$(findstring windows_msvc2017,$(platform)))
+@@ -325,7 +325,7 @@ ifeq (,$(findstring windows_msvc2017,$(p
  endif
  
  CFLAGS   += -D LIBRETRO $(fpic)
@@ -50,11 +46,9 @@ index 4d6aa14b..e224e18e 100644
  
  all: $(TARGET)
  
-diff --git a/Libretro/Makefile.common b/Libretro/Makefile.common
-index 39e1d9ba..da8a2798 100644
 --- a/Libretro/Makefile.common
 +++ b/Libretro/Makefile.common
-@@ -47,6 +47,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.cpp \
+@@ -47,6 +47,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.
                 $(CORE_DIR)/DeltaModulationChannel.cpp \
                 $(CORE_DIR)/Disassembler.cpp \
                 $(CORE_DIR)/DisassemblyInfo.cpp \
@@ -62,7 +56,7 @@ index 39e1d9ba..da8a2798 100644
                 $(CORE_DIR)/EmulationSettings.cpp \
                 $(CORE_DIR)/EventManager.cpp \
                 $(CORE_DIR)/ExpressionEvaluator.cpp \
-@@ -83,6 +84,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.cpp \
+@@ -83,6 +84,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.
                 $(CORE_DIR)/NsfMapper.cpp \
                 $(CORE_DIR)/NsfPpu.cpp \
                 $(CORE_DIR)/NtscFilter.cpp \
@@ -70,7 +64,7 @@ index 39e1d9ba..da8a2798 100644
                 $(CORE_DIR)/OggMixer.cpp \
                 $(CORE_DIR)/OggReader.cpp \
                 $(CORE_DIR)/PPU.cpp \
-@@ -115,6 +117,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.cpp \
+@@ -115,6 +117,7 @@ SOURCES_CXX := $(LIBRETRO_DIR)/libretro.
                 $(CORE_DIR)/VirtualFile.cpp \
                 $(CORE_DIR)/VsControlManager.cpp \
                 $(CORE_DIR)/WaveRecorder.cpp \
