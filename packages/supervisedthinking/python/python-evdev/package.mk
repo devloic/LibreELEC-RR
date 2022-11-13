@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="python-evdev"
-PKG_VERSION="1.3.0"
-PKG_SHA256="816367233ee23d86cef9b465bfdbaa778ab01e9a23d7604791acf7ff9434efe2"
+PKG_VERSION="1.6.0"
+PKG_SHA256="85877121b46e0eacf390c1ee4a07e6f5fcb3c603c1649efcccdd554f2fe0c3ab"
 PKG_LICENSE="BSD"
 PKG_SITE="https://github.com/gvalkov/python-evdev"
 PKG_URL="https://github.com/gvalkov/python-evdev/archive/v${PKG_VERSION}.tar.gz"
