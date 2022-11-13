@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="desmume"
-PKG_VERSION="5d0ae2be2c9fb6362af528b3722e81323318eb9f"
-PKG_SHA256="338ef599309da6b641ed4e84cf66644c67510bd3152fbb298857cdd17f9faaaa"
+PKG_VERSION="fbd368c8109f95650e1f81bca1facd6d4d8687d7"
+PKG_SHA256="0663ec424c7b09a6bdcc2c1fa562caea74e3d46bb4c2463dc1759b014872facb"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/desmume"
 PKG_URL="https://github.com/libretro/desmume/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc libpcap"
+PKG_DEPENDS_TARGET="toolchain glibc libpcap"
 PKG_LONGDESC="DeSmuME is a Nintendo DS emulator"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto -sysroot"
@@ -44,5 +44,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
