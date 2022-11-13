@@ -7,7 +7,7 @@ PKG_SHA256="692ff0ac50e18380df0ff3ee83071f9926715200d0dceedd9d16a028a59537a0"
 PKG_LICENSE="MPL-2.0"
 PKG_SITE="https://github.com/mgba-emu/mgba"
 PKG_URL="https://github.com/mgba-emu/mgba/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc zlib"
+PKG_DEPENDS_TARGET="toolchain glibc zlib"
 PKG_LONGDESC="mGBA is an emulator for running Game Boy Advance games."
 PKG_BUILD_FLAGS="+lto -sysroot"
 
@@ -45,5 +45,5 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
