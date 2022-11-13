@@ -6,7 +6,7 @@ PKG_VERSION="81002c59d3ffbafbb8f6594d2db13bb611781191" # v1.1.0
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-chailove"
 PKG_URL="https://github.com/libretro/libretro-chailove.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="ChaiLove is an awesome framework you can use to make 2D games in ChaiScript."
 GET_HANDLER_SUPPORT="git"
 PKG_TOOLCHAIN="make"
@@ -23,5 +23,5 @@ configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
