@@ -2,11 +2,11 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="ecwolf"
-PKG_VERSION="e86cd4c4bed96a160e1a6416d387a9aae0b38402"
+PKG_VERSION="f098da0d003c4780adf6a9503801081f1f25cc27"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/ecwolf"
 PKG_URL="https://github.com/libretro/ecwolf.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc p7zip:host"
+PKG_DEPENDS_TARGET="toolchain glibc p7zip:host"
 PKG_LONGDESC="Libretro port of ECWolf"
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
@@ -25,7 +25,7 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
 
 post_makeinstall_target() {
