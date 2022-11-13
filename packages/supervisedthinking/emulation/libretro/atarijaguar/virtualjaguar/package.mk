@@ -2,16 +2,17 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="virtualjaguar"
-PKG_VERSION="d1b1b28a6ad2518b746e3f7537ec6d66db96ec57"
-PKG_SHA256="d36e265e3e1409cb54de3b72b055a35c465b9f8c4f2064e77ed2d784671eb89a"
+PKG_VERSION="263c979be4ca757c43fb525bd6f0887998e57041"
+PKG_SHA256="488717293e737a602be6f5550df21064314fee422e144c62b3f92e63a6222b30"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/virtualjaguar-libretro"
 PKG_URL="https://github.com/libretro/virtualjaguar-libretro/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Port of Virtual Jaguar to Libretro"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-sysroot"
+PKG_BUILD_FLAGS="+speed -sysroot"
 
+# Binary crashs if linked with lto on ARM 
 if [ ! "${ARCH}" = "arm" ]; then
  PKG_BUILD_FLAGS+=" +lto"
 fi
@@ -29,5 +30,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
