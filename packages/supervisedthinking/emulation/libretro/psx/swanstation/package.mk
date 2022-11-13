@@ -2,12 +2,12 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="swanstation"
-PKG_VERSION="0e27584155a9ecbd63111afb9c8646148aaba46b"
-PKG_SHA256="ded4e445e5670d48379436c896c45cd6465c90094901393e5805049deffee0c1"
+PKG_VERSION="27a224fc9e86e0f061504878d1c0cbf3fd6891af"
+PKG_SHA256="5fab45a94ad3f8e8f68ee93bc6c0f12d54560c31e60d1e053cde9ffff9bfd5f8"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/swanstation"
 PKG_URL="https://github.com/libretro/swanstation/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="SwanStation(DuckStation) is an simulator/emulator of the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability."
 PKG_BUILD_FLAGS="-sysroot"
 
@@ -63,5 +63,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
