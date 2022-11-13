@@ -2,15 +2,15 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vice-libretro"
-PKG_VERSION="af8368a1ab10870486cc35586cf31bb72dfa9a30" # v3.5
-PKG_SHA256="b49e4367566f3825ecbcc02f9a25658a6e42285281427a7964621bd421d68f8e"
+PKG_VERSION="3c8cfe3e0e3aaf90d3cd9c5aac316e8a83bb96f0" # v3.5
+PKG_SHA256="ed633bd28bfd88f6ff0d70b971f1913236cf9737c4d2789be7f00b72640e3641"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/vice-libretro"
 PKG_URL="https://github.com/libretro/vice-libretro/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Port of VICE, the Versatile Commodore Emulator 3.5"
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-sysroot"
+PKG_BUILD_FLAGS="+speed -sysroot"
 
 configure_package() {
   if [ ! "${ARCH}" = "arm" ]; then
@@ -35,5 +35,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
