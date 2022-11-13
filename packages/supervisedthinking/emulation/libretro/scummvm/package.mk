@@ -2,16 +2,14 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="scummvm"
-PKG_VERSION="7cf738d27095c072c253bef45445e63f708a5441" # v2.6.1
+PKG_VERSION="2.6.1-libretro"
+PKG_SHA256="7a3fb7fa744e6326b65b2383adcc1935a7b1cf4eafd565bbdb9e1228c58e8b79"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/SupervisedThinking/scummvm"
-PKG_URL="https://github.com/SupervisedThinking/scummvm.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_URL="https://github.com/SupervisedThinking/scummvm/releases/download/v${PKG_VERSION}/v${PKG_VERSION}.tar.gz"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="ScummVM is an interpreter for point-and-click adventure games that can be used as a libretro core."
 PKG_TOOLCHAIN="make"
-PKG_GIT_CLONE_BRANCH="branch-2-6-1-libretro"
-PKG_GIT_CLONE_SINGLE="yes"
-GET_HANDLER_SUPPORT="git"
 PKG_BUILD_FLAGS="-sysroot +speed"
 
 PKG_LIBNAME="scummvm_libretro.so"
@@ -49,6 +47,19 @@ pre_make_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
     cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
-  mkdir -p ${INSTALL}/usr/share/retroarch/system
-    cp -v ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip ${INSTALL}/usr/share/retroarch/system/
+}
+
+post_makeinstall_target() {
+  if [ -f ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip ]; then
+    mkdir -p ${INSTALL}/usr/share/retroarch/bios
+      unzip ${PKG_BUILD}/backends/platform/libretro/aux-data/scummvm.zip -d ${INSTALL}/usr/share/retroarch/bios
+      cat << EOF > ${INSTALL}/usr/share/retroarch/bios/scummvm.ini
+[scummvm]
+soundfont=/storage/.config/soundfonts/MuseScore_General.sf3
+extrapath=/tmp/emulation/bios/scummvm/extra
+browser_lastpath=/tmp/emulation/bios/scummvm/extra
+themepath=/tmp/emulation/bios/scummvm/theme
+guitheme=scummmodern
+EOF
+  fi
 }
