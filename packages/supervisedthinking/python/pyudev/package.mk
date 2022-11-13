@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pyudev"
-PKG_VERSION="0.22"
-PKG_SHA256="245b5717923bed83993cd50761c3f8f1a1a68e2cd09031adbd30beed4dc60077"
+PKG_VERSION="0.24.0"
+PKG_SHA256="91fbc62f3a8425871a943cc424bf93d7d2c9cb3c5df4480f81efe23ef3a64603"
 PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="https://github.com/pyudev/pyudev"
 PKG_URL="https://github.com/pyudev/pyudev/archive/v${PKG_VERSION}.tar.gz"
