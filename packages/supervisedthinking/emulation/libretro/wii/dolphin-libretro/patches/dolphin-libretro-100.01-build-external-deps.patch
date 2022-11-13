@@ -1,6 +1,6 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -556,23 +556,17 @@
+@@ -556,23 +556,17 @@ if (_M_X86)
    add_subdirectory(Externals/Bochs_disasm)
  endif()
  add_subdirectory(Externals/cpp-optparse)
@@ -32,7 +32,7 @@
  
  if(USE_SHARED_ENET)
    check_lib(ENET libenet enet enet/enet.h QUIET)
-@@ -617,19 +611,9 @@
+@@ -617,19 +611,9 @@ else()
  endif()
  
  # macOS ships with liblzma.dylib but no headers, so check for the headers too
@@ -55,4 +55,3 @@
  
  pkg_search_module(ZSTD QUIET libzstd)
  if(ZSTD_FOUND AND NOT WIN32)
-
