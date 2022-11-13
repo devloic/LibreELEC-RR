@@ -7,7 +7,7 @@ PKG_SHA256="ffea747afb6a19266d7a0248d2923ea04727eb0fddd1bfe90e8b80e583b6c2d2"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/dolphin"
 PKG_URL="https://github.com/libretro/dolphin/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc systemd mesa enet-system bluez lzo alsa-lib ffmpeg curl libpng zlib zstd"
+PKG_DEPENDS_TARGET="toolchain glibc systemd mesa enet-system bluez lzo alsa-lib ffmpeg curl libpng zlib zstd"
 PKG_LONGDESC="Dolphin is a GameCube / Wii emulator, allowing you to play games for these two platforms on PC with improvements."
 PKG_BUILD_FLAGS="+lto -sysroot"
 
@@ -71,7 +71,7 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
 
 post_makeinstall_target() {
