@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="prboom"
-PKG_VERSION="e389ee83fd153b7c1d036c001bd7c14a3bae291c"
-PKG_SHA256="ea791868b325cf396d3ac8f1c63f9c4d440e39e8aa1db4d9b71d6be443af72d7"
+PKG_VERSION="4e671fa0a4b7b892e17ac4e1803c9d627653a4c1"
+PKG_SHA256="0172c6937cc1eca77727381be19eeaf6984566916d20c860e040d5ae698652b0"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/libretro-prboom"
 PKG_URL="https://github.com/libretro/libretro-prboom/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Port of prboom to libretro - plays Doom, Doom II, Final Doom and other Doom IWAD mods."
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto -sysroot"
