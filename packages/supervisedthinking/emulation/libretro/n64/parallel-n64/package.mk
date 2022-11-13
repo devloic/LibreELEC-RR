@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="parallel-n64"
-PKG_VERSION="b804ab1a199d6ff1f8fef4aa7dfcf663990e430b"
-PKG_SHA256="918a949deabd9e5025ca5667cbce40a47bd48eb17909dd6af42fb79baf9b05d4"
+PKG_VERSION="a03fdcba6b2e9993f050b50112f597ce2f44fa2c"
+PKG_SHA256="8ac94a0515bac7aeda51ef5cbb5c042d69d4f73960ca0ae8961e7ecbe3d182fa"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/parallel-n64"
 PKG_URL="https://github.com/libretro/parallel-n64/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Optimized/rewritten Nintendo 64 emulator made specifically for Libretro. Originally based on Mupen64 Plus."
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-sysroot"
@@ -69,5 +69,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
