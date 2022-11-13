@@ -6,7 +6,7 @@ PKG_VERSION="9fe6338e3bf397f8a009a51a282c139dfa180eb6" #v1.13.2
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/hrydgard/ppsspp"
 PKG_URL="https://github.com/hrydgard/ppsspp.git"
-PKG_DEPENDS_TARGET="toolchain linux glibc sdl2 zlib ffmpeg bzip2 openssl speex"
+PKG_DEPENDS_TARGET="toolchain glibc sdl2 zlib ffmpeg bzip2 openssl speex"
 PKG_LONGDESC="A PSP emulator for Android, Windows, Mac, Linux and Blackberry 10, written in C++."
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="master"
@@ -81,7 +81,7 @@ pre_make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
 
 post_makeinstall_target() {
