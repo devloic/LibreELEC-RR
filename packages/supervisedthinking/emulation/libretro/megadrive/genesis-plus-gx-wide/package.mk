@@ -7,7 +7,7 @@ PKG_SHA256="93ae52d407df51908f0b9cae28d29a9652e7a6b0ac4577b8051a5c262dba012a"
 PKG_LICENSE="Modified BSD / LGPL-2.1-or-later"
 PKG_SITE="https://github.com/libretro/Genesis-Plus-GX-Wide"
 PKG_URL="https://github.com/libretro/Genesis-Plus-GX-Wide/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Widescreen modification of Genesis Plus GX"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto -sysroot"
@@ -52,5 +52,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
