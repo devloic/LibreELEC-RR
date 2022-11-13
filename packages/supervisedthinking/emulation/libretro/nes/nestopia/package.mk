@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="nestopia"
-PKG_VERSION="a9ee6ca84f04990e209880fe47144e62b14253db"
-PKG_SHA256="5d2ce2c19ad5b0e6618a669926a3615ecb0688715cbf268439692cc254eb5d4c"
+PKG_VERSION="5c360e55d5437ecd3520568ee44cf1af63d4696a"
+PKG_SHA256="4b62dd6e6feeb96a32c219fe5e88afdec2637e940423e4a042a69864c76e4659"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/nestopia"
 PKG_URL="https://github.com/libretro/nestopia/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="This project is a fork of the original Nestopia source code, plus the Linux port"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto -sysroot"
@@ -26,4 +26,9 @@ pre_configure_target() {
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
     cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+}
+
+post_makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/share/retroarch/bios
+    cp -v ${PKG_BUILD}/NstDatabase.xml ${INSTALL}/usr/share/retroarch/bios
 }
