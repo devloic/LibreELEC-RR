@@ -1,5 +1,5 @@
---- a/3rdparty/bgfx/src/config.h	2020-01-14 08:42:35.023108564 +0100
-+++ b/3rdparty/bgfx/src/config.h	2020-01-14 08:42:39.527041246 +0100
+--- a/3rdparty/bgfx/src/config.h
++++ b/3rdparty/bgfx/src/config.h
 @@ -12,7 +12,7 @@
  #	define BGFX_CONFIG_DEBUG 0
  #endif // BGFX_CONFIG_DEBUG

@@ -1,6 +1,6 @@
---- a/makefile	2020-01-08 21:26:00.559307012 +0100
-+++ b/makefile	2020-01-08 21:26:17.743082994 +0100
-@@ -1499,7 +1499,7 @@
+--- a/makefile
++++ b/makefile
+@@ -1499,7 +1499,7 @@ $(GENDIR)/%.lh: $(SRC)/%.lay scripts/bui
  	@echo Compressing $<...
  	$(SILENT)$(PYTHON) scripts/build/complay.py $< $@ layout_$(basename $(notdir $<))
  
@@ -9,8 +9,8 @@
  	@echo Converting $<...
  	$(SILENT)$(PYTHON) scripts/build/file2str.py $< $@ ymmu100_bkg UINT8
  
---- a/3rdparty/genie/src/actions/make/make_cpp.lua	2020-01-09 10:47:07.915711959 +0100
-+++ b/3rdparty/genie/src/actions/make/make_cpp.lua	2020-01-09 10:47:10.627673879 +0100
+--- a/3rdparty/genie/src/actions/make/make_cpp.lua
++++ b/3rdparty/genie/src/actions/make/make_cpp.lua
 @@ -474,7 +474,7 @@
  	function cpp.fileRules(prj)
  		for _, file in ipairs(prj.files or {}) do
@@ -29,9 +29,9 @@
  				if prj.msgresource then
  					_p('\t@echo ' .. prj.msgresource)
  				else
---- a/3rdparty/genie/src/host/scripts.c	2020-01-10 15:55:33.330479398 +0100
-+++ b/3rdparty/genie/src/host/scripts.c	2020-01-10 15:56:01.313900664 +0100
-@@ -222,7 +222,7 @@
+--- a/3rdparty/genie/src/host/scripts.c
++++ b/3rdparty/genie/src/host/scripts.c
+@@ -222,7 +222,7 @@ const char* builtin_scripts[] = {
  	"E.esc(path.trimdots(path.removeext(file)))\n)\nend\nend\nend\n_p('')\n_p('  define PREBUILDCMDS')\nif #cfg.prebuildcommands > 0 then\n_p('\\t@echo Running pre-build commands')\n_p('\\t%s', table.implode(cfg.prebuildcommands, \"\", \"\", \"\\n\\t\"))\nend\n_p('  endef')\n_p('  define PRELINKCMDS')\nif #cfg.prelinkcommands > 0 then\n_p('\\t@echo Running pre-link commands')\n_p('\\t%s', table.implode(cfg.prelinkcommands, \"\", \"\", \"\\n\\t\"))\nend\n_p('  endef')\n_p('  define POSTBUILDCMDS')\nif #cfg.postbuildcommands > 0 then\n_p('\\t@echo Running post-build commands')\n_p('\\t%s', table.implode(cfg.postbuildcommands, \"\", \"\", \"\\n\\t\"))\nend\n_p('  endef')\nmake.settings(cfg, cc)\n_p('endif')\n_p('')\nend\nfunction cpp.platformtools(cfg, cc)\nlocal platform = cc.platforms[cfg.platform]\nif platform.cc then\n_p('  CC         = %s', platform.cc)\nend\nif platform.cxx then\n_p('  CXX        = %s', platform.cxx)\nend\nif platform.ar then\n_p('  AR         = %s', platform.ar)\nend\nend\nfunction cpp.flags(cf"
  	"g, cc)\nif cfg.pchheader and not cfg.flags.NoPCH then\n_p('  FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))')\nend\nif #cfg.forcedincludes > 0 then\n_p('  FORCE_INCLUDE += -include %s'\n,_MAKE.esc(table.concat(cfg.forcedincludes, \";\")))\nend\n_p('  ALL_CPPFLAGS  += $(CPPFLAGS) %s $(DEFINES) $(INCLUDES)', table.concat(cc.getcppflags(cfg), \" \"))\n_p('  ALL_CFLAGS    += $(CFLAGS) $(ALL_CPPFLAGS) $(ARCH)%s', make.list(table.join(cc.getcflags(cfg), cfg.buildoptions, cfg.buildoptions_c)))\n_p('  ALL_CXXFLAGS  += $(CXXFLAGS) $(CFLAGS) $(ALL_CPPFLAGS) $(ARCH)%s', make.list(table.join(cc.getcflags(cfg), cc.getcxxflags(cfg), cfg.buildoptions, cfg.buildoptions_cpp)))\n_p('  ALL_OBJCFLAGS += $(CXXFLAGS) $(CFLAGS) $(ALL_CPPFLAGS) $(ARCH)%s', make.list(table.join(cc.getcflags(cfg), cc.getcxxflags(cfg), cfg.buildoptions, cfg.buildoptions_objc)))\n_p('  ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)%s',\n        make.list(table.join(cc.getdefines(cfg.resdefines),\n                                cc.getincludedi"
  	"rs(cfg.resincludedirs), cfg.resoptions)))\nend\nfunction cpp.linker(prj, cfg, cc)\n_p('  ALL_LDFLAGS   += $(LDFLAGS)%s', make.list(table.join(cc.getlibdirflags(cfg), cc.getldflags(cfg), cfg.linkoptions)))\n_p('  LDDEPS    +=%s', make.list(_MAKE.esc(premake.getlinks(cfg, \"siblings\", \"fullpath\"))))\n_p('  LIBS      += $(LDDEPS)%s', make.list(cc.getlinkflags(cfg)))\n_p('  EXTERNAL_LIBS +=%s', make.list(cc.getlibfiles(cfg)))\nif cfg.kind == \"StaticLib\" then\nif (not prj.options.ArchiveSplit) then\n_p('  LINKCMD    = $(AR) %s $(TARGET)', make.list(cc.getarchiveflags(prj, cfg, false)))\nelse\n_p('  LINKCMD    = $(AR) %s $(TARGET)', make.list(cc.getarchiveflags(prj, cfg, false)))\n_p('  LINKCMD_NDX= $(AR) %s $(TARGET)', make.list(cc.getarchiveflags(prj, cfg, true)))\nend\nelse\nlocal tool = iif(cfg.language == \"C\", \"CC\", \"CXX\")\n_p('  LINKCMD    = $(%s) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)', tool)\nend\nend\nfunction cpp.pchconfig(cfg)\nif not cfg.pchheader or cfg.flags.NoPC"

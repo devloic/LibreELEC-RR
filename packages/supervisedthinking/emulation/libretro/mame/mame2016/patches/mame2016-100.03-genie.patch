@@ -1,6 +1,6 @@
---- a/3rdparty/genie/build/gmake.linux/genie.make	2020-01-14 06:27:22.077161784 +0100
-+++ b/3rdparty/genie/build/gmake.linux/genie.make	2020-01-14 06:27:49.856857764 +0100
-@@ -28,8 +28,12 @@
+--- a/3rdparty/genie/build/gmake.linux/genie.make
++++ b/3rdparty/genie/build/gmake.linux/genie.make
+@@ -28,8 +28,12 @@ else
    RM    = $(SILENT) del /F "$(subst /,\\,$(1))" 2> nul || exit 0
  endif
  
@@ -15,7 +15,7 @@
  AR  = ar
  
  ifndef RESCOMP
-@@ -247,211 +243,211 @@
+@@ -243,211 +247,211 @@ $(GCH): $(PCH) | $(OBJDIR)
  	$(SILENT) $(CC) $(ALL_CFLAGS) -x c-header $(DEFINES) $(INCLUDES) -o "$@" -c "$<"
  endif
  
