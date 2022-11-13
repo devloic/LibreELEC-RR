@@ -7,11 +7,9 @@ Subject: [PATCH] libretro core options: use sane defaults
  neo/sys/libretro/libretro_core_options.h | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/neo/sys/libretro/libretro_core_options.h b/neo/sys/libretro/libretro_core_options.h
-index 9a697c5..32da061 100644
 --- a/neo/sys/libretro/libretro_core_options.h
 +++ b/neo/sys/libretro/libretro_core_options.h
-@@ -78,14 +78,14 @@
+@@ -78,14 +78,14 @@ struct retro_core_option_v2_definition o
           { "480x272",   NULL },
           { "640x368",   NULL },
           { "720x408",   NULL },
@@ -29,7 +27,7 @@ index 9a697c5..32da061 100644
     },
     {
        "doom_invert_y_axis",
-@@ -99,7 +99,7 @@
+@@ -99,7 +99,7 @@ struct retro_core_option_v2_definition o
           { "disabled",  "Disabled" },
           { NULL, NULL },
        },
@@ -38,4 +36,3 @@ index 9a697c5..32da061 100644
     },
     {
        "doom_fps",
-
