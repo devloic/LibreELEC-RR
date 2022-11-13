@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="beetle-psx"
-PKG_VERSION="e8609eb9b452e82eb8a5893c73d4ce50af55720c"
-PKG_SHA256="249dd5ae26896545e356f01933c3a02e37160db2f3f7c6bbbdc5c7a2f946035b"
+PKG_VERSION="bd6b9ef3049fe3f70a18ee6f752a935ae83c2f2b"
+PKG_SHA256="7ab710a77c58639130412bb6603540c1056f2679bae1d16dd61235b622401eeb"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/beetle-psx-libretro"
 PKG_URL="https://github.com/libretro/beetle-psx-libretro/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Standalone port/fork of Mednafen PSX to the Libretro API."
 PKG_BUILD_FLAGS="+lto -sysroot"
 
@@ -51,5 +51,5 @@ make_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
