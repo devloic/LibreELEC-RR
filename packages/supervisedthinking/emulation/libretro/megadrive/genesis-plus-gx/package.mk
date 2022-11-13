@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="genesis-plus-gx"
-PKG_VERSION="5cdb31854074de1662266a0a675866ea7b787b42"
-PKG_SHA256="0c146c9861238b361086321eb8564bb2a18181bf13383722dc9fe08ddb872dd7"
+PKG_VERSION="3abf975785fe77267a399cc583ccf1469e081b86"
+PKG_SHA256="2fbaccb2c18c95a4348752ed8c46effd8216aa187b0f881773a7d6b5faf99f3b"
 PKG_LICENSE="Modified BSD / LGPL-2.1-or-later"
 PKG_SITE="https://github.com/libretro/Genesis-Plus-GX"
 PKG_URL="https://github.com/libretro/Genesis-Plus-GX/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="An enhanced port of Genesis Plus - accurate & portable Sega 8/16 bit emulator"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="+lto -sysroot"
