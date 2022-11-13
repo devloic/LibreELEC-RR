@@ -2,12 +2,12 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="pcsx_rearmed"
-PKG_VERSION="5ced3945423cda0010597b27b7da6bce77b12baa"
-PKG_SHA256="65dea294c953a9e558955a266e206e705933f60a3a971cec96b9b77c1101a45b"
+PKG_VERSION="d0d2939d7a485bbe97017e5ae20b504d225c09d3"
+PKG_SHA256="5e231274bdf6b73c1596dbc5f42bd145f26a2642be53851037b51bd2628d90c0"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/pcsx_rearmed"
 PKG_URL="https://github.com/libretro/pcsx_rearmed/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="PCSX ReARMed is yet another PCSX fork based on the PCSX-Reloaded project, which itself contains code from PCSX, PCSX-df and PCSX-Revolution."
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-sysroot"
@@ -49,5 +49,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
