@@ -2,15 +2,15 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="prosystem"
-PKG_VERSION="89e6df7b60d151310fedbe118fb472959a9dcd61"
-PKG_SHA256="8cca91100a437b920d932fdc1852b559cdae98c3bfb03ad6d3d5c675ab193317"
+PKG_VERSION="cf544d3c8e40ff197ea5bb177a1269db31077803"
+PKG_SHA256="1fc6575743b580b6e57d0d360bd3d6504b5a475594eb9664a099aedadbf5fffc"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/prosystem-libretro"
 PKG_URL="https://github.com/libretro/prosystem-libretro/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain linux glibc"
+PKG_DEPENDS_TARGET="toolchain glibc"
 PKG_LONGDESC="Port of ProSystem to the libretro API."
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+lto -sysroot"
+PKG_BUILD_FLAGS="+lto +speed -sysroot"
 
 PKG_LIBNAME="prosystem_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
@@ -30,5 +30,5 @@ pre_configure_target() {
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
-  cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
+    cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
 }
