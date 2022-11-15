@@ -7,10 +7,10 @@ PKG_SHA256="deb2a5126fcf9791ebaaba604143b6fb1bf4fa48fdc7a2ef919c900a3f9e4d69"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/mame2010-libretro"
 PKG_URL="https://github.com/libretro/mame2010-libretro/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain glibc zlib"
+PKG_DEPENDS_TARGET="toolchain zlib"
 PKG_LONGDESC="Late 2010 version of MAME (0.139) for libretro. Compatible with MAME 0.139 romsets."
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="-sysroot -parallel"
+PKG_BUILD_FLAGS="-sysroot"
 
 PKG_LIBNAME="mame2010_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
@@ -30,6 +30,11 @@ pre_configure_target() {
   export LD="${CXX}"
 }
 
+pre_make_target() {
+  # precreate the build directories because they may be created too late
+  make ${PKG_MAKE_OPTS_TARGET} maketree
+}
+
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro
     cp -v ${PKG_LIBPATH} ${INSTALL}/usr/lib/libretro/
@@ -37,6 +42,6 @@ makeinstall_target() {
 
 post_makeinstall_target() {
   # Copy metadata for manual content scanning
-  mkdir -p ${INSTALL}/usr/share/retroarch/database/mame2003-plus
+  mkdir -p ${INSTALL}/usr/share/retroarch/database/mame2010
     cp -v ${PKG_BUILD}/metadata/mame2010.xml ${INSTALL}/usr/share/retroarch/database/mame2010
 }
