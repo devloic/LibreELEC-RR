@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="carbon-es-theme"
-PKG_VERSION="44dd673a5c6a4cc8c10f662e700b8d39e68da7f3"
-PKG_SHA256="ee66978e49ca413a81c195cb7a8913df3bbbd00920bc5a120335507d3123187d"
+PKG_VERSION="309c902ae3513cb8889c0173ee261ea42c731092"
+PKG_SHA256="6b02653a15a4bd5e06986528f9d0892e1cca1cd2d11c9912b72cf844a5bc6327"
 PKG_LICENSE="CC-BY-NC-SA-2.0"
 PKG_SITE="https://github.com/SupervisedThinking/es-theme-carbon/"
 PKG_URL="https://github.com/SupervisedThinking/es-theme-carbon//archive/${PKG_VERSION}.tar.gz"
