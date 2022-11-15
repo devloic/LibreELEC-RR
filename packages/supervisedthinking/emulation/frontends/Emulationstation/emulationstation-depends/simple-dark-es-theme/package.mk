@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="simple-dark-es-theme"
-PKG_VERSION="e4fd1d56dbcdd9b3273eaa5f252edd88718197be"
-PKG_SHA256="040b63bf178604e9ee0a4a9cbb0ff9950e5553edd037ef29699d2a8f9d45846d"
+PKG_VERSION="6e42954e11296eb9913bb7acb90a7f2abfaeea8c"
+PKG_SHA256="fb69776e6770c249d897ce6b032d20ef7bbbb104981e6468a67e0e928a8a807e"
 PKG_LICENSE="CC-BY-NC-SA-2.0"
 PKG_SITE="https://github.com/SupervisedThinking/es-theme-simple-dark"
 PKG_URL="https://github.com/SupervisedThinking/es-theme-simple-dark/archive/${PKG_VERSION}.tar.gz"
