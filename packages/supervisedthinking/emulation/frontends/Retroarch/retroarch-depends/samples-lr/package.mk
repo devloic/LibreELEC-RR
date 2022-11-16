@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="samples-lr"
-PKG_VERSION="7418a585efd24c6506ca5f09f90c36268f0074ed"
-PKG_SHA256="81519a9efe2babf0d0c25eac8df5142fdf931eb4cf35cee755bbec8d5d8def59"
+PKG_VERSION="bce193bc1b8c9a3da43b2ead0158a69e28b37ed8"
+PKG_SHA256="53ae296dbb5b6d8a4fe2b25a8c810b7644490536bcdd603ab912bb102640b8ef"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-samples"
 PKG_URL="https://github.com/libretro/libretro-samples/archive/${PKG_VERSION}.tar.gz"
@@ -54,15 +54,15 @@ make_target() {
 }
 
 makeinstall_target() {
-  mkdir -p ${INSTALL}/usr/lib/libretro
   # Install common test cores
-  cp input/button_test/*.so ${INSTALL}/usr/lib/libretro/
-  cp midi/midi_test/*.so    ${INSTALL}/usr/lib/libretro/
-  cp tests/test/*.so        ${INSTALL}/usr/lib/libretro/
+  mkdir -p ${INSTALL}/usr/lib/libretro
+    cp input/button_test/*.so ${INSTALL}/usr/lib/libretro/
+    cp midi/midi_test/*.so    ${INSTALL}/usr/lib/libretro/
+    cp tests/test/*.so        ${INSTALL}/usr/lib/libretro/
 
   # Install Advanced test cores
   if [ "${ARCH}" = "x86_64" ]; then
-    cp tests/test_advanced/*.so                         ${INSTALL}/usr/lib/libretro/
+    cp tests/test_advanced/*.so ${INSTALL}/usr/lib/libretro/
   fi
 
   # Install OpenGL test cores
