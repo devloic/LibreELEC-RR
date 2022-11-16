@@ -335,7 +335,7 @@
 "/tmp/emulation/retroarch/cores/bluemsx_libretro.so;"\
 "/tmp/emulation/retroarch/cores/mednafen_supergrafx_libretro.so;"\
 "/tmp/emulation/retroarch/cores/mednafen_pce_fast_libretro.so;"\
-"/tmp/emulation/retroarch/cores/fceumm_libretro.so;"\
+"/tmp/emulation/retroarch/cores/mesen_libretro.so;"\
 "/tmp/emulation/retroarch/cores/mgba_libretro.so;"\
 "/tmp/emulation/retroarch/cores/mgba_libretro.so;"\
 "/tmp/emulation/retroarch/cores/gambatte_libretro.so;"\
@@ -348,7 +348,7 @@
 "/tmp/emulation/retroarch/cores/desmume_libretro.so;"\
 "/tmp/emulation/retroarch/cores/desmume_libretro.so;"\
 "/tmp/emulation/retroarch/cores/citra_libretro.so;"\
-"/tmp/emulation/retroarch/cores/fceumm_libretro.so;"\
+"/tmp/emulation/retroarch/cores/mesen_libretro.so;"\
 "/tmp/emulation/retroarch/cores/snes9x_libretro.so;"\
 "/tmp/emulation/retroarch/cores/snes9x_libretro.so;"\
 "/tmp/emulation/retroarch/cores/mednafen_vb_libretro.so;"\
@@ -361,7 +361,7 @@
 "/tmp/emulation/retroarch/cores/flycast_libretro.so;"\
 "/tmp/emulation/retroarch/cores/genesis_plus_gx_libretro.so;"\
 "/tmp/emulation/retroarch/cores/genesis_plus_gx_libretro.so;"\
-"/tmp/emulation/retroarch/cores/yabause_libretro.so;"\
+"/tmp/emulation/retroarch/cores/yabasanshiro_libretro.so;"\
 "/tmp/emulation/retroarch/cores/picodrive_libretro.so;"\
 "/tmp/emulation/retroarch/cores/genesis_plus_gx_libretro.so;"\
 "/tmp/emulation/retroarch/cores/fuse_libretro.so;"\
