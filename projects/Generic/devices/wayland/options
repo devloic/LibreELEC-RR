@@ -53,8 +53,7 @@
   NON_FREE_PKG_SUPPORT="no"
 
 # Override some RetroArch playlist core assignation
-  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//fceumm/mesen}"
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//mame2003_plus/mame2016}"
-  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//pcsx_rearmed/swanstation_libretro}"
-  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//snes9x2010/bsnes_mercury_accuracy}"
-  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//yabause/mednafen_saturn}"
+  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//pcsx_rearmed/swanstation}"
+  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//snes9x/bsnes}"
+  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//yabasanshiro/mednafen_saturn}"
