@@ -38,7 +38,6 @@ OEM_EMULATORS_LIBRETRO_AMLOGIC=" \
   genesis-plus-gx \
   genesis-plus-gx-wide \
   jumpnbump \
-  kronos \
   mame2003-plus \
   mame2010 \
   mesen-x \
