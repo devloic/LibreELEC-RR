@@ -7,7 +7,7 @@ PKG_SHA256="5fab45a94ad3f8e8f68ee93bc6c0f12d54560c31e60d1e053cde9ffff9bfd5f8"
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/swanstation"
 PKG_URL="https://github.com/libretro/swanstation/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain glibc"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="SwanStation(DuckStation) is an simulator/emulator of the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability."
 PKG_BUILD_FLAGS="-sysroot"
 

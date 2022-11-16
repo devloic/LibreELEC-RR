@@ -7,7 +7,7 @@ PKG_SHA256="7ab710a77c58639130412bb6603540c1056f2679bae1d16dd61235b622401eeb"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/beetle-psx-libretro"
 PKG_URL="https://github.com/libretro/beetle-psx-libretro/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain glibc"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Standalone port/fork of Mednafen PSX to the Libretro API."
 PKG_BUILD_FLAGS="+lto -sysroot"
 
