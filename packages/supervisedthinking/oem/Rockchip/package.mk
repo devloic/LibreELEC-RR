@@ -62,8 +62,7 @@ OEM_EMULATORS_LIBRETRO_ROCKCHIP=" \
   tyrquake \
   vice-libretro \
   virtualjaguar \
-  yabasanshiro \
-  yabause"
+  yabasanshiro"
 
 # Standalone emulators
 OEM_EMULATORS_STANDALONE_ROCKCHIP=" \
