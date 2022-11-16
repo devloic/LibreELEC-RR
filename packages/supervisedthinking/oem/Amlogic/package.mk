@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Amlogic"
-PKG_VERSION="1.0.7"
+PKG_VERSION="1.0.8"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -38,6 +38,7 @@ OEM_EMULATORS_LIBRETRO_AMLOGIC=" \
   genesis-plus-gx \
   genesis-plus-gx-wide \
   jumpnbump \
+  kronos \
   mame2003-plus \
   mame2010 \
   mesen-x \
@@ -58,12 +59,12 @@ OEM_EMULATORS_LIBRETRO_AMLOGIC=" \
   tyrquake \
   vice-libretro \
   virtualjaguar \
-  yabasanshiro \
-  yabause"
+  yabasanshiro"
 
 # Libretro cores for A311D & S922X
 OEM_EMULATORS_LIBRETRO_AMLOGIC_AMLG12B=" \
   bsnes-libretro \
+  kronos \
   mame2016 \
   puae"
 
