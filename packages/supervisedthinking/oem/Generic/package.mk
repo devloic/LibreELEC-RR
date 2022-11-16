@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Generic"
-PKG_VERSION="1.0.6"
+PKG_VERSION="1.0.7"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -45,6 +45,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   gambatte \
   genesis-plus-gx \
   genesis-plus-gx-wide \
+  jumpnbump \
   kronos \
   mame2003-plus \
   mame2016 \
