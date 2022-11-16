@@ -10,12 +10,12 @@ PKG_URL="https://github.com/libretro/yabause/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Kronos is a Sega Saturn emulator forked from uoYabause. "
 PKG_TOOLCHAIN="make"
-PKG_BUILD_FLAGS="+gold +lto -sysroot"
+PKG_BUILD_FLAGS="+lto -sysroot -mold"
 
 PKG_LIBNAME="kronos_libretro.so"
 PKG_LIBPATH="yabause/src/libretro/${PKG_LIBNAME}"
 
-PKG_MAKE_OPTS_TARGET="-C yabause/src/libretro GIT_VERSION=${PKG_VERSION:0:7}"
+PKG_MAKE_OPTS_TARGET="-C yabause/src/libretro HAVE_CDROM=1 GIT_VERSION=${PKG_VERSION:0:7}"
 
 configure_package() {
   # Displayserver Support
@@ -37,9 +37,9 @@ configure_package() {
 pre_configure_target() {
   if [ "${ARCH}" = "arm" ]; then
     if [ "${DEVICE}" = "RK3399" ]; then
-      PKG_MAKE_OPTS_TARGET+=" platform=rockpro64"
+      PKG_MAKE_OPTS_TARGET+=" platform=RK3399"
     elif [ "${DEVICE}" = "AMLG12" ]; then
-      PKG_MAKE_OPTS_TARGET+=" platform=amlg12"
+      PKG_MAKE_OPTS_TARGET+=" platform=AMLG12B"
     else
       PKG_MAKE_OPTS_TARGET+=" platform=armv"
       # ARM NEON support
@@ -48,16 +48,16 @@ pre_configure_target() {
       fi
       PKG_MAKE_OPTS_TARGET+="-${TARGET_FLOAT}float-${TARGET_CPU}"
     fi
-  fi
+  else
+    # OpenGL ES support
+    if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+      PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
+    fi
 
-  # OpenGL ES support
-  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-    PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
-  fi
-
-  # OpenGL support
-  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
-    PKG_MAKE_OPTS_TARGET+=" HAVE_OPENGL=1"
+    # OpenGL support
+    if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+      PKG_MAKE_OPTS_TARGET+=" HAVE_OPENGL=1"
+    fi
   fi
 }
 
