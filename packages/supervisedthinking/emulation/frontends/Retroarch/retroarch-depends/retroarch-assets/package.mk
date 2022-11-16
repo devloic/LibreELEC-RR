@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="retroarch-assets"
-PKG_VERSION="ee33f8ef693b42a8e23ca3fd48f43f345e7cd087"
-PKG_SHA256="b110163b0898b56be5245fd77a626b69fe5624234a5bf6af22487e2c2ee50a33"
+PKG_VERSION="4ec80faf1b5439d1654f407805bb66141b880826"
+PKG_SHA256="1a5dfb3acb864bacd3f3fd0121c4904438ae52703187fc61d46f0d43500562aa"
 PKG_LICENSE="CC-BY-4.0"
 PKG_SITE="https://github.com/libretro/retroarch-assets"
 PKG_URL="https://github.com/libretro/retroarch-assets/archive/${PKG_VERSION}.tar.gz"
@@ -12,22 +12,14 @@ PKG_LONGDESC="RetroArch assets. Background and icon themes for the menu drivers.
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-  cd ${PKG_BUILD}
-  make install INSTALLDIR="${INSTALL}/usr/share/retroarch/assets"
+  make -C ${PKG_BUILD} install INSTALLDIR="${INSTALL}/usr/share/retroarch/assets"
 }
 
 post_makeinstall_target() {
   # Remove unnecessary files
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/Automatic
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/branding
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/cfg
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/ctr
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/devtools
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/FlatUX
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/fonts
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/nxrgui
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/README.md
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/scripts
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/Systematic
-  safe_remove ${INSTALL}/usr/share/retroarch/assets/wallpapers
+  for PKG_ASSET_FILES in \
+    Automatic branding cfg ctr devtools FlatUX fonts nxrgui README.md scripts Systematic wallpapers
+  do
+    safe_remove ${INSTALL}/usr/share/retroarch/assets/${PKG_ASSET_FILES}
+  done 
 }
