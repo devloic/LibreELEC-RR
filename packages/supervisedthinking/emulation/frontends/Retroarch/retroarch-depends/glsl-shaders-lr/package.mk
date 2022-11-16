@@ -12,6 +12,5 @@ PKG_LONGDESC="GLSL shaders converted by hand from libretro's common-shaders repo
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-  cd ${PKG_BUILD}
-  make install INSTALLDIR="${INSTALL}/usr/share/retroarch/shaders/GLSL-Shaders"
+  make -C ${PKG_BUILD} install INSTALLDIR="${INSTALL}/usr/share/retroarch/shaders/GLSL-Shaders"
 }
