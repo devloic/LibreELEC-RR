@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Rockchip"
-PKG_VERSION="1.0.6"
+PKG_VERSION="1.0.7"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -38,6 +38,7 @@ OEM_EMULATORS_LIBRETRO_ROCKCHIP=" \
   gambatte \
   genesis-plus-gx \
   genesis-plus-gx-wide \
+  jumpnbump \
   mame2003-plus \
   mame2010 \
   mame2016 \
