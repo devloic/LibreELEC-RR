@@ -63,7 +63,6 @@ OEM_EMULATORS_LIBRETRO_RPI=" \
 # Libretro cores for RPi4
 OEM_EMULATORS_LIBRETRO_RPI_RPI4=" \
   bsnes-libretro \
-  kronos \
   mame2016 \
   puae"
 
