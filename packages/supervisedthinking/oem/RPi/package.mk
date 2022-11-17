@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="RPi"
-PKG_VERSION="1.0.8"
+PKG_VERSION="1.0.9"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -47,6 +47,7 @@ OEM_EMULATORS_LIBRETRO_RPI=" \
   nestopia \
   opera \
   pcsx_rearmed \
+  picodrive \
   prboom \
   prosystem \
   sameboy \

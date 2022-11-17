@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Generic"
-PKG_VERSION="1.0.8"
+PKG_VERSION="1.0.9"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -30,6 +30,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   beetle-psx \
   beetle-saturn \
   beetle-wswan \
+  blastem \
   bluemsx \
   bsnes-hd \
   bsnes-libretro \
@@ -58,6 +59,7 @@ OEM_EMULATORS_LIBRETRO_GENERIC=" \
   opera \
   parallel-n64 \
   pcsx_rearmed \
+  picodrive \
   ppsspp-libretro \
   prboom \
   prosystem \
