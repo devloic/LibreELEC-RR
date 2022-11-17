@@ -9,6 +9,7 @@ PKG_SITE="https://github.com/libretro/beetle-psx-libretro"
 PKG_URL="https://github.com/libretro/beetle-psx-libretro/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Standalone port/fork of Mednafen PSX to the Libretro API."
+PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="+lto -sysroot"
 
 PKG_LIBNAME="mednafen_psx_*libretro.so"
@@ -27,10 +28,11 @@ configure_package() {
 }
 
 make_target() {
+  # Common make opts
   PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7} LINK_STATIC_LIBCPLUSPLUS=0"
 
   # Build beetle-psx software renderer
-  echo -e "\nmake ${PKG_MAKE_OPTS_TARGET}\n"
+  echo "Executing (target): make ${PKG_MAKE_OPTS_TARGET}" | tr -s " "
   make ${PKG_MAKE_OPTS_TARGET}
 
   # Build beetle-psx with OpenGL/Vulkan support if available
@@ -43,7 +45,7 @@ make_target() {
     else
       PKG_MAKE_OPTS_TARGET+=" HAVE_OPENGL=1"
     fi
-    echo -e "\nmake ${PKG_MAKE_OPTS_TARGET}\n"
+    echo "Executing (target): make ${PKG_MAKE_OPTS_TARGET}" | tr -s " "
     make ${PKG_MAKE_OPTS_TARGET}
     mv tmp/${PKG_LIBNAME} .
   fi
