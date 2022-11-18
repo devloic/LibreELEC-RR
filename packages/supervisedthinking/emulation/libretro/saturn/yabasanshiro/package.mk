@@ -35,7 +35,7 @@ configure_package() {
 }
 
 pre_configure_target() {
-  if [ "${PROJECT}" = "Amlogic" ]; then
+  if [ "${DEVICE}" = "AMLG12B" ]; then
     PKG_MAKE_OPTS_TARGET+=" platform=AMLG12B"
   elif [ "${PROJECT}" = "Rockchip" ]; then
     case ${DEVICE} in
@@ -53,11 +53,11 @@ pre_configure_target() {
       PKG_MAKE_OPTS_TARGET+="-neon"
     fi
     PKG_MAKE_OPTS_TARGET+="-${TARGET_FLOAT}float-${TARGET_CPU}"
-  fi
-
-  # OpenGL ES support
-  if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
-    PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
+  else
+    # OpenGL ES support
+    if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+      PKG_MAKE_OPTS_TARGET+=" FORCE_GLES=1"
+    fi
   fi
 }
 
