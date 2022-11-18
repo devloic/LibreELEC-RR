@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="boost-system"
-PKG_VERSION="1.80.0"
+PKG_VERSION="$(get_pkg_version boost)"
 PKG_SHA256="1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0"
 PKG_LICENSE="BSL-1.0"
 PKG_SITE="http://www.boost.org/"

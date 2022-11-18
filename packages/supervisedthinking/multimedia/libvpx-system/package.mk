@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libvpx-system"
-PKG_VERSION="1.11.0"
+PKG_VERSION="$(get_pkg_version libvpx)"
 PKG_SHA256="965e51c91ad9851e2337aebcc0f517440c637c506f3a03948062e3d5ea129a83"
 PKG_LICENSE="BSD"
 PKG_SITE="https://www.webmproject.org"

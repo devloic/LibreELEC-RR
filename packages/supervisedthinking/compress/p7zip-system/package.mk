@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="p7zip-system"
-PKG_VERSION="16.02"
+PKG_VERSION="$(get_pkg_version p7zip)"
 PKG_SHA256="5eb20ac0e2944f6cb9c2d51dd6c4518941c185347d4089ea89087ffdd6e2341f"
 PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="http://p7zip.sourceforge.net/"

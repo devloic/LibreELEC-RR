@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="lame-system"
-PKG_VERSION="3.100"
+PKG_VERSION="$(get_pkg_version lame)"
 PKG_SHA256="ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e"
 PKG_LICENSE="LGPL-2.0-or-later"
 PKG_SITE="http://lame.sourceforge.net/"

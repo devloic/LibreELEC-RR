@@ -3,7 +3,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libssh2-system"
-PKG_VERSION="1.10.0"
+PKG_VERSION="$(get_pkg_version libssh2)"
 PKG_SHA256="2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
 PKG_LICENSE="BSD-3-Clause"
 PKG_SITE="https://www.libssh2.org"
