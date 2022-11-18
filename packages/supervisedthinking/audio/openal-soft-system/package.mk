@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="openal-soft-system"
-PKG_VERSION="1.21.1"
-PKG_SHA256="8ac17e4e3b32c1af3d5508acfffb838640669b4274606b7892aa796ca9d7467f"
+PKG_VERSION="1.22.2"
+PKG_SHA256="3e58f3d4458f5ee850039b1a6b4dac2343b3a5985a6a2e7ae2d143369c5b8135"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://www.openal.org/"
 PKG_URL="https://github.com/kcat/openal-soft/archive/${PKG_VERSION}.tar.gz"
