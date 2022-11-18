@@ -40,7 +40,8 @@ post_makeinstall_target() {
   cp -a ${PKG_DIR}/config/*  ${INSTALL}/usr/config/dosbox/
 
   # Link soundfont directory
-  ln -sf /usr/config/soundfonts/ ${INSTALL}/usr/config/dosbox/
+  ln -sf /usr/config/soundfonts/        ${INSTALL}/usr/config/dosbox/
+  ln -sf /tmp/emulation/bios/mt32-roms/ ${INSTALL}/usr/config/dosbox/
 
   # Adjust start scripts for KMS based ARM builds
   if [ ! "${DISPLAYSERVER}" = "x11" ]; then
