@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="dolphin-libretro"
-PKG_VERSION="9810e29a1f3633d32b6643b97a1147d83311d73a"
-PKG_SHA256="ffea747afb6a19266d7a0248d2923ea04727eb0fddd1bfe90e8b80e583b6c2d2"
+PKG_VERSION="a8188dbc4e63d6c0867ed2196f5125130955f012"
+PKG_SHA256="d65374df6ec8357cee2ed1576be50cf5d442c23759a4cdd32fc615e09fc2b3e9"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/libretro/dolphin"
 PKG_URL="https://github.com/libretro/dolphin/archive/${PKG_VERSION}.tar.gz"
@@ -76,5 +76,5 @@ makeinstall_target() {
 
 post_makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/retroarch/bios/dolphin-emu
-    cp -v ${PKG_BUILD}/Data/Sys/* ${INSTALL}/usr/share/retroarch/bios/dolphin-emu/
+    cp -vr ${PKG_BUILD}/Data/Sys ${INSTALL}/usr/share/retroarch/bios/dolphin-emu/
 }
