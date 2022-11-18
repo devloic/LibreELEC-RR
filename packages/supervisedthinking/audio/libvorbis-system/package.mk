@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libvorbis-system"
-PKG_VERSION="1.3.7"
+PKG_VERSION="$(get_pkg_version libvorbis)"
 PKG_SHA256="b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.vorbis.com/"

@@ -2,7 +2,7 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="fluidsynth-system"
-PKG_VERSION="2.3.0"
+PKG_VERSION="$(get_pkg_version fluidsynth)"
 PKG_SHA256="1df5a1afb91acf3b945b7fdb89ac0d99877622161d9b5155533da59113eaaa20"
 PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="http://fluidsynth.org/"

@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="flac-system"
-PKG_VERSION="1.4.2"
+PKG_VERSION="$(get_pkg_version flac)"
 PKG_SHA256="e322d58a1f48d23d9dd38f432672865f6f79e73a6f9cc5a5f57fcaa83eb5a8e4"
 PKG_LICENSE="GFDL-1.2"
 PKG_SITE="https://xiph.org/flac/"

@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libzip-system"
-PKG_VERSION="1.9.2"
-PKG_SHA256="7f28eaec7a02ca099ea9dad88fc8023f7f6ddfca54b780040ff7fdb39d9efb3c"
+PKG_VERSION="$(get_pkg_version libzip)"
+PKG_SHA256="83e5d6d5dbe8f9df80aad388fa523ca3558398ed440a5afda6ef9b36b0ffdc1f"
 PKG_LICENSE="BSD-3-Clause"
 PKG_SITE="https://libzip.org/"
 PKG_URL="https://github.com/nih-at/libzip/archive/refs/tags/v${PKG_VERSION}.tar.gz"
