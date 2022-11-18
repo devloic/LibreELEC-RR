@@ -57,4 +57,4 @@
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//nestopia/mesen}"
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//pcsx_rearmed/swanstation}"
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//snes9x/bsnes}"
-  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//yabasanshiro/mednafen_saturn}"
+  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//yabause/mednafen_saturn}"
