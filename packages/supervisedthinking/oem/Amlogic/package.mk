@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Amlogic"
-PKG_VERSION="1.0.9"
+PKG_VERSION="1.0.10"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -40,7 +40,6 @@ OEM_EMULATORS_LIBRETRO_AMLOGIC=" \
   jumpnbump \
   mame2003-plus \
   mame2010 \
-  mesen-x \
   mgba \
   mrboom \
   mupen64plus-nx \
@@ -65,6 +64,7 @@ OEM_EMULATORS_LIBRETRO_AMLOGIC=" \
 OEM_EMULATORS_LIBRETRO_AMLOGIC_AMLG12B=" \
   bsnes-libretro \
   mame2016 \
+  mesen-x \
   puae"
 
 # Standalone emulators
