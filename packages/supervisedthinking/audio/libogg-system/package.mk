@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libogg-system"
-PKG_VERSION="$(get_pkg_version libogg)"
-PKG_SHA256="c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
+PKG_SHA256="$(get_pkg_sha256 ${PKG_NAME::-7})"
 PKG_LICENSE="BSD"
 PKG_SITE="https://www.xiph.org/ogg/"
 PKG_URL="http://downloads.xiph.org/releases/ogg/libogg-${PKG_VERSION}.tar.xz"

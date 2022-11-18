@@ -2,7 +2,7 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mesa-demos-system"
-PKG_VERSION="$(get_pkg_version mesa-demos)"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
 PKG_SHA256="84338ce936fa110232a62bcd36c7c2c8710c4a280e9a81c4d10d06f6c2506b7d"
 PKG_ARCH="x86_64"
 PKG_LICENSE="OSS"

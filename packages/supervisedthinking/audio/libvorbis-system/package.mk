@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libvorbis-system"
-PKG_VERSION="$(get_pkg_version libvorbis)"
-PKG_SHA256="b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
+PKG_SHA256="$(get_pkg_sha256 ${PKG_NAME::-7})"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.vorbis.com/"
 PKG_URL="http://downloads.xiph.org/releases/vorbis/libvorbis-${PKG_VERSION}.tar.xz"

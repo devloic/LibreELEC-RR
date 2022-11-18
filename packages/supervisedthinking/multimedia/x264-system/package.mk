@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="x264-system"
-PKG_VERSION="$(get_pkg_version x264)"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
 PKG_SHA256="538cc74de318e352ec5836d5948464789a65db5e05e3f8c591d82461ffcf907b"
 PKG_LICENSE="GPL-1.0-or-later"
 PKG_SITE="http://www.videolan.org/developers/x264.html"

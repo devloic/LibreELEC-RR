@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="libsndfile-system"
-PKG_VERSION="$(get_pkg_version libsndfile)"
-PKG_SHA256="642a876bd61b63f9346628dba5f8a0356a3ad750c7f6f42019d26ce60ba6a15b"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
+PKG_SHA256="$(get_pkg_sha256 ${PKG_NAME::-7})"
 PKG_LICENSE="LGPL-2.1-or-later"
 PKG_SITE="https://libsndfile.github.io/libsndfile/"
 PKG_URL="https://github.com/libsndfile/libsndfile/archive/${PKG_VERSION}.tar.gz"
