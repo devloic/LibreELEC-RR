@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="boost-system"
-PKG_VERSION="$(get_pkg_version boost)"
-PKG_SHA256="1e19565d82e43bc59209a168f5ac899d3ba471d55c7610c677d4ccf2c9c500c0"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
+PKG_SHA256="$(get_pkg_sha256 ${PKG_NAME::-7})"
 PKG_LICENSE="BSL-1.0"
 PKG_SITE="http://www.boost.org/"
 PKG_URL="https://boostorg.jfrog.io/artifactory/main/release/${PKG_VERSION}/source/boost_${PKG_VERSION//./_}.tar.bz2"

@@ -2,7 +2,7 @@
 # Copyright (C) 2019-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="opus-system"
-PKG_VERSION="$(get_pkg_version opus)"
+PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
 PKG_SHA256="4834a8944c33a7ecab5cad9454eeabe4680ca1842cb8f5a2437572dbf636de8f"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.opus-codec.org"
