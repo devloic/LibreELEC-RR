@@ -54,6 +54,7 @@
 
 # Override some RetroArch playlist core assignation
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//mame2003_plus/mame2016}"
+  RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//nestopia/mesen}"
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//pcsx_rearmed/swanstation}"
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//snes9x/bsnes}"
   RA_PLAYLIST_CORES="${RA_PLAYLIST_CORES//yabasanshiro/mednafen_saturn}"
