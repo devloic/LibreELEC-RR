@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Amlogic"
-PKG_VERSION="1.0.10"
+PKG_VERSION="1.0.11"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -58,14 +58,15 @@ OEM_EMULATORS_LIBRETRO_AMLOGIC=" \
   tyrquake \
   vice-libretro \
   virtualjaguar \
-  yabasanshiro"
+  yabause"
 
 # Libretro cores for A311D & S922X
 OEM_EMULATORS_LIBRETRO_AMLOGIC_AMLG12B=" \
   bsnes-libretro \
   mame2016 \
   mesen-x \
-  puae"
+  puae \
+  yabasanshiro"
 
 # Standalone emulators
 OEM_EMULATORS_STANDALONE_AMLOGIC=" \
