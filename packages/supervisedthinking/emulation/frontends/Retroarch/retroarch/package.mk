@@ -2,14 +2,14 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="retroarch"
-PKG_VERSION="840c4481ab7cb0720025c30ea609d16e60927a02" #v1.12.0
+PKG_VERSION="0bf818af8dda4ef96993889d3ea23f2a2b054136" #v1.13.0
 PKG_LICENSE="GPL-3.0-or-later"
 PKG_SITE="https://github.com/libretro/RetroArch"
 PKG_URL="https://github.com/libretro/RetroArch.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc systemd dbus openssl expat alsa-lib libpng libusb libass speex flac-system tinyalsa fluidsynth-system freetype zlib bzip2 ffmpeg common-overlays-lr core-info-lr database-lr glsl-shaders-lr overlay-borders-lr samples-lr retroarch-assets retroarch-joypad-autoconfig libxkbcommon"
 PKG_LONGDESC="Reference frontend for the libretro API."
 GET_HANDLER_SUPPORT="git"
-PKG_BUILD_FLAGS="+lto"
+PKG_BUILD_FLAGS="+lto +speed"
 
 configure_package() {
   # SAMBA Support
@@ -150,10 +150,14 @@ make_target() {
   fi
 
   # Build Video & DSP filter
+  # ARM NEON Support
+  if target_has_feature neon; then
+    PKG_NEON_SUPPORT=" use_neon=1"
+  fi
   echo -e "\n### Build Video filter ###\n"
-  make -C gfx/video_filters compiler=${CC} extra_flags="${CFLAGS}"
+  make -C gfx/video_filters compiler=${CC} extra_flags="${CFLAGS}" $PKG_NEON_SUPPORT
   echo -e "\n### Build DSP filter ###\n"
-  make -C libretro-common/audio/dsp_filters compiler=${CC} extra_flags="${CFLAGS}"
+  make -C libretro-common/audio/dsp_filters compiler=${CC} extra_flags="${CFLAGS}" $PKG_NEON_SUPPORT
 }
 
 makeinstall_target() {
