@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="database-lr"
-PKG_VERSION="1.12.0"
-PKG_SHA256="f710f7514962d69f4a1f10c00337b52cb7fcc10112faf6fd9c774dd2ad8a0255"
+PKG_VERSION="1.13.0"
+PKG_SHA256="d6c6145df20c0c372bedc2c66048d7d739f4f37aba48425539e99bae13094cec"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/libretro/libretro-database"
 PKG_URL="https://github.com/libretro/libretro-database/archive/refs/tags/v${PKG_VERSION}.tar.gz"
@@ -12,8 +12,7 @@ PKG_LONGDESC="RetroArch database containing cheatcode files, content data files,
 PKG_TOOLCHAIN="manual"
 
 makeinstall_target() {
-  cd ${PKG_BUILD}
-  make install INSTALLDIR="${INSTALL}/usr/share/retroarch/database"
+  make -C ${PKG_BUILD} install INSTALLDIR="${INSTALL}/usr/share/retroarch/database"
 }
 
 post_makeinstall_target() {
