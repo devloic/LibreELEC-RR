@@ -201,18 +201,18 @@ makeinstall_target() {
   sed -e "s/# screenshot_directory =/screenshot_directory = \"\/storage\/screenshots\"/"                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# recording_output_directory =/recording_output_directory = \"\/storage\/recordings\/retroarch\"/"              -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# recording_config_directory =/recording_config_directory = \"\/storage\/.config\/retroarch\/records_config\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# libretro_directory =/libretro_directory = \"\/tmp\/emulation\/retroarch\/cores\"/"                                                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# libretro_info_path =/libretro_info_path = \"\/tmp\/emulation\/retroarch\/coreinfo\"/"                                               -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# video_shader_dir =/video_shader_dir = \"\/tmp\/emulation\/retroarch\/shaders\"/"                                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# content_database_path =/content_database_path = \"\/tmp\/emulation\/retroarch\/database\/rdb\"/"                                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# cheat_database_path =/cheat_database_path = \"\/tmp\/emulation\/retroarch\/database\/cht\"/"                                        -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# cursor_directory =/cursor_directory = \"\/tmp\/emulation\/retroarch\/database\/cursors\"/"                                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# assets_directory =/assets_directory = \"\/tmp\/emulation\/retroarch\/assets\"/"                                                     -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# overlay_directory =/overlay_directory = \"\/tmp\/emulation\/retroarch\/overlay\"/"                                                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# libretro_directory =/libretro_directory = \"\/tmp\/emulation\/retroarch\/cores\"/"                            -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# libretro_info_path =/libretro_info_path = \"\/tmp\/emulation\/retroarch\/coreinfo\"/"                         -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# video_shader_dir =/video_shader_dir = \"\/tmp\/emulation\/retroarch\/shaders\"/"                              -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# content_database_path =/content_database_path = \"\/tmp\/emulation\/retroarch\/database\/rdb\"/"              -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# cheat_database_path =/cheat_database_path = \"\/tmp\/emulation\/retroarch\/database\/cht\"/"                  -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# cursor_directory =/cursor_directory = \"\/tmp\/emulation\/retroarch\/database\/cursors\"/"                    -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# assets_directory =/assets_directory = \"\/tmp\/emulation\/retroarch\/assets\"/"                               -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# overlay_directory =/overlay_directory = \"\/tmp\/emulation\/retroarch\/overlay\"/"                            -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
 
   # General menu configuration
   sed -e "s/# rgui_browser_directory =/rgui_browser_directory = \"\/storage\/roms\"/" -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
-  sed -e "s/# system_directory =/system_directory = \"\/tmp\/emulation\/bios\"/"       -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
+  sed -e "s/# system_directory =/system_directory = \"\/tmp\/emulation\/bios\"/"      -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# rgui_show_start_screen = true/rgui_show_start_screen = \"false\"/"      -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# menu_driver = \"rgui\"/menu_driver = \"xmb\"/"                          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
   sed -e "s/# video_shared_context = false/video_shared_context = \"true\"/"          -i ${PKG_RETROARCH_CONFIG_FILE_PATH}
