@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="vlc"
-PKG_VERSION="3.0.18-rc2"
-PKG_SHA256="f1b73334a6c3e7f06235a17a978631c21090803f42fb9fc1d16bdf3fc25ee625"
+PKG_VERSION="3.0.18"
+PKG_SHA256="6db9b84c569937a937d545d184473b5b9eba4eccef7a0da2e9f86053a298d837"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="http://www.videolan.org"
-PKG_URL="https://github.com/videolan/vlc/archive/refs/tags/${PKG_VERSION}.tar.gz"
+PKG_URL="https://code.videolan.org/videolan/vlc/-/archive/${PKG_VERSION}/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
 PKG_DEPENDS_TARGET="toolchain dbus gnutls ffmpeg libmpeg2 zlib flac-system libvorbis-system"
 PKG_LONGDESC="VideoLAN multimedia player and streamer"
 PKG_TOOLCHAIN="configure"
