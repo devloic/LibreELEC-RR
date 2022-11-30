@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mesa"
-PKG_VERSION="22.3.0-rc4"
-PKG_SHA256="40da9187ecbbbb101a6df2f39643bfbf0d7ca2427a2750c9859b1b3e93502d12"
+PKG_VERSION="22.3.0"
+PKG_SHA256="644bf936584548c2b88762111ad58b4aa3e4688874200e5a4eb74e53ce301746"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.mesa3d.org/"
 PKG_URL="https://mesa.freedesktop.org/archive/mesa-${PKG_VERSION}.tar.xz"
@@ -40,8 +40,8 @@ if [ "${DISPLAYSERVER}" = "x11" ]; then
 elif [ "${DISPLAYSERVER}" = "wl" ]; then
   PKG_DEPENDS_TARGET+=" wayland wayland-protocols"
   PKG_MESON_OPTS_TARGET+=" -Dplatforms=wayland \
-                           -Ddri3=disabled \
-                           -Dglx=disabled"
+                           -Ddri3=enabled \
+                           -Dglx=dri"
 else
   PKG_MESON_OPTS_TARGET+=" -Dplatforms="" \
                            -Ddri3=disabled \

@@ -18,7 +18,7 @@ configure_package() {
 }
 
 PKG_MESON_OPTS_TARGET="-Dxcb-errors=disabled \
-                       -Dxwayland=disabled \
+                       -Dxwayland=enabled \
                        -Dexamples=false \
                        -Drenderers=gles2"
 
