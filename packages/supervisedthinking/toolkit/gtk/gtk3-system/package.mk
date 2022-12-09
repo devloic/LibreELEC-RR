@@ -3,7 +3,7 @@
 
 PKG_NAME="gtk3-system"
 PKG_VERSION="$(get_pkg_version ${PKG_NAME::-7})"
-PKG_SHA256="85f302c25618d73d4ef00824c2b21c0e74a5231ac8805f153890a78f4bb446e5"
+PKG_SHA256="8b08020b183729fbc14c959c46124de10e43563334f4811a283ded0e8ba5463e"
 PKG_LICENSE="LGPL-2.0-or-later"
 PKG_SITE="http://www.gtk.org/"
 PKG_URL="https://github.com/GNOME/gtk/archive/${PKG_VERSION}.tar.gz"
