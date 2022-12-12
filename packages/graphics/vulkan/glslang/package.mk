@@ -54,5 +54,5 @@ pre_configure_target() {
 
 post_makeinstall_target() {
   # Fix INTERFACE_INCLUDE_DIRECTORIES of glslang::SPIRV 
-  sed -e "s#/External##g" -i ${SYSROOT_PREFIX}/usr/share/glslang/glslang-targets.cmake
+  sed -e "s#/External##g" -i ${SYSROOT_PREFIX}/usr/lib/cmake/glslang/glslang-targets.cmake
 }
