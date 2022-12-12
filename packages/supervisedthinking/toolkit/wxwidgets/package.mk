@@ -29,9 +29,11 @@ post_makeinstall_target() {
 
   # Install libs
   mkdir -p ${INSTALL}/usr/lib
-    cp -PR lib/libwx_baseu-${PKG_VERSION:0:3}*      ${INSTALL}/usr/lib
-    cp -PR lib/libwx_gtk3u_core-${PKG_VERSION:0:3}* ${INSTALL}/usr/lib
-    cp -PR lib/libwx_gtk3u_adv-${PKG_VERSION:0:3}*  ${INSTALL}/usr/lib
+    cp -PR lib/libwx_baseu-${PKG_VERSION:0:3}*          ${INSTALL}/usr/lib
+    cp -PR lib/libwx_gtk3u_core-${PKG_VERSION:0:3}*     ${INSTALL}/usr/lib
+    cp -PR lib/libwx_gtk3u_adv-${PKG_VERSION:0:3}*      ${INSTALL}/usr/lib
+    cp -PR lib/libwx_gtk3u_gl-${PKG_VERSION:0:3}*       ${INSTALL}/usr/lib
+    cp -PR lib/libwx_gtk3u_propgrid-${PKG_VERSION:0:3}* ${INSTALL}/usr/lib
 
   # Fix wx-config paths
   WX_CONFIG_PATH=${SYSROOT_PREFIX}/usr/lib/wx/config/gtk3-unicode-${PKG_VERSION:0:3}
