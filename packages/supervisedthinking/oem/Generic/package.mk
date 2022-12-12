@@ -2,7 +2,7 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="Generic"
-PKG_VERSION="1.0.11"
+PKG_VERSION="1.0.12"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://bit.ly/3vL5rH3"
 PKG_DEPENDS_TARGET="toolchain"
@@ -93,6 +93,7 @@ OEM_EMULATORS_STANDALONE_GENERIC=" \
 
 # Standalone emulators X11
 OEM_EMULATORS_STANDALONE_GENERIC_X11=" \
+  cemu \
   citra \
   dolphin \
   fs-uae \
