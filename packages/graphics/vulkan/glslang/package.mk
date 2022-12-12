@@ -15,9 +15,7 @@ PKG_DEPENDS_HOST="toolchain:host Python3:host spirv-tools:host spirv-headers:hos
 PKG_DEPENDS_TARGET="toolchain Python3 spirv-tools spirv-headers"
 PKG_LONGDESC="Khronos-reference front end for GLSL/ESSL, partial front end for HLSL, and a SPIR-V generator."
 
-pre_configure_host() {
-  PKG_CMAKE_OPTS_HOST="-DBUILD_SHARED_LIBS=OFF \
-                       -DBUILD_EXTERNAL=ON \
+PKG_CMAKE_OPTS_COMMON="-DBUILD_EXTERNAL=ON \
                        -DENABLE_SPVREMAPPER=OFF \
                        -DENABLE_GLSLANG_JS=OFF \
                        -DENABLE_RTTI=OFF \
@@ -25,34 +23,24 @@ pre_configure_host() {
                        -DENABLE_OPT=ON \
                        -DENABLE_PCH=ON \
                        -DENABLE_CTEST=OFF \
-                       -DENABLE_RTTI=OFF \
+                       -DUSE_CCACHE=ON \
                        -Wno-dev"
 
+post_unpack() {
+  # Enables SPIR-V optimzer capability needed for ENABLE_OPT CMake build option
   mkdir -p ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
     cp -R $(get_build_dir spirv-tools)/* ${PKG_BUILD}/External/spirv-tools
     cp -R $(get_build_dir spirv-headers)/* ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
+}
+
+pre_configure_host() {
+  PKG_CMAKE_OPTS_HOST+="${PKG_CMAKE_OPTS_COMMON} \
+                        -DBUILD_SHARED_LIBS=OFF"
+
 }
 
 pre_configure_target() {
-  PKG_CMAKE_OPTS_TARGET="-DBUILD_SHARED_LIBS=ON \
-                         -DBUILD_EXTERNAL=ON \
-                         -DENABLE_SPVREMAPPER=OFF \
-                         -DENABLE_GLSLANG_BINARIES=OFF \
-                         -DENABLE_GLSLANG_JS=OFF \
-                         -DENABLE_RTTI=OFF \
-                         -DENABLE_EXCEPTIONS=OFF \
-                         -DENABLE_OPT=ON \
-                         -DENABLE_PCH=ON \
-                         -DENABLE_CTEST=OFF \
-                         -DENABLE_RTTI=OFF \
-                         -Wno-dev"
-
-  mkdir -p ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
-    cp -R $(get_build_dir spirv-tools)/* ${PKG_BUILD}/External/spirv-tools
-    cp -R $(get_build_dir spirv-headers)/* ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
-}
-
-post_makeinstall_target() {
-  # Fix INTERFACE_INCLUDE_DIRECTORIES of glslang::SPIRV 
-  sed -e "s#/External##g" -i ${SYSROOT_PREFIX}/usr/lib/cmake/glslang/glslang-targets.cmake
+  PKG_CMAKE_OPTS_TARGET+="${PKG_CMAKE_OPTS_COMMON} \
+                          -DBUILD_SHARED_LIBS=ON \
+                          -DENABLE_GLSLANG_BINARIES=OFF"
 }
