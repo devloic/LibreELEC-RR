@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="cemu"
-PKG_VERSION="2c81d240a5b065d8cf4c555754c4bfeaf42c826c" #v2.0-19+
+PKG_VERSION="c78b3da872439fda2775d43bf1b921d72a4bee40" #v2.0-19+
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://github.com/cemu-project/Cemu"
@@ -16,6 +16,7 @@ GET_HANDLER_SUPPORT="git"
 pre_configure_target() {
   PKG_CMAKE_OPTS_TARGET="-D ENABLE_VCPKG=OFF \
                          -D PORTABLE=OFF \
+                         -D ENABLE_WAYLAND=OFF \
                          -D ENABLE_OPENGL=ON \
                          -D ENABLE_VULKAN=ON \
                          -D ENABLE_DISCORD_RPC=OFF \
