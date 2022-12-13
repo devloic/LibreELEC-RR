@@ -39,7 +39,6 @@ makeinstall_target() {
     cp -PR ${PKG_DIR}/config/* ${INSTALL}/usr/config/Cemu
 
   # Copy system files
-  mkdir -p ${INSTALL}/usr/share/Cemu/resources
+  mkdir -p ${INSTALL}/usr/share/Cemu
     cp -PR ${PKG_BUILD}/bin/{gameProfiles,resources} ${INSTALL}/usr/share/Cemu
-    cp -PR ${PKG_DIR}/files/*                        ${INSTALL}/usr/share/Cemu/resources
 }
