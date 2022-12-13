@@ -11,7 +11,7 @@ PKG_LONGDESC="A Fork of Emulation Station which is a flexible emulator front-end
 GET_HANDLER_SUPPORT="git"
 PKG_GIT_CLONE_BRANCH="stable"
 PKG_GIT_CLONE_SINGLE="yes"
-PKG_BUILD_FLAGS="+lto"
+PKG_BUILD_FLAGS="+lto -sysroot"
 
 post_unpack() {
   # Adjust custom emulationstation version
