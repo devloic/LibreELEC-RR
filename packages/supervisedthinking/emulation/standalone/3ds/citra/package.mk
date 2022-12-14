@@ -2,11 +2,11 @@
 # Copyright (C) 2018-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="citra"
-PKG_VERSION="48ee112cebfebf74ecb0013bd2ac557d808fa48f"
+PKG_VERSION="84eada8c50afd26145e170b7341e2eb2833a1641" #nightly r1820
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL-2.0-or-later"
-PKG_SITE="https://github.com/citra-emu/citra"
-PKG_URL="https://github.com/citra-emu/citra.git"
+PKG_SITE="https://citra-emu.org/"
+PKG_URL="https://github.com/citra-emu/citra-nightly.git"
 PKG_DEPENDS_TARGET="toolchain linux glibc systemd dbus zlib pulseaudio ffmpeg mesa xorg-server boost-system qt5 sdl2 unclutter-xfixes"
 PKG_LONGDESC="Citra is an experimental open-source Nintendo 3DS emulator/debugger written in C++"
 GET_HANDLER_SUPPORT="git"
