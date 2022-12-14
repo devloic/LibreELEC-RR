@@ -73,7 +73,6 @@ pre_configure_target() {
                              -system-pcre
                              -system-sqlite
                              -system-zlib
-                             -no-accessibility
                              -no-cups
                              -no-evdev
                              -no-glib
