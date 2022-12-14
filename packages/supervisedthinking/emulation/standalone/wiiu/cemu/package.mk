@@ -12,7 +12,7 @@ PKG_LONGDESC="Cemu is a Wii U emulator that is able to run most Wii U games and 
 PKG_GIT_CLONE_BRANCH="main"
 PKG_GIT_CLONE_SINGLE="yes"
 GET_HANDLER_SUPPORT="git"
-PKG_BUILD_FLAGS+=" +lto"
+PKG_BUILD_FLAGS="+lto"
 
 configure_package() {
   # Displayserver Support
