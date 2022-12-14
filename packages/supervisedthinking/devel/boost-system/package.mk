@@ -47,6 +47,7 @@ makeinstall_target() {
                           --prefix=${SYSROOT_PREFIX}/usr \
                           --toolset=gcc link=shared \
                           --with-chrono \
+                          --with-context \
                           --with-date_time \
                           --with-filesystem \
                           --with-iostreams \
@@ -66,6 +67,7 @@ makeinstall_target() {
                           --prefix=${INSTALL}/usr \
                           --toolset=gcc link=shared \
                           --with-chrono \
+                          --with-context \
                           --with-date_time \
                           --with-filesystem \
                           --with-iostreams \
