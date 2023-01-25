@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="cemu"
-PKG_VERSION="058d11b49b8669438d48ca2b30aaabd0f34437ec" #v2.0-22
+PKG_VERSION="9d55f46eb1bbd53ae7db27058e820ce209b77aff" #v2.0-25+
 PKG_ARCH="x86_64"
 PKG_LICENSE="MPL-2.0"
 PKG_SITE="https://github.com/cemu-project/Cemu"
