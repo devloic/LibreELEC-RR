@@ -3,7 +3,7 @@
 
 PKG_NAME="gst-libav"
 PKG_VERSION="$(get_pkg_version gstreamer)"
-PKG_SHA256="e529646d020054244bf90e5903ffafd6231843d6037d97cce9e23207e6f45fd9"
+PKG_SHA256="0e48407b4905227a260213dbda84cba3812f0530fc7a75b43829102ef82810f1"
 PKG_LICENSE="GPL-2.0-or-later"
 PKG_SITE="https://gstreamer.freedesktop.org/modules/gst-libav.html"
 PKG_URL="https://gstreamer.freedesktop.org/src/gst-libav/${PKG_NAME}-${PKG_VERSION}.tar.xz"
