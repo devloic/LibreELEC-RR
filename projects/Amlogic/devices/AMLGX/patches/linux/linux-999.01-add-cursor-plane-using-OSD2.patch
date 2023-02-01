@@ -1,4 +1,4 @@
-From f6a56c9f11e3abdefcb4697797dfde873aa23d82 Mon Sep 17 00:00:00 2001
+From 514699dcbb68d5b5102bb007d950091b5c4f8be6 Mon Sep 17 00:00:00 2001
 From: Neil Armstrong <narmstrong@baylibre.com>
 Date: Fri, 24 Sep 2021 16:19:04 +0200
 Subject: [PATCH] drm/meson: add cursor plane using OSD2
@@ -212,7 +212,7 @@ index d70616da8ce2fd..c1ba3b4fe7ce39 100644
  			meson_crtc->enable_osd1_afbc =
 diff --git a/drivers/gpu/drm/meson/meson_cursor.c b/drivers/gpu/drm/meson/meson_cursor.c
 new file mode 100644
-index 00000000000000..2525d467a50bc9
+index 00000000000000..131617a23032be
 --- /dev/null
 +++ b/drivers/gpu/drm/meson/meson_cursor.c
 @@ -0,0 +1,246 @@
@@ -227,10 +227,10 @@ index 00000000000000..2525d467a50bc9
 +#include <drm/drm_atomic.h>
 +#include <drm/drm_atomic_helper.h>
 +#include <drm/drm_device.h>
-+#include <drm/drm_fb_cma_helper.h>
 +#include <drm/drm_fourcc.h>
 +#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_fb_dma_helper.h>
 +#include <drm/drm_plane_helper.h>
 +#include <drm/drm_framebuffer.h>
 +#include <drm/drm_blend.h>
@@ -262,8 +262,8 @@ index 00000000000000..2525d467a50bc9
 +
 +	return drm_atomic_helper_check_plane_state(new_plane_state,
 +						   crtc_state,
-+						   DRM_PLANE_HELPER_NO_SCALING,
-+						   DRM_PLANE_HELPER_NO_SCALING,
++						   DRM_PLANE_NO_SCALING,
++						   DRM_PLANE_NO_SCALING,
 +						   true, true);
 +}
 +
@@ -282,7 +282,7 @@ index 00000000000000..2525d467a50bc9
 +	struct drm_rect dest = drm_plane_state_dest(new_state);
 +	struct meson_drm *priv = meson_cursor->priv;
 +	struct drm_framebuffer *fb = new_state->fb;
-+	struct drm_gem_cma_object *gem;
++	struct drm_gem_dma_object *gem;
 +	unsigned long flags;
 +	int dst_w, dst_h;
 +
@@ -373,9 +373,9 @@ index 00000000000000..2525d467a50bc9
 +	}
 +
 +	/* Update Canvas with buffer address */
-+	gem = drm_fb_cma_get_gem_obj(fb, 0);
++	gem = drm_fb_dma_get_gem_obj(fb, 0);
 +
-+	priv->viu.osd2_addr = gem->paddr;
++	priv->viu.osd2_addr = gem->dma_addr;
 +	priv->viu.osd2_stride = fb->pitches[0];
 +	priv->viu.osd2_height = fb->height;
 +	priv->viu.osd2_width = fb->width;
@@ -483,7 +483,7 @@ index 00000000000000..28b5de49a64617
 +
 +#endif /* __MESON_CURSOR_H */
 diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index bd4ca11d3ff536..afc033e1c740ae 100644
+index 3b24a924b7b978..d05cbe612b2b6c 100644
 --- a/drivers/gpu/drm/meson/meson_drv.c
 +++ b/drivers/gpu/drm/meson/meson_drv.c
 @@ -30,6 +30,7 @@
@@ -516,10 +516,10 @@ index bd4ca11d3ff536..afc033e1c740ae 100644
  	if (ret)
  		goto exit_afbcd;
 diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
-index 177dac3ca3bea5..ebe8b050c70432 100644
+index c62ee358456fa8..2387640aa23a0a 100644
 --- a/drivers/gpu/drm/meson/meson_drv.h
 +++ b/drivers/gpu/drm/meson/meson_drv.h
-@@ -43,12 +43,14 @@ struct meson_drm {
+@@ -49,12 +49,14 @@ struct meson_drm {
  
  	struct meson_canvas *canvas;
  	u8 canvas_id_osd1;
@@ -533,8 +533,8 @@ index 177dac3ca3bea5..ebe8b050c70432 100644
 +	struct drm_plane *cursor_plane;
  	struct drm_plane *primary_plane;
  	struct drm_plane *overlay_plane;
- 
-@@ -82,6 +84,21 @@ struct meson_drm {
+ 	void *encoders[MESON_ENC_LAST];
+@@ -89,6 +91,21 @@ struct meson_drm {
  		uint32_t osd_blend_din0_scope_h;
  		uint32_t osd_blend_din0_scope_v;
  		uint32_t osb_blend0_size;
@@ -557,10 +557,10 @@ index 177dac3ca3bea5..ebe8b050c70432 100644
  
  		bool vd1_enabled;
 diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index 03acc68abf2c51..7248f6ae7ac294 100644
+index 815dfe30492b6c..4aecd174e2c910 100644
 --- a/drivers/gpu/drm/meson/meson_plane.c
 +++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -362,7 +362,6 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
+@@ -361,7 +361,6 @@ static void meson_plane_atomic_update(struct drm_plane *plane,
  		priv->viu.osd_blend_din0_scope_h = ((dest.x2 - 1) << 16) | dest.x1;
  		priv->viu.osd_blend_din0_scope_v = ((dest.y2 - 1) << 16) | dest.y1;
  		priv->viu.osb_blend0_size = dst_h << 16 | dst_w;
