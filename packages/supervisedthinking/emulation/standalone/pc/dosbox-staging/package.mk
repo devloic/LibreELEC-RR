@@ -18,10 +18,6 @@ configure_package() {
   if [ "${DISPLAYSERVER}" = "x11" ]; then
     PKG_DEPENDS_TARGET+=" xorg-server unclutter-xfixes"
   fi
-
-  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
-    PKG_DEPENDS_TARGET+="  ${OPENGL} dosbox-svn-shaders"
-  fi
 }
 
 pre_configure_target() {
@@ -36,13 +32,25 @@ pre_configure_target() {
 post_makeinstall_target() {
   # Create config directory & install config
   mkdir -p ${INSTALL}/usr/config/dosbox
-  cp -a ${PKG_DIR}/scripts/*                     ${INSTALL}/usr/bin/
-  cp -a ${PKG_DIR}/config/*                      ${INSTALL}/usr/config/dosbox/
-  cp -a ${PKG_BUILD}/.${TARGET_NAME}/resources/* ${INSTALL}/usr/config/dosbox/
+    cp -a ${PKG_DIR}/scripts/*                     ${INSTALL}/usr/bin/
+    cp -a ${PKG_DIR}/config/*                      ${INSTALL}/usr/config/dosbox/
+    mv -fv ${INSTALL}/usr/share/dosbox-staging/*    ${INSTALL}/usr/config/dosbox/
 
   # Link soundfont directory
   ln -sf /usr/config/soundfonts/        ${INSTALL}/usr/config/dosbox/
   ln -sf /tmp/emulation/bios/mt32-roms/ ${INSTALL}/usr/config/dosbox/
+
+  # Install shaders
+  if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+    mkdir -p ${INSTALL}/usr/share/dosbox/glshaders
+    mv -fv ${INSTALL}/usr/config/dosbox/glshaders/*    ${INSTALL}/usr/share/dosbox/glshaders/
+      ln -sf /usr/share/dosbox/glshaders/crt           ${INSTALL}/usr/config/dosbox/glshaders/
+      ln -sf /usr/share/dosbox/glshaders/interpolation ${INSTALL}/usr/config/dosbox/glshaders/
+      ln -sf /usr/share/dosbox/glshaders/scaler        ${INSTALL}/usr/config/dosbox/glshaders/
+      ln -sf /usr/share/dosbox/glshaders/none.glsl     ${INSTALL}/usr/config/dosbox/glshaders/
+  else
+    safe_remove ${INSTALL}/usr/config/dosbox/glshaders
+  fi
 
   # Adjust start scripts for KMS based ARM builds
   if [ ! "${DISPLAYSERVER}" = "x11" ]; then
@@ -57,5 +65,5 @@ post_makeinstall_target() {
   fi
 
   # Clean-up
-  safe_remove ${INSTALL}/usr/share
+  safe_remove ${INSTALL}/usr/share/{applications,dosbox-staging,icons,licenses,metainfo}
 }
