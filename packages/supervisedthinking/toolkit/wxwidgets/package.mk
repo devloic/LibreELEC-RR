@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Frank Hartung (supervisedthinking (@) gmail.com)
 
 PKG_NAME="wxwidgets"
-PKG_VERSION="3.2.2"
-PKG_SHA256="8edf18672b7bc0996ee6b7caa2bee017a9be604aad1ee471e243df7471f5db5d"
+PKG_VERSION="3.2.2.1"
+PKG_SHA256="dffcb6be71296fff4b7f8840eb1b510178f57aa2eb236b20da41182009242c02"
 PKG_LICENSE="wxWidgets licence"
 PKG_SITE="https://github.com/wxWidgets/wxWidgets"
 PKG_URL="https://github.com/wxWidgets/wxWidgets/releases/download/v${PKG_VERSION}/wxWidgets-${PKG_VERSION}.tar.bz2"
